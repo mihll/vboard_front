@@ -12,12 +12,20 @@ import { MatListModule } from '@angular/material/list';
 import { RoutingModule } from './routing/routing.module';
 import { MyBoardsComponent } from './components/my-boards/my-boards.component';
 import { LoginComponent } from './components/login/login.component';
+import { TestformComponent } from './testform/testform.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCardModule } from '@angular/material/card';
+import { ReactiveFormsModule } from '@angular/forms';
+import {SharedModule} from './components/shared/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     MyBoardsComponent,
     LoginComponent,
+    TestformComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,7 +36,13 @@ import { LoginComponent } from './components/login/login.component';
     MatSidenavModule,
     MatIconModule,
     MatListModule,
-    RoutingModule
+    RoutingModule,
+    MatInputModule,
+    MatSelectModule,
+    MatRadioModule,
+    MatCardModule,
+    ReactiveFormsModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
