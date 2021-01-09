@@ -1,1 +1,39 @@
-<p>login works!</p>
+<div class="loginCardContainer">
+  <app-loading-spinner [show]="loading"></app-loading-spinner>
+  <mat-card>
+      <mat-card-title>Zaloguj się</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div>
+          <mat-form-field>
+            <mat-label>Adres e-mail</mat-label>
+            <input matInput required formControlName="email">
+            <mat-error *ngIf="loginForm.controls['email'].hasError('required')">
+              Podaj adres e-mail
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <mat-label>Hasło</mat-label>
+            <input matInput required formControlName="password" type="password">
+            <mat-error *ngIf="loginForm.controls['password'].hasError('required')">
+              Podaj hasło
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="mat-body-1" style="margin-top: 0.5em">
+          <a routerLink="/resetPassword">Zapomniałem hasła</a>
+        </div>
+        <div class="loginButtons">
+          <button type="submit" mat-raised-button color="primary" style="margin-right: 1em">
+            Zaloguj się
+          </button>
+          <button type="button" mat-raised-button style="margin-top: 1em">
+            Zarejestruj się
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,5 +1,6 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport
+               *ngIf="user"
                [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
                [mode]="(isHandset$ | async) ? 'over' : 'side'"
                [opened]="(isHandset$ | async) === false">
@@ -17,10 +18,24 @@
         aria-label="Toggle sidenav"
         mat-icon-button
         (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
+        *ngIf="user && isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span>vboard-front</span>
+      <span class="fill-remaining-space"></span>
+      <button
+        mat-flat-button
+        routerLink="/login"
+        *ngIf="!user">
+        Zaloguj się
+      </button>
+      <button
+        mat-flat-button
+        routerLink="/login"
+        (click)="logout()"
+        *ngIf="user">
+        Wyloguj się
+      </button>
     </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>

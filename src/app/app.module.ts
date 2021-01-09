@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,7 +18,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
-import {SharedModule} from './components/shared/shared.module';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { SharedModule } from './components/shared/shared.module';
+import { appInitializer } from './helpers/app.initializer';
+import { AuthenticationService } from './services/authentication/authentication.service';
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { JwtInterceptor } from './helpers/jwt.interceptor';
+import { ErrorInterceptor } from './helpers/error.interceptor';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +33,8 @@ import {SharedModule} from './components/shared/shared.module';
     MyBoardsComponent,
     LoginComponent,
     TestformComponent,
+    LandingPageComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,9 +51,14 @@ import {SharedModule} from './components/shared/shared.module';
     MatRadioModule,
     MatCardModule,
     ReactiveFormsModule,
+    HttpClientModule,
     SharedModule
   ],
-  providers: [],
+  providers: [
+    { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthenticationService]},
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -2,18 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
-import { first } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: 'app-reset-password',
+  templateUrl: './reset-password.component.html',
+  styleUrls: ['./reset-password.component.scss']
 })
-export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
+export class ResetPasswordComponent implements OnInit {
+  resetPasswordForm: FormGroup;
   loading = false;
   submitted = false;
-  returnUrl: string;
   error = '';
 
   constructor(
@@ -29,32 +27,27 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required]
+    this.resetPasswordForm = this.formBuilder.group({
+      email: ['', Validators.compose([Validators.required, Validators.email])]
     });
-
-    // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/myBoards';
   }
 
   // convince getter for easy access to form fields
-  get f(): { [p: string]: AbstractControl } { return this.loginForm.controls; }
+  get f(): { [p: string]: AbstractControl } { return this.resetPasswordForm.controls; }
 
   onSubmit(): void {
     this.submitted = true;
 
     // stop here if form is invalid
-    if (this.loginForm.invalid) {
+    if (this.resetPasswordForm.invalid) {
       return;
     }
 
     this.loading = true;
-    this.authenticationService.login(this.f.email.value, this.f.password.value)
-      .pipe(first())
+    this.authenticationService.resetPassword(this.f.email.value)
       .subscribe({
         next: () => {
-          this.router.navigate([this.returnUrl]);
+          this.loading = false;
         },
         error: error => {
           this.error = error;
@@ -64,5 +57,4 @@ export class LoginComponent implements OnInit {
       });
 
   }
-
 }
