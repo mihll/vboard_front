@@ -3,6 +3,7 @@ import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/form
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { first } from 'rxjs/operators';
+import { SnackbarService } from '../../services/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-login',
@@ -14,23 +15,23 @@ export class LoginComponent implements OnInit {
   loading = false;
   submitted = false;
   returnUrl: string;
-  error = '';
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private snackbarService: SnackbarService,
     private authenticationService: AuthenticationService
   ) {
     // redirects to home if already logged in
     if (this.authenticationService.userValue) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/']).then(() => this.snackbarService.openSuccessSnackbar('Jesteś już zalogowany'));
     }
   }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      email: ['', Validators.required],
+      email: ['', Validators.compose([Validators.required, Validators.email])],
       password: ['', Validators.required]
     });
 
@@ -54,11 +55,15 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          this.router.navigate([this.returnUrl]);
+          this.router.navigate([this.returnUrl]).then(() => this.snackbarService.openSuccessSnackbar('Zalogowano pomyślnie'));
         },
-        error: error => {
-          this.error = error;
-          console.log(error);
+        error: err => {
+          this.loginForm.reset();
+          if ([401].includes(err.status)) {
+            this.snackbarService.openErrorSnackbar('Nieprawidłowy adres e-mail lub hasło');
+          } else {
+            this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas logowania');
+          }
           this.loading = false;
         }
       });

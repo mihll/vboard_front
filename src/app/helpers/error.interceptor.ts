@@ -17,14 +17,12 @@ export class ErrorInterceptor implements HttpInterceptor {
         this.authenticationService.logout();
       }
 
-      const error = (err && err.error && err.error.message) || err.statusText;
-
       if ([401].includes(err.status) && request.url.startsWith(environment.apiUrl.concat('/refresh'))) {
         console.warn('User has not previously been logged in.');
       } else {
         console.error(err);
       }
-      return throwError(error);
+      return throwError(err);
     }));
   }
 }

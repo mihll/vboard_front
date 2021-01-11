@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../../models/user/user';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
 
@@ -53,6 +53,12 @@ export class AuthenticationService {
 
   resetPassword(email: string): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/user/resetPassword`, {email}, {withCredentials: true});
+  }
+
+  changePassword(password: string, token: string): Observable<any> {
+    const params = new HttpParams()
+      .set('token', token);
+    return this.http.post<any>(`${environment.apiUrl}/user/changePassword`, {password}, {params, withCredentials: true});
   }
 
   // helper methods

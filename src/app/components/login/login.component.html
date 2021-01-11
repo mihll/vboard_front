@@ -11,6 +11,9 @@
             <mat-error *ngIf="loginForm.controls['email'].hasError('required')">
               Podaj adres e-mail
             </mat-error>
+            <mat-error *ngIf="loginForm.controls['email'].hasError('email')">
+              Podaj prawidłowy adres e-mail
+            </mat-error>
           </mat-form-field>
         </div>
         <div>
@@ -22,14 +25,14 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class="mat-body-1" style="margin-top: 0.5em">
+        <div style="margin-top: 1em">
           <a routerLink="/resetPassword">Zapomniałem hasła</a>
         </div>
         <div class="loginButtons">
-          <button type="submit" mat-raised-button color="primary" style="margin-right: 1em">
+          <button type="submit" mat-raised-button color="primary">
             Zaloguj się
           </button>
-          <button type="button" mat-raised-button style="margin-top: 1em">
+          <button type="button" mat-raised-button style="margin-left: 1em">
             Zarejestruj się
           </button>
         </div>

@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './components/shared/shared.module';
@@ -26,6 +27,10 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { SnackbarService } from './services/snackbar/snackbar.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
 
 @NgModule({
   declarations: [
@@ -35,6 +40,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     TestformComponent,
     LandingPageComponent,
     ResetPasswordComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,11 +56,15 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     MatSelectModule,
     MatRadioModule,
     MatCardModule,
+    MatDialogModule,
     ReactiveFormsModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    MatSnackBarModule,
+    MatPasswordStrengthModule
   ],
   providers: [
+    SnackbarService,
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthenticationService]},
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}

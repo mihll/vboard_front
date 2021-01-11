@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { SnackbarService } from '../../services/snackbar/snackbar.service';
+import { DialogService } from '../../services/dialog/dialog.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -12,12 +14,13 @@ export class ResetPasswordComponent implements OnInit {
   resetPasswordForm: FormGroup;
   loading = false;
   submitted = false;
-  error = '';
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private snackBarService: SnackbarService,
+    private dialogService: DialogService,
     private authenticationService: AuthenticationService
   ) {
     // redirects to home if already logged in
@@ -48,10 +51,11 @@ export class ResetPasswordComponent implements OnInit {
       .subscribe({
         next: () => {
           this.loading = false;
+          this.dialogService.openInfoDialog('Reset hasła',
+            'Na podany adres e-mail została wysłana wiadomość z łączem do zmiany hasła.', true);
         },
-        error: error => {
-          this.error = error;
-          console.log(error);
+        error: () => {
+          this.snackBarService.openErrorSnackbar('Wystąpił błąd');
           this.loading = false;
         }
       });
