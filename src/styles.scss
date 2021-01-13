@@ -11,6 +11,26 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   padding: 20px;
 }
 
+.formCardContainer {
+  margin: 2em;
+  display: flex;
+  justify-content: center;
+  mat-card {
+    min-width: 25%;
+  }
+  mat-card-content {
+    margin-top: 1em;
+  }
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.formActionButtons {
+  display: flex;
+  justify-content: right;
+  margin-top: 1em;
+}
 
 .snackbar-success {
   background-color: #9ccc65;

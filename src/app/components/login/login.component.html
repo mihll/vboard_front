@@ -1,11 +1,11 @@
-<div class="loginCardContainer">
+<div class="formCardContainer">
   <app-loading-spinner [show]="loading"></app-loading-spinner>
   <mat-card>
-      <mat-card-title>Zaloguj się</mat-card-title>
+    <mat-card-title>Zaloguj się</mat-card-title>
     <mat-card-content>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div>
-          <mat-form-field>
+          <mat-form-field appearance="outline">
             <mat-label>Adres e-mail</mat-label>
             <input matInput required formControlName="email">
             <mat-error *ngIf="loginForm.controls['email'].hasError('required')">
@@ -17,7 +17,7 @@
           </mat-form-field>
         </div>
         <div>
-          <mat-form-field>
+          <mat-form-field appearance="outline">
             <mat-label>Hasło</mat-label>
             <input matInput required formControlName="password" type="password">
             <mat-error *ngIf="loginForm.controls['password'].hasError('required')">
@@ -28,7 +28,7 @@
         <div style="margin-top: 1em">
           <a routerLink="/resetPassword">Zapomniałem hasła</a>
         </div>
-        <div class="loginButtons">
+        <div class="formActionButtons">
           <button type="submit" mat-raised-button color="primary">
             Zaloguj się
           </button>

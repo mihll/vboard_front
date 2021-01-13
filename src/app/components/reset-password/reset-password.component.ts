@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { SnackbarService } from '../../services/snackbar/snackbar.service';
 import { DialogService } from '../../services/dialog/dialog.service';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -13,15 +14,15 @@ import { DialogService } from '../../services/dialog/dialog.service';
 export class ResetPasswordComponent implements OnInit {
   resetPasswordForm: FormGroup;
   loading = false;
-  submitted = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private snackBarService: SnackbarService,
+    private snackbarService: SnackbarService,
     private dialogService: DialogService,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private userService: UserService
   ) {
     // redirects to home if already logged in
     if (this.authenticationService.userValue) {
@@ -39,15 +40,13 @@ export class ResetPasswordComponent implements OnInit {
   get f(): { [p: string]: AbstractControl } { return this.resetPasswordForm.controls; }
 
   onSubmit(): void {
-    this.submitted = true;
-
     // stop here if form is invalid
     if (this.resetPasswordForm.invalid) {
       return;
     }
 
     this.loading = true;
-    this.authenticationService.resetPassword(this.f.email.value)
+    this.userService.resetPassword(this.f.email.value)
       .subscribe({
         next: () => {
           this.loading = false;
@@ -55,7 +54,7 @@ export class ResetPasswordComponent implements OnInit {
             'Na podany adres e-mail została wysłana wiadomość z łączem do zmiany hasła.', true);
         },
         error: () => {
-          this.snackBarService.openErrorSnackbar('Wystąpił błąd');
+          this.snackbarService.openErrorSnackbar('Wystąpił błąd');
           this.loading = false;
         }
       });

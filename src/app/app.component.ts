@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map, shareReplay } from 'rxjs/operators';
-import { User } from './models/user/user';
+import { UserAuth } from './models/user/userAuth';
 import { AuthenticationService } from './services/authentication/authentication.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { AuthenticationService } from './services/authentication/authentication.
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  user: User;
+  userAuth: UserAuth;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -21,7 +21,7 @@ export class AppComponent {
 
   constructor(private breakpointObserver: BreakpointObserver,
               private authenticationService: AuthenticationService) {
-    this.authenticationService.user.subscribe(x => this.user = x);
+    this.authenticationService.userAuthObservable.subscribe(x => this.userAuth = x);
   }
 
   logout(): void {

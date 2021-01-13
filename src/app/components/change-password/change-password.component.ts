@@ -2,18 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
-  FormGroupDirective, NgForm,
   ValidationErrors,
   ValidatorFn,
   Validators
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthenticationService } from '../../services/authentication/authentication.service';
-import { ErrorStateMatcher } from '@angular/material/core';
 import { SnackbarService } from '../../services/snackbar/snackbar.service';
 import { DialogService } from '../../services/dialog/dialog.service';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-change-password',
@@ -24,8 +21,7 @@ export class ChangePasswordComponent implements OnInit {
   changePasswordForm: FormGroup;
   token: string;
   loading = false;
-  submitted = false;
-  errorMatcher = new CrossFieldErrorMatcher();
+  noSpacesPattern = new RegExp('^\\S+$');
 
   constructor(
     private formBuilder: FormBuilder,
@@ -33,7 +29,7 @@ export class ChangePasswordComponent implements OnInit {
     private router: Router,
     private snackbarService: SnackbarService,
     private dialogService: DialogService,
-    private authenticationService: AuthenticationService
+    private userService: UserService
   ) {
     // redirects if token is missing from url
     if (!this.route.snapshot.queryParams.token) {
@@ -49,7 +45,9 @@ export class ChangePasswordComponent implements OnInit {
         Validators.maxLength(128),
         Validators.pattern(/\d/),
         Validators.pattern(/[A-Z]/),
-        Validators.pattern(/[a-z]/)])],
+        Validators.pattern(/[a-z]/),
+        Validators.pattern(this.noSpacesPattern)
+      ])],
       repeatPassword: ['', Validators.required]
     }, {validators: checkPasswordsMismatch});
 
@@ -59,15 +57,13 @@ export class ChangePasswordComponent implements OnInit {
   get f(): { [p: string]: AbstractControl } { return this.changePasswordForm.controls; }
 
   onSubmit(): void {
-    this.submitted = true;
-
     // stop here if form is invalid
     if (this.changePasswordForm.invalid) {
       return;
     }
 
     this.loading = true;
-    this.authenticationService.changePassword(this.f.password.value, this.token)
+    this.userService.changePassword(this.f.password.value, this.token)
       .subscribe({
         next: () => {
           this.dialogService.openInfoDialog('Hasło zostało zmienione',
@@ -89,9 +85,3 @@ export const checkPasswordsMismatch: ValidatorFn = (control: FormGroup): Validat
   const repeatPassword = control.get('repeatPassword');
   return password && repeatPassword && password.value !== repeatPassword.value ? { passwordMismatch: true } : null;
 };
-
-class CrossFieldErrorMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    return control.dirty && form.invalid;
-  }
-}
