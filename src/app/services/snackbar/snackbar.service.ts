@@ -7,7 +7,7 @@ import { IconSnackbarComponent } from '../../components/shared/icon-snackbar/ico
 })
 export class SnackbarService {
 
-  private defaultSnackbarDuration = 3000;
+  private defaultSnackbarDuration = 2500;
 
   constructor(private snackBar: MatSnackBar) { }
 

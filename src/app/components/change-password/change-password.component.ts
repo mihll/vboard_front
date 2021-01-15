@@ -3,14 +3,13 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  ValidationErrors,
-  ValidatorFn,
   Validators
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SnackbarService } from '../../services/snackbar/snackbar.service';
 import { DialogService } from '../../services/dialog/dialog.service';
 import { UserService } from '../../services/user/user.service';
+import { checkPasswordsMismatch } from '../shared/password-input/password-input.component';
 
 @Component({
   selector: 'app-change-password',
@@ -70,18 +69,11 @@ export class ChangePasswordComponent implements OnInit {
             'Twoje hasło zostało zmienione pomyślnie. Możesz się teraz zalogować za jego pomocą.',
             true , '/login');
         },
-        error: error => {
-          console.log(error);
-          this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas zmiany hasła');
+        error: () => {
+          this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas zmiany hasła.');
           this.loading = false;
         }
       });
 
   }
 }
-
-export const checkPasswordsMismatch: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
-  const password = control.get('password');
-  const repeatPassword = control.get('repeatPassword');
-  return password && repeatPassword && password.value !== repeatPassword.value ? { passwordMismatch: true } : null;
-};

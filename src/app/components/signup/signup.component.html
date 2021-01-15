@@ -22,6 +22,9 @@
             <mat-error *ngIf="signupForm.controls['email'].hasError('email')">
               Podaj prawidłowy adres e-mail
             </mat-error>
+            <mat-error *ngIf="signupForm.controls['email'].hasError('emailAlreadyUsed')">
+              Podany adres e-mail jest już zajęty
+            </mat-error>
           </mat-form-field>
         </div>
         <div *ngIf="signupForm.controls.type.value === 'person'">

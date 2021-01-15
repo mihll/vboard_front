@@ -56,15 +56,22 @@ export class LoginComponent implements OnInit {
         },
         error: err => {
           this.loginForm.reset();
-          if ([401].includes(err.status)) {
-            this.snackbarService.openErrorSnackbar('Nieprawidłowy adres e-mail lub hasło');
-          } else {
-            this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas logowania');
+          switch (err.error.message) {
+            case 'Bad credentials':
+              this.snackbarService.openErrorSnackbar('Nieprawidłowy adres e-mail lub hasło');
+              break;
+            case 'User is not verified':
+              this.snackbarService.openErrorSnackbar('Użytkownik nie zweryfikował swojego adresu e-mail');
+              break;
+            case 'User is blocked':
+              this.snackbarService.openErrorSnackbar('Użytkownik jest zablokowany');
+              break;
+            default:
+              this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas logowania');
+              break;
           }
           this.loading = false;
         }
       });
-
   }
-
 }

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UserAuth } from '../../models/user/userAuth';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
@@ -15,7 +14,6 @@ export class AuthenticationService {
   private refreshTokenTimeout;
 
   constructor(
-    private router: Router,
     private http: HttpClient
   ) {
     this.userAuthSubject = new BehaviorSubject<UserAuth>(null);
@@ -39,7 +37,6 @@ export class AuthenticationService {
     this.http.post<any>(`${environment.apiUrl}/user/logout`, {}, {withCredentials: true}).subscribe();
     this.stopRefreshTokenTimer();
     this.userAuthSubject.next(null);
-    this.router.navigate(['/']);
   }
 
   refreshToken(): Observable<UserAuth> {

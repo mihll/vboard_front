@@ -7,11 +7,13 @@ import { LandingPageComponent } from '../components/landing-page/landing-page.co
 import { ResetPasswordComponent } from '../components/reset-password/reset-password.component';
 import { ChangePasswordComponent } from '../components/change-password/change-password.component';
 import { SignupComponent } from '../components/signup/signup.component';
+import { ConfirmSignupComponent } from '../components/confirm-signup/confirm-signup.component';
 
 const appRoutes: Routes = [
   { path: '', component: LandingPageComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent},
+  { path: 'confirmSignup', component: ConfirmSignupComponent},
   { path: 'resetPassword', component: ResetPasswordComponent},
   { path: 'changePassword', component: ChangePasswordComponent},
   { path: 'myBoards', component: MyBoardsComponent, canActivate: [AuthGuard] },

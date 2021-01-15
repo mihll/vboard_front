@@ -1,11 +1,14 @@
-import { AfterContentChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SnackbarService } from '../../services/snackbar/snackbar.service';
-import { DialogService } from '../../services/dialog/dialog.service';
-import { AuthenticationService } from '../../services/authentication/authentication.service';
-import { checkPasswordsMismatch } from '../change-password/change-password.component';
-import { UserService } from '../../services/user/user.service';
+import {AfterContentChecked, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SnackbarService} from '../../services/snackbar/snackbar.service';
+import {DialogService} from '../../services/dialog/dialog.service';
+import {AuthenticationService} from '../../services/authentication/authentication.service';
+import {UserService} from '../../services/user/user.service';
+import {PersonUserSignupRequest} from '../../models/user/personUser';
+import {InstitutionUserSignupRequest} from '../../models/user/institutionUser';
+import {checkPasswordsMismatch} from '../shared/password-input/password-input.component';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-signup',
@@ -14,6 +17,8 @@ import { UserService } from '../../services/user/user.service';
 })
 export class SignupComponent implements OnInit, AfterContentChecked {
   signupForm: FormGroup;
+  personUserSignupRequest: PersonUserSignupRequest;
+  institutionUserSignupRequest: InstitutionUserSignupRequest;
   loading = false;
 
   constructor(
@@ -75,7 +80,9 @@ export class SignupComponent implements OnInit, AfterContentChecked {
     this.cdRef.detectChanges();
   }
 
-  get f(): { [p: string]: AbstractControl } { return this.signupForm.controls; }
+  get f(): { [p: string]: AbstractControl } {
+    return this.signupForm.controls;
+  }
 
   onSubmit(): void {
     // stop here if form is invalid
@@ -84,18 +91,43 @@ export class SignupComponent implements OnInit, AfterContentChecked {
     }
 
     this.loading = true;
-    this.userService.resetPassword(this.f.email.value)
-      .subscribe({
-        next: () => {
-          this.loading = false;
-          this.dialogService.openInfoDialog('Reset hasła',
-            'Na podany adres e-mail została wysłana wiadomość z łączem do zmiany hasła.', true);
-        },
-        error: () => {
-          this.snackbarService.openErrorSnackbar('Wystąpił błąd');
-          this.loading = false;
-        }
-      });
+    this.signupUser()
+        .subscribe({
+          next: () => {
+            this.loading = false;
+            this.dialogService.openInfoDialog('Rejestracja zakończona pomyślnie',
+              'Na podany adres e-mail została wysłana wiadomość z łączem do potwierdzenia założonego konta.<br>Jeżeli nie potwierdzisz konta w ciągu 24 godzin, zostanie ono usunięte.', true);
+          },
+          error: err => {
+            if (err.error.status === 'DUPLICATE_ENTITY') {
+              this.snackbarService.openErrorSnackbar('Istnieje już konto o podanym adresie e-mail');
+              this.f.email.setErrors({ emailAlreadyUsed: true });
+            } else {
+              this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas rejestracji');
+            }
+            this.loading = false;
+          }
+        });
+  }
 
+  signupUser(): Observable<any> {
+    if (this.f.type.value === 'person') {
+      this.personUserSignupRequest = {
+        email: this.f.email.value,
+        password: this.f.password.value,
+        firstName: this.f.firstName.value,
+        lastName: this.f.lastName.value
+      };
+      return this.userService.signupPersonUser(this.personUserSignupRequest);
+    }
+
+    if (this.f.type.value === 'institution') {
+      this.institutionUserSignupRequest = {
+        email: this.f.email.value,
+        password: this.f.password.value,
+        institutionName: this.f.institutionName.value
+      };
+      return this.userService.signupInstitutionUser(this.institutionUserSignupRequest);
+    }
   }
 }

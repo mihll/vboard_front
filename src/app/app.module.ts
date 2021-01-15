@@ -32,6 +32,7 @@ import { SnackbarService } from './services/snackbar/snackbar.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
 import { SignupComponent } from './components/signup/signup.component';
+import { ConfirmSignupComponent } from './components/confirm-signup/confirm-signup.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { SignupComponent } from './components/signup/signup.component';
     ResetPasswordComponent,
     ChangePasswordComponent,
     SignupComponent,
+    ConfirmSignupComponent,
   ],
   imports: [
     BrowserModule,

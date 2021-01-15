@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormGroupDirective, NgForm } from '@angular/forms';
+import { FormControl, FormGroup, FormGroupDirective, NgForm, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 
 @Component({
@@ -24,3 +24,9 @@ class CrossFieldErrorMatcher implements ErrorStateMatcher {
     return control.dirty && form.invalid;
   }
 }
+
+export const checkPasswordsMismatch: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
+  const password = control.get('password');
+  const repeatPassword = control.get('repeatPassword');
+  return password && repeatPassword && password.value !== repeatPassword.value ? { passwordMismatch: true } : null;
+};
