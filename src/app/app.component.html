@@ -4,11 +4,11 @@
                [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
                [mode]="(isHandset$ | async) ? 'over' : 'side'"
                [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Menu</mat-toolbar>
+    <mat-toolbar>
+      Twoje tablice
+    </mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item href="#">Link 1</a>
-      <a mat-list-item href="#">Link 2</a>
-      <a mat-list-item href="#">Link 3</a>
+      <a *ngFor="let boardLink of userAuth?.boardLinks" mat-list-item routerLink="/board/{{boardLink.boardId}}">{{boardLink.name}}</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -21,7 +21,7 @@
         *ngIf="userAuth && isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>vboard-front</span>
+      <span>VBoard</span>
       <span class="fill-remaining-space"></span>
       <div class="toolbarButtons">
         <button
@@ -37,12 +37,26 @@
           Zarejestruj się
         </button>
         <button
-          mat-flat-button
-          routerLink="/login"
-          (click)="logout()"
-          *ngIf="userAuth">
-          Wyloguj się
+          mat-button
+          [matMenuTriggerFor]="userMenu"
+          *ngIf="userAuth && !(isHandset$ | async)">
+          {{userAuth.name}}
+          <mat-icon>expand_more</mat-icon>
         </button>
+        <button
+          mat-button
+          [matMenuTriggerFor]="userMenu"
+          *ngIf="userAuth && isHandset$ | async">
+          <mat-icon>person</mat-icon>
+          <mat-icon>expand_more</mat-icon>
+        </button>
+        <mat-menu #userMenu="matMenu" xPosition="before">
+          <button
+            mat-flat-button
+            (click)="logout()">
+            Wyloguj się
+          </button>
+        </mat-menu>
       </div>
     </mat-toolbar>
     <router-outlet></router-outlet>

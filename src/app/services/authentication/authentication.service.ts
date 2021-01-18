@@ -28,6 +28,7 @@ export class AuthenticationService {
     return this.http.post<any>(`${environment.apiUrl}/login`, {email, password}, {withCredentials: true})
       .pipe(map(user => {
         this.userAuthSubject.next(user);
+        this.http.get<any>(`${environment.apiUrl}/board/my/links`).subscribe(links => this.userValue.boardLinks = links.boardLinks);
         this.startRefreshTokenTimer();
         return user;
       }));
@@ -43,6 +44,7 @@ export class AuthenticationService {
     return this.http.post<any>(`${environment.apiUrl}/refresh`, {}, {withCredentials: true})
       .pipe(map(user => {
         this.userAuthSubject.next(user);
+        this.http.get<any>(`${environment.apiUrl}/board/my/links`).subscribe(links => this.userValue.boardLinks = links.boardLinks);
         this.startRefreshTokenTimer();
         return user;
       }));
