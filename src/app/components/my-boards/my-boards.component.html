@@ -1,2 +1,22 @@
-<p>my-boards works!</p>
-<app-testform></app-testform>
+<div class="cardsContainer">
+  <div fxLayout="row wrap" fxLayoutGap="1em grid">
+    <div fxFlex.xs="100%" fxFlex.sm="50%" fxFlex.md="33%" fxFlex.lg="25%" fxFlex.xl="20%"  *ngFor="let board of joinedBoards">
+      <app-board-card [board]="board"></app-board-card>
+    </div>
+    <div fxFlex.xs="100%" fxFlex.sm="50%" fxFlex.md="33%" fxFlex.lg="25%" fxFlex.xl="20%"  >
+      <mat-card>
+        <div class="cardHalf up">
+          <mat-icon>search</mat-icon>
+          <div>
+          Wyszukaj tablicę
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="cardHalf down">
+          <mat-icon>add</mat-icon>
+          Stwórz własną tablicę
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>

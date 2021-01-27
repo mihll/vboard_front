@@ -34,6 +34,9 @@ import { MatPasswordStrengthModule } from '@angular-material-extensions/password
 import { SignupComponent } from './components/signup/signup.component';
 import { ConfirmSignupComponent } from './components/confirm-signup/confirm-signup.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatRippleModule } from '@angular/material/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -67,7 +70,10 @@ import { MatMenuModule } from '@angular/material/menu';
     SharedModule,
     MatSnackBarModule,
     MatPasswordStrengthModule,
-    MatMenuModule
+    MatMenuModule,
+    MatGridListModule,
+    MatRippleModule,
+    FlexLayoutModule
   ],
   providers: [
     SnackbarService,

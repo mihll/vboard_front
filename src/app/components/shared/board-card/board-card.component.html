@@ -1,0 +1,9 @@
+<mat-card routerLink="/board/{{board.boardId}}">
+  <mat-card-title-group>
+    <mat-card-title>
+      {{board.boardName}}
+    </mat-card-title>
+    <mat-icon *ngIf="board.isPrivate">lock</mat-icon>
+    <mat-icon *ngIf="!board.isPrivate">public</mat-icon>
+  </mat-card-title-group>
+</mat-card>

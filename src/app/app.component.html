@@ -1,14 +1,14 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport
-               *ngIf="userAuth"
                [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
                [mode]="(isHandset$ | async) ? 'over' : 'side'"
                [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>
-      Twoje tablice
-    </mat-toolbar>
+    <mat-toolbar matRipple routerLink="/myBoards" routerLinkActive="active-list-item" class="linkElement">Moje tablice</mat-toolbar>
     <mat-nav-list>
-      <a *ngFor="let boardLink of userAuth?.boardLinks" mat-list-item routerLink="/board/{{boardLink.boardId}}">{{boardLink.name}}</a>
+      <a mat-list-item *ngFor="let boardLink of userAuth?.boardLinks" routerLink="/board/{{boardLink.boardId}}"
+         routerLinkActive="active-list-item">
+        <div matLine>{{boardLink.boardName}}</div>
+      </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -21,7 +21,7 @@
         *ngIf="userAuth && isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>VBoard</span>
+      <span matRipple routerLink="/landingPage" class="linkElement">VBoard</span>
       <span class="fill-remaining-space"></span>
       <div class="toolbarButtons">
         <button

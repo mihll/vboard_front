@@ -12,19 +12,26 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BoardCardComponent } from './board-card/board-card.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
+import { RouterModule } from '@angular/router';
+import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
     LoadingSpinnerComponent,
     IconSnackbarComponent,
     SimpleInfoDialogComponent,
-    PasswordInputComponent
+    PasswordInputComponent,
+    BoardCardComponent,
   ],
   exports: [
     LoadingSpinnerComponent,
     IconSnackbarComponent,
     SimpleInfoDialogComponent,
-    PasswordInputComponent
+    PasswordInputComponent,
+    BoardCardComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +42,11 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatFormFieldModule,
     MatPasswordStrengthModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatGridListModule,
+    MatCardModule,
+    RouterModule,
+    MatRippleModule
   ]
 })
 export class SharedModule { }

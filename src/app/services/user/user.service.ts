@@ -10,31 +10,33 @@ import { InstitutionUserSignupRequest } from '../../models/user/institutionUser'
 })
 export class UserService {
 
+  private readonly apiUrl = `${environment.apiUrl}/user`;
+
   constructor(
     private http: HttpClient
   ) { }
 
   resetPassword(email: string): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/user/resetPassword`, {email});
+    return this.http.post<any>(`${this.apiUrl}/resetPassword`, {email});
   }
 
   changePassword(password: string, token: string): Observable<any> {
     const params = new HttpParams()
       .set('token', token);
-    return this.http.post<any>(`${environment.apiUrl}/user/changePassword`, {password}, {params});
+    return this.http.post<any>(`${this.apiUrl}/changePassword`, {password}, {params});
   }
 
   signupPersonUser(personUserSignupRequest: PersonUserSignupRequest): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/user/signup/person`, personUserSignupRequest);
+    return this.http.post<any>(`${this.apiUrl}/signup/person`, personUserSignupRequest);
   }
 
   signupInstitutionUser(institutionUserSignupRequest: InstitutionUserSignupRequest): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/user/signup/institution`, institutionUserSignupRequest);
+    return this.http.post<any>(`${this.apiUrl}/signup/institution`, institutionUserSignupRequest);
   }
 
   confirmSignup(token: string): Observable<any> {
     const params = new HttpParams()
       .set('token', token);
-    return this.http.get<any>(`${environment.apiUrl}/user/signup/confirm`, {params});
+    return this.http.get<any>(`${this.apiUrl}/signup/confirm`, {params});
   }
 }

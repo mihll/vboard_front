@@ -8,9 +8,11 @@ import { ResetPasswordComponent } from '../components/reset-password/reset-passw
 import { ChangePasswordComponent } from '../components/change-password/change-password.component';
 import { SignupComponent } from '../components/signup/signup.component';
 import { ConfirmSignupComponent } from '../components/confirm-signup/confirm-signup.component';
+import {NotAuthGuard} from '../helpers/not-auth.guard';
 
 const appRoutes: Routes = [
-  { path: '', component: LandingPageComponent },
+  { path: '', component: LandingPageComponent, canActivate: [NotAuthGuard]},
+  { path: 'landingPage', component: LandingPageComponent},
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent},
   { path: 'confirmSignup', component: ConfirmSignupComponent},

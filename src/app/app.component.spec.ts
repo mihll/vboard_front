@@ -19,7 +19,7 @@ describe('AppComponent', () => {
   it(`should have as title 'vboard-front'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('vboard-front');
+    expect(app.title).toEqual('VBoard');
   });
 
   it('should render title', () => {

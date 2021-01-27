@@ -1,9 +1,11 @@
+@import '~@angular/material/theming';
+
 .sidenav-container {
   height: 100%;
 }
 
 .sidenav {
-  width: 200px;
+  width: 15em;
 }
 
 .sidenav .mat-toolbar {
@@ -18,4 +20,17 @@
 
 .toolbarButtons button{
   margin-left: 1em;
+}
+
+.active-list-item {
+  background: #eaeaea !important;
+}
+
+a.mat-list-item.active {
+  background: #eaeaea !important;
+}
+
+.linkElement {
+  cursor: pointer;
+  outline: none;
 }
