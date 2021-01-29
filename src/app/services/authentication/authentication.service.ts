@@ -4,6 +4,7 @@ import { UserAuth } from '../../models/user/userAuth';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
+import { BoardService } from '../board/board.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class AuthenticationService {
   private refreshTokenTimeout;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private boardService: BoardService
   ) {
     this.userAuthSubject = new BehaviorSubject<UserAuth>(null);
     this.userAuthObservable = this.userAuthSubject.asObservable();
@@ -28,7 +30,7 @@ export class AuthenticationService {
     return this.http.post<any>(`${environment.apiUrl}/login`, {email, password}, {withCredentials: true})
       .pipe(map(user => {
         this.userAuthSubject.next(user);
-        this.http.get<any>(`${environment.apiUrl}/board/my/links`).subscribe(links => this.userValue.boardLinks = links.boardLinks);
+        this.boardService.getBoardLinks().subscribe(response => this.userValue.boardLinks = response);
         this.startRefreshTokenTimer();
         return user;
       }));
@@ -41,10 +43,13 @@ export class AuthenticationService {
   }
 
   refreshToken(): Observable<UserAuth> {
+    if (!environment.production){
+      console.log('User access token refreshed!');
+    }
     return this.http.post<any>(`${environment.apiUrl}/refresh`, {}, {withCredentials: true})
       .pipe(map(user => {
         this.userAuthSubject.next(user);
-        this.http.get<any>(`${environment.apiUrl}/board/my/links`).subscribe(links => this.userValue.boardLinks = links.boardLinks);
+        this.boardService.getBoardLinks().subscribe(response => this.userValue.boardLinks = response);
         this.startRefreshTokenTimer();
         return user;
       }));
@@ -59,9 +64,6 @@ export class AuthenticationService {
     const expires = new Date(jwtToken.exp * 1000);
     const timeout = expires.getTime() - Date.now() - (60 * 1000);
     this.refreshTokenTimeout = setTimeout(() => {
-      if (!environment.production){
-        console.log('User access token refreshed!');
-      }
       this.refreshToken().subscribe();
     }, timeout);
   }

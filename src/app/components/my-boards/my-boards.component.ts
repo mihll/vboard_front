@@ -19,7 +19,6 @@ export class MyBoardsComponent implements OnInit {
     this.columns = window.innerWidth / 400;
     this.boardService.getMyBoards().subscribe(response => {
       this.joinedBoards = response;
-      console.log(this.joinedBoards);
     });
   }
 

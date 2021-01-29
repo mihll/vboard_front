@@ -8,7 +8,8 @@ import { ResetPasswordComponent } from '../components/reset-password/reset-passw
 import { ChangePasswordComponent } from '../components/change-password/change-password.component';
 import { SignupComponent } from '../components/signup/signup.component';
 import { ConfirmSignupComponent } from '../components/confirm-signup/confirm-signup.component';
-import {NotAuthGuard} from '../helpers/not-auth.guard';
+import { NotAuthGuard } from '../helpers/not-auth.guard';
+import { CreateBoardComponent } from '../components/create-board/create-board.component';
 
 const appRoutes: Routes = [
   { path: '', component: LandingPageComponent, canActivate: [NotAuthGuard]},
@@ -19,6 +20,7 @@ const appRoutes: Routes = [
   { path: 'resetPassword', component: ResetPasswordComponent},
   { path: 'changePassword', component: ChangePasswordComponent},
   { path: 'myBoards', component: MyBoardsComponent, canActivate: [AuthGuard] },
+  { path: 'createBoard', component: CreateBoardComponent, canActivate: [AuthGuard]},
   // otherwise redirect to landing page
   { path: '**', redirectTo: ''}
   ];

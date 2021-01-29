@@ -34,8 +34,7 @@ export class ConfirmSignupComponent implements OnInit {
             'Twoje konto zostało aktywowane pomyślnie. Możesz się teraz na nie zalogować.',
             true , '/login');
         },
-        error: error => {
-          console.log(error);
+        error: () => {
           this.dialogService.openInfoDialog('Wystąpił błąd podczas aktywacji konta',
             '',
             true , '/');

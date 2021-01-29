@@ -11,6 +11,8 @@ export class PasswordInputComponent implements OnInit {
   @Input() parentForm: FormGroup;
   errorMatcher = new CrossFieldErrorMatcher();
   noSpacesPattern = new RegExp('^\\S+$');
+  hidePassword = true;
+  hideRepeatPassword = true;
 
   constructor() {
   }

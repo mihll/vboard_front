@@ -17,6 +17,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
 import { MatRippleModule } from '@angular/material/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { MatRippleModule } from '@angular/material/core';
   imports: [
     CommonModule,
     MatProgressSpinnerModule,
+    BrowserAnimationsModule,
     MatIconModule,
     MatDialogModule,
     MatButtonModule,

@@ -17,6 +17,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   justify-content: center;
   mat-card {
     min-width: 25%;
+    max-width: 450px;
   }
   mat-card-content {
     margin-top: 1em;
@@ -34,8 +35,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .snackbar-success {
   background-color: #9ccc65;
+  color: black;
 }
 
 .snackbar-error {
   background-color: #bf5555;
+  color: white;
 }

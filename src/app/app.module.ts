@@ -37,6 +37,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatRippleModule } from '@angular/material/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { CreateBoardComponent } from './components/create-board/create-board.component';
+import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     ChangePasswordComponent,
     SignupComponent,
     ConfirmSignupComponent,
+    CreateBoardComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,7 +76,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatMenuModule,
     MatGridListModule,
     MatRippleModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    NgxTrimDirectiveModule
   ],
   providers: [
     SnackbarService,

@@ -2,12 +2,20 @@
   <mat-sidenav #drawer class="sidenav" fixedInViewport
                [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
                [mode]="(isHandset$ | async) ? 'over' : 'side'"
-               [opened]="(isHandset$ | async) === false">
-    <mat-toolbar matRipple routerLink="/myBoards" routerLinkActive="active-list-item" class="linkElement">Moje tablice</mat-toolbar>
+               [opened]="userAuth && (isHandset$ | async) === false">
+    <mat-toolbar matRipple routerLink="/myBoards" routerLinkActive="active-list-item" class="linkElement" (click)="closeSidenav()">Moje tablice</mat-toolbar>
     <mat-nav-list>
       <a mat-list-item *ngFor="let boardLink of userAuth?.boardLinks" routerLink="/board/{{boardLink.boardId}}"
-         routerLinkActive="active-list-item">
+         routerLinkActive="active-list-item" (click)="closeSidenav()">
         <div matLine>{{boardLink.boardName}}</div>
+      </a>
+      <a mat-list-item routerLink="/createBoard" routerLinkActive="active-list-item" (click)="closeSidenav()">
+        <mat-icon matListIcon>add</mat-icon>
+        <div matLine>Utwórz tablicę</div>
+      </a>
+      <a mat-list-item routerLink="/createBoard" routerLinkActive="active-list-item" (click)="closeSidenav()">
+        <mat-icon matListIcon>search</mat-icon>
+        <div matLine>Wyszukaj tablicę</div>
       </a>
     </mat-nav-list>
   </mat-sidenav>
@@ -18,7 +26,7 @@
         aria-label="Toggle sidenav"
         mat-icon-button
         (click)="drawer.toggle()"
-        *ngIf="userAuth && isHandset$ | async">
+        *ngIf="userAuth">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span matRipple routerLink="/landingPage" class="linkElement">VBoard</span>

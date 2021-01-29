@@ -15,7 +15,7 @@
         <div>
           <mat-form-field appearance="outline">
             <mat-label>Adres e-mail</mat-label>
-            <input matInput required formControlName="email" type="email">
+            <input matInput required formControlName="email" type="email" trim="blur">
             <mat-error *ngIf="signupForm.controls['email'].hasError('required')">
               Podaj adres e-mail
             </mat-error>
@@ -30,7 +30,7 @@
         <div *ngIf="signupForm.controls.type.value === 'person'">
           <mat-form-field appearance="outline">
             <mat-label>Imię</mat-label>
-            <input matInput [required]="signupForm.controls['type'].value === 'person'" formControlName="firstName" name="firstName" type="text">
+            <input matInput [required]="signupForm.controls['type'].value === 'person'" formControlName="firstName" name="firstName" type="text" trim="blur">
             <mat-error *ngIf="signupForm.controls['firstName'].hasError('required')">
               Podaj swoje imię
             </mat-error>
@@ -39,7 +39,7 @@
         <div *ngIf="signupForm.controls.type.value === 'person'">
           <mat-form-field appearance="outline">
             <mat-label>Nazwisko</mat-label>
-            <input matInput [required]="signupForm.controls['type'].value === 'person'" formControlName="lastName" name="lastName" type="text">
+            <input matInput [required]="signupForm.controls['type'].value === 'person'" formControlName="lastName" name="lastName" type="text" trim="blur">
             <mat-error *ngIf="signupForm.controls['lastName'].hasError('required')">
               Podaj swoje nazwisko
             </mat-error>
@@ -48,7 +48,7 @@
         <div *ngIf="signupForm.controls.type.value === 'institution'">
           <mat-form-field appearance="outline">
             <mat-label>Nazwa organizacji</mat-label>
-            <input matInput [required]="signupForm.controls['type'].value === 'institution'" formControlName="institutionName" name="orgName" type="text">
+            <input matInput [required]="signupForm.controls['type'].value === 'institution'" formControlName="institutionName" name="orgName" type="text" trim="blur">
             <mat-error *ngIf="signupForm.controls['institutionName'].hasError('required')">
               Podaj nazwę organizacji
             </mat-error>

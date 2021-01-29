@@ -13,3 +13,16 @@ export interface BoardLink {
   boardId: string;
   boardName: string;
 }
+
+export interface BoardCreateRequest {
+  isPrivate: boolean;
+  boardName: string;
+  description: string;
+  addressCity: string;
+  addressPostCode: string;
+  addressStreet: string;
+}
+
+export interface BoardCreateResponse {
+  boardId: string;
+}
