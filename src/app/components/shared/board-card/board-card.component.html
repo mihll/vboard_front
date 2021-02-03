@@ -1,4 +1,4 @@
-<mat-card routerLink="/board/{{board.boardId}}">
+<mat-card (mouseenter)="isHovered = !isHovered" (mouseleave)="isHovered = !isHovered" [class.mat-elevation-z3]="isHovered" routerLink="/board/{{board.boardId}}">
   <mat-card-title-group>
     <mat-card-title>
       {{board.boardName}}

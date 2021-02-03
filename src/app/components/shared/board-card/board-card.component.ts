@@ -7,6 +7,7 @@ import { Board } from '../../../models/board/board';
   styleUrls: ['./board-card.component.scss']
 })
 export class BoardCardComponent implements OnInit {
+  isHovered = false;
 
   @Input() board: Board;
 

@@ -1,6 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { Board } from '../../models/board/board';
 import { BoardService } from '../../services/board/board.service';
+import { Observable } from 'rxjs';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { map } from 'rxjs/operators';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-my-boards',
@@ -11,9 +16,22 @@ export class MyBoardsComponent implements OnInit {
   columns: number;
   joinedBoards: Board[];
 
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+    .pipe(
+      map(result => result.matches)
+    );
+
   constructor(
-    private boardService: BoardService
-  ) { }
+    private breakpointObserver: BreakpointObserver,
+    private matIconRegistry: MatIconRegistry,
+    private boardService: BoardService,
+    private domSanitizer: DomSanitizer
+  ) {
+    matIconRegistry.addSvgIcon(
+      'sort_by_zeta',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/sort_by_zeta.svg')
+    );
+  }
 
   ngOnInit(): void {
     this.columns = window.innerWidth / 400;

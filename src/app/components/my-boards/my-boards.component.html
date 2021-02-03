@@ -1,3 +1,26 @@
+<mat-toolbar>
+  Moje tablice
+  <span class="fill-remaining-space"></span>
+  <div class="toolbarFormFields mat-body">
+    <mat-form-field appearance="outline">
+      <mat-label>Sortowanie</mat-label>
+      <mat-select>
+        <mat-option>
+          <mat-icon>sort</mat-icon>
+          Sortowanie domyślne
+        </mat-option>
+        <mat-option>
+          <mat-icon>sort_by_alpha</mat-icon>
+          Alfabetycznie rosnąco
+        </mat-option>
+        <mat-option>
+          <mat-icon svgIcon="sort_by_zeta"></mat-icon>
+          Alfabetycznie malejąco
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</mat-toolbar>
 <div class="cardsContainer">
   <div fxLayout="row wrap" fxLayoutGap="1em grid">
     <div fxFlex.xs="100%" fxFlex.sm="50%" fxFlex.md="33%" fxFlex.lg="25%" fxFlex.xl="20%"  *ngFor="let board of joinedBoards">

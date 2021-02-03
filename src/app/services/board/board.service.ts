@@ -16,7 +16,7 @@ export class BoardService {
 
   getMyBoards(): Observable<Board[]> {
     return this.http.get<any>(`${this.apiURL}/my`)
-      .pipe(map(response => response.joinedBoards));
+      .pipe(map(response => response.boards));
   }
 
   getBoardLinks(): Observable<BoardLink[]> {

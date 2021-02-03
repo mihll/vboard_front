@@ -26,3 +26,8 @@ export interface BoardCreateRequest {
 export interface BoardCreateResponse {
   boardId: string;
 }
+
+export interface FindBoardsByNameRequest {
+  boardName: string;
+}
+
