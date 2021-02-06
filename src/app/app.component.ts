@@ -1,12 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
-import { UserAuth } from './models/user/userAuth';
-import { AuthenticationService } from './services/authentication/authentication.service';
-import { SnackbarService } from './services/snackbar/snackbar.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
+import { SnackbarService } from './shared/snackbar/snackbar-service/snackbar.service';
+import { DialogService } from './shared/dialog/dialog-service/dialog.service';
+import { AuthenticationService } from './authentication/services/authentication-service/authentication.service';
+import { UserAuth } from './authentication/models/user/userAuth';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +26,7 @@ export class AppComponent {
   constructor(private breakpointObserver: BreakpointObserver,
               private router: Router,
               private snackbarService: SnackbarService,
+              private dialogService: DialogService,
               private authenticationService: AuthenticationService) {
     this.authenticationService.userAuthObservable.subscribe(x => this.userAuth = x);
   }
@@ -32,6 +34,10 @@ export class AppComponent {
   logout(): void {
     this.authenticationService.logout();
     this.router.navigate(['/']).then(() => this.snackbarService.openSuccessSnackbar('Zostałeś wylogowany'));
+  }
+
+  openSearch(): void {
+    this.dialogService.openBoardSearchDialog();
   }
 
   closeSidenav(): void {

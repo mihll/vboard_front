@@ -1,0 +1,13 @@
+<mat-card (mouseenter)="isHovered = !isHovered" (mouseleave)="isHovered = !isHovered" [class.mat-elevation-z3]="isHovered">
+  <div class="cardHalf up" matRipple (click)="openSearch()" (mouseenter)="isUpHovered = !isUpHovered" (mouseleave)="isUpHovered = !isUpHovered" [class.hoveredHalf]="isUpHovered">
+    <mat-icon>search</mat-icon>
+    <div>
+      Wyszukaj tablicę
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="cardHalf down" routerLink="/createBoard" (mouseenter)="isDownHovered = !isDownHovered" (mouseleave)="isDownHovered = !isDownHovered" [class.hoveredHalf]="isDownHovered">
+    <mat-icon>add</mat-icon>
+    Utwórz własną tablicę
+  </div>
+</mat-card>

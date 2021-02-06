@@ -1,0 +1,26 @@
+mat-card {
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.cardHalf {
+  height: 4em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+}
+
+.cardHalf.up {
+  padding: 16px 16px 1em;
+}
+
+.cardHalf.down {
+  padding: 1em 16px 16px;
+}
+
+.hoveredHalf {
+  background: #f5f5f5 !important;
+}

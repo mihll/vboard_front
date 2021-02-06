@@ -13,7 +13,7 @@
         <mat-icon matListIcon>add</mat-icon>
         <div matLine>Utwórz tablicę</div>
       </a>
-      <a mat-list-item routerLink="/createBoard" routerLinkActive="active-list-item" (click)="closeSidenav()">
+      <a mat-list-item (click)="closeSidenav(); openSearch();">
         <mat-icon matListIcon>search</mat-icon>
         <div matLine>Wyszukaj tablicę</div>
       </a>

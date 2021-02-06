@@ -51,21 +51,3 @@ body {
     padding-bottom: 0;
   }
 }
-
-.flip-horizontally {
-  transform: scaleX(-1);
-}
-
-.flip-vertically {
-  transform: scaleY(-1);
-}
-
-.snackbar-success {
-  background-color: #9ccc65;
-  color: black;
-}
-
-.snackbar-error {
-  background-color: #bf5555;
-  color: white;
-}
