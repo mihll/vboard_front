@@ -37,8 +37,8 @@ export class DialogService {
   openBoardSearchDialog(): MatDialogRef<unknown, any> {
     const dialogConfig = new MatDialogConfig();
 
-    dialogConfig.minWidth = '25%';
-    dialogConfig.maxWidth = '450px';
+    dialogConfig.maxWidth = '90%';
+    dialogConfig.width = '90%';
 
     return this.matDialog.open(SearchBoardDialogComponent, dialogConfig);
   }

@@ -27,7 +27,3 @@ export interface BoardCreateResponse {
   boardId: string;
 }
 
-export interface FindBoardsByNameRequest {
-  boardName: string;
-}
-

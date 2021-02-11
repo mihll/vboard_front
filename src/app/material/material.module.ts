@@ -19,6 +19,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [],
@@ -43,6 +44,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatProgressSpinnerModule,
     MatFormFieldModule,
     MatDividerModule,
+    MatProgressBarModule,
   ],
   exports: [
     BrowserAnimationsModule,
@@ -64,6 +66,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatProgressSpinnerModule,
     MatFormFieldModule,
     MatDividerModule,
+    MatProgressBarModule,
   ]
 })
 export class MaterialModule { }

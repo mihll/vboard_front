@@ -1,25 +1,177 @@
-<div mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center">
+<div fxLayout="row" fxLayoutAlign="space-between center">
   <h1>Wyszukaj tablicę</h1>
   <button mat-icon-button mat-dialog-title [mat-dialog-close]>
     <mat-icon>close</mat-icon>
   </button>
 </div>
+
 <div mat-dialog-content>
-<form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1em">
-    <mat-form-field appearance="outline" fxFlex="70">
-      <mat-label>Nazwa tablicy</mat-label>
-      <input matInput formControlName="boardName" trim="blur" cdkFocusInitial>
-      <mat-error *ngIf="searchForm.controls['boardName'].hasError('required')">
-        Wpisz fragment wyszukiwanej nazwy
-      </mat-error>
-      <mat-error *ngIf="searchForm.controls['boardName'].hasError('minLength')">
-        Musisz wpisać minimum 3 znaki
-      </mat-error>
-    </mat-form-field>
-    <button type="submit" mat-raised-button color="primary" [disabled]="searchForm.invalid" fxFlex>
-      Szukaj
-    </button>
+  <div class="searchControls">
+
+    <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1em">
+        <mat-form-field appearance="outline" fxFlex="70">
+          <mat-label>Nazwa tablicy</mat-label>
+          <input matInput formControlName="boardName" trim="blur" cdkFocusInitial>
+          <mat-icon
+            *ngIf="(foundBoards ? foundBoards.length !== 0 : false) && !isSortSelectShown && ((addressCityBreakpoint$ | async) ||(creationDateBreakpoint$ | async) || (joinBreakpoint$ | async))"
+            matSuffix
+            (click)="isSortSelectShown = !isSortSelectShown">
+            sort
+          </mat-icon>
+          <mat-error *ngIf="searchForm.controls['boardName'].hasError('required')">
+            Wpisz fragment wyszukiwanej nazwy
+          </mat-error>
+          <mat-error *ngIf="searchForm.controls['boardName'].hasError('minLength')">
+            Musisz wpisać minimum 3 znaki
+          </mat-error>
+        </mat-form-field>
+        <button type="submit" mat-raised-button color="primary" [disabled]="searchForm.invalid" fxFlex>
+          Szukaj
+        </button>
+      </div>
+    </form>
+
+    <div
+      *ngIf="(foundBoards ? foundBoards.length !== 0 : false) && isSortSelectShown && ((addressCityBreakpoint$ | async) || (creationDateBreakpoint$ | async) || (joinBreakpoint$ | async))"
+      fxLayout="row" fxLayoutAlign="start center" class="sortSelect"
+      [@detailExpand]="isSortSelectShown ? 'expanded' : 'collapsed'">
+      <mat-form-field appearance="outline" fxFlex>
+        <mat-label>Sortowanie</mat-label>
+        <mat-select [(value)]="this.sortState" (selectionChange)="changeSortedColumn()"
+                    [compareWith]="customSortCompare">
+          <mat-option [value]="{active: '', direction: ''}">Domyślne</mat-option>
+          <mat-optgroup label="Nazwa">
+            <mat-option [value]="{active: 'boardName', direction: 'asc'}">
+              Nazwa - rosnąco (A-Z)
+            </mat-option>
+            <mat-option [value]="{active: 'boardName', direction: 'desc'}">
+              Nazwa - malejąco (Z-A)
+            </mat-option>
+          </mat-optgroup>
+          <mat-optgroup label="Data utworzenia">
+            <mat-option [value]="{active: 'creationDate', direction: 'asc'}">
+              Data utworzenia - rosnąco
+            </mat-option>
+            <mat-option [value]="{active: 'creationDate', direction: 'desc'}">
+              Data utworzenia - malejąco
+            </mat-option>
+          </mat-optgroup>
+          <mat-optgroup label="Miasto">
+            <mat-option [value]="{active: 'addressCity', direction: 'asc'}">
+              Miasto - rosnąco (A-Z)
+            </mat-option>
+            <mat-option [value]="{active: 'addressCity', direction: 'desc'}">
+              Miasto - malejąco (Z-A)
+            </mat-option>
+          </mat-optgroup>
+        </mat-select>
+      </mat-form-field>
+      <button mat-icon-button>
+        <mat-icon (click)="isSortSelectShown = !isSortSelectShown">expand_less</mat-icon>
+      </button>
+    </div>
+
   </div>
-</form>
+
+  <div class="tableContainer" [class.oneColumnTable]="joinBreakpoint$ | async">
+    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+    <div *ngIf="foundBoards ? (foundBoards.length === 0 && !loading) : false" class="notFound">
+      <mat-icon [inline]="true">search_off</mat-icon>
+      Nie znaleziono tablic o podanej nazwie
+    </div>
+    <table *ngIf="foundBoards ? (foundBoards.length !== 0 && !loading) : false" mat-table [dataSource]="dataSource"
+           matSort (matSortChange)="this.sortState = $event" multiTemplateDataRows>
+
+      <!-- Board Name Column -->
+      <ng-container matColumnDef="boardName" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nazwa</th>
+        <td mat-cell *matCellDef="let element">{{element.boardName}}</td>
+      </ng-container>
+
+      <!-- Expand Icon Column -->
+      <ng-container matColumnDef="expandIcon">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon *ngIf="element !== expandedElement">expand_more</mat-icon>
+          <mat-icon *ngIf="element === expandedElement">expand_less</mat-icon>
+        </td>
+      </ng-container>
+
+      <!-- Creation Date Column -->
+      <ng-container matColumnDef="creationDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Data utworzenia</th>
+        <td mat-cell *matCellDef="let element"> {{element.creationDate | date:'dd-MM-yyyy'}} </td>
+      </ng-container>
+
+      <!-- Address City Column -->
+      <ng-container matColumnDef="addressCity">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Miasto</th>
+        <td mat-cell *matCellDef="let element"> {{element.addressCity || '—'}} </td>
+      </ng-container>
+
+      <!-- Address Post Code Column -->
+      <ng-container matColumnDef="addressPostCode">
+        <th mat-header-cell *matHeaderCellDef>Kod pocztowy</th>
+        <td mat-cell *matCellDef="let element"> {{element.addressPostCode || '—'}} </td>
+      </ng-container>
+
+      <!-- Address Street Column -->
+      <ng-container matColumnDef="addressStreet">
+        <th mat-header-cell *matHeaderCellDef>Ulica</th>
+        <td mat-cell *matCellDef="let element"> {{element.addressStreet || '—'}} </td>
+      </ng-container>
+
+      <!-- Join Column -->
+      <ng-container matColumnDef="join">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+          <button *ngIf="!isBoardJoined(element)" mat-stroked-button color="primary">Dołącz</button>
+          <button *ngIf="isBoardJoined(element)" mat-stroked-button disabled>Już należysz</button>
+        </td>
+      </ng-container>
+
+      <!-- Expanded Content Column -->
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+          <div class="element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+            <div class="element-detail-content">
+              <table mat-table [dataSource]="detailsDataSource">
+
+                <!-- Detail Name Column -->
+                <ng-container matColumnDef="detailName">
+                  <td mat-cell *matCellDef="let detailElement"> {{detailElement.detailName}} </td>
+                </ng-container>
+
+                <!-- Detail Data Column -->
+                <ng-container matColumnDef="detailData">
+                  <td mat-cell *matCellDef="let detailElement"> {{detailElement.detailData || '—'}} </td>
+                </ng-container>
+
+                <tr mat-row *matRowDef="let row; columns: ['detailName', 'detailData'];"></tr>
+              </table>
+              <div class="element-detail-join">
+                <button *ngIf="(joinBreakpoint$ | async) && !isBoardJoined(element)" mat-stroked-button color="primary">
+                  Dołącz
+                </button>
+                <button *ngIf="(joinBreakpoint$ | async) && isBoardJoined(element)" mat-stroked-button disabled>
+                  Już należysz
+                </button>
+              </div>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Row Definitions -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+          class="element-row"
+          [class.expanded-row]="expandedElement === element"
+          (click)="expandRow(element)">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+
+    </table>
+  </div>
 </div>

@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { SnackbarService } from '../../shared/snackbar/snackbar-service/snackbar.service';
 import { AuthenticationService } from '../../authentication/services/authentication-service/authentication.service';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Injectable()
@@ -13,6 +14,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
   constructor(private authenticationService: AuthenticationService,
               private router: Router,
+              private matDialog: MatDialog,
               private snackBarService: SnackbarService
   ) {}
 
@@ -21,6 +23,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       if ([0, 401, 403].includes(err.status) && this.authenticationService.userValue) {
         // auto logout if 401 or 403 response returned from api
         this.authenticationService.logout();
+        this.matDialog.closeAll();
         this.router.navigate(['/']).then(() => this.snackBarService.openErrorSnackbar('Zostałeś wylogowany!'));
       }
 

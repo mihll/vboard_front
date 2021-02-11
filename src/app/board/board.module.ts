@@ -8,6 +8,8 @@ import { SearchBoardDialogComponent } from './search-board-dialog/search-board-d
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { SharedModule } from '../shared/shared.module';
     MaterialModule,
     SharedModule,
     ReactiveFormsModule,
+    MatTableModule,
+    MatSortModule,
   ]
 })
 export class BoardModule { }
