@@ -4,7 +4,7 @@ import { SnackbarService } from '../../shared/snackbar/snackbar-service/snackbar
 import { AuthenticationService } from '../../authentication/services/authentication-service/authentication.service';
 import { UserAuth } from '../../authentication/models/user/userAuth';
 import { BoardService } from '../services/board-service/board.service';
-import { Board } from '../models/board/board';
+import { BoardInfo } from '../models/board/board';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
 
@@ -33,8 +33,8 @@ export class SearchBoardDialogComponent implements OnInit {
   userData: UserAuth;
   loading = false;
 
-  foundBoards: Board[];
-  dataSource: MatTableDataSource<Board> = new MatTableDataSource<Board>();
+  foundBoards: BoardInfo[];
+  dataSource: MatTableDataSource<BoardInfo> = new MatTableDataSource<BoardInfo>();
   displayedColumns: string[] = ['boardName', 'expandIcon', 'creationDate', 'addressCity', 'addressPostCode', 'addressStreet', 'join'];
 
   private sort: MatSort;
@@ -45,7 +45,7 @@ export class SearchBoardDialogComponent implements OnInit {
   sortState: Sort = {active: '', direction: ''};
   isSortSelectShown = false;
 
-  expandedElement: Board | null = null;
+  expandedElement: BoardInfo | null = null;
   detailsArraySubject: BehaviorSubject<BoardDetails[]> = new BehaviorSubject<BoardDetails[]>([]);
   detailsDataSource: MatTableDataSource<BoardDetails> = new MatTableDataSource<BoardDetails>();
 
@@ -148,8 +148,12 @@ export class SearchBoardDialogComponent implements OnInit {
     });
   }
 
-  isBoardJoined(board: Board): boolean {
+  isBoardJoined(board: BoardInfo): boolean {
     return this.userData.boardLinks.some(boardLink => boardLink.boardId === board.boardId);
+  }
+
+  isFoundBoards(): boolean {
+    return this.foundBoards ? this.foundBoards.length !== 0 : false;
   }
 
   get f(): { [p: string]: AbstractControl } {
@@ -191,7 +195,7 @@ export class SearchBoardDialogComponent implements OnInit {
     return o1.active === o2.active && o1.direction === o2.direction;
   }
 
-  expandRow(element: Board): void {
+  expandRow(element: BoardInfo): void {
     this.detailsArraySubject.subscribe(detailsArray => {
       this.detailsDataSource.data = detailsArray.map(((value) => {
         switch (value.detailName){

@@ -47,14 +47,14 @@
         <button
           mat-button
           [matMenuTriggerFor]="userMenu"
-          *ngIf="userAuth && !(isHandset$ | async)">
+          *ngIf="userAuth && ((isHandset$ | async) === false)">
           {{userAuth.name}}
           <mat-icon>expand_more</mat-icon>
         </button>
         <button
           mat-button
           [matMenuTriggerFor]="userMenu"
-          *ngIf="userAuth && isHandset$ | async">
+          *ngIf="userAuth && (isHandset$ | async)">
           <mat-icon>person</mat-icon>
           <mat-icon>expand_more</mat-icon>
         </button>

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
-import { Board, BoardCreateRequest, BoardCreateResponse, BoardLink } from '../../models/board/board';
+import { BoardCreateRequest, BoardCreateResponse, BoardInfo, BoardLink, MyBoard } from '../../models/board/board';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -14,7 +14,7 @@ export class BoardService {
 
   constructor(private http: HttpClient) { }
 
-  getMyBoards(): Observable<Board[]> {
+  getMyBoards(): Observable<MyBoard[]> {
     return this.http.get<any>(`${this.apiURL}/my`)
       .pipe(map(response => response.boards));
   }
@@ -24,7 +24,7 @@ export class BoardService {
       .pipe(map(response => response.boardLinks));
   }
 
-  findBoardsByName(boardNameToFind: string): Observable<Board[]> {
+  findBoardsByName(boardNameToFind: string): Observable<BoardInfo[]> {
     const params = new HttpParams()
       .set('name', boardNameToFind);
     return this.http.get<any>(`${this.apiURL}/findByName`, {params})

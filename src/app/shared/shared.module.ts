@@ -9,17 +9,20 @@ import { MaterialModule } from '../material/material.module';
 import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FlexModule } from '@angular/flex-layout';
+import { MatBadgeIconDirective } from './directives/matBadgeIconDirective';
 
 @NgModule({
   declarations: [
     LoadingSpinnerComponent,
     IconSnackbarComponent,
     SimpleInfoDialogComponent,
+    MatBadgeIconDirective,
   ],
   exports: [
     LoadingSpinnerComponent,
     IconSnackbarComponent,
     SimpleInfoDialogComponent,
+    MatBadgeIconDirective,
     RouterModule,
     NgxTrimDirectiveModule,
     FlexLayoutModule,

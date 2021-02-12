@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Board } from '../models/board/board';
+import { MyBoard } from '../models/board/board';
 
 @Component({
   selector: 'app-board-card',
@@ -9,7 +9,7 @@ import { Board } from '../models/board/board';
 export class BoardCardComponent implements OnInit {
   isHovered = false;
 
-  @Input() board: Board;
+  @Input() board: MyBoard;
 
   constructor() { }
 

@@ -14,7 +14,7 @@
           <mat-label>Nazwa tablicy</mat-label>
           <input matInput formControlName="boardName" trim="blur" cdkFocusInitial>
           <mat-icon
-            *ngIf="(foundBoards ? foundBoards.length !== 0 : false) && !isSortSelectShown && ((addressCityBreakpoint$ | async) ||(creationDateBreakpoint$ | async) || (joinBreakpoint$ | async))"
+            *ngIf="isFoundBoards() && !isSortSelectShown && ((addressCityBreakpoint$ | async) || (creationDateBreakpoint$ | async) || (joinBreakpoint$ | async))"
             matSuffix
             (click)="isSortSelectShown = !isSortSelectShown">
             sort
@@ -33,9 +33,8 @@
     </form>
 
     <div
-      *ngIf="(foundBoards ? foundBoards.length !== 0 : false) && isSortSelectShown && ((addressCityBreakpoint$ | async) || (creationDateBreakpoint$ | async) || (joinBreakpoint$ | async))"
-      fxLayout="row" fxLayoutAlign="start center" class="sortSelect"
-      [@detailExpand]="isSortSelectShown ? 'expanded' : 'collapsed'">
+      *ngIf="isFoundBoards() && isSortSelectShown && ((addressCityBreakpoint$ | async) || (creationDateBreakpoint$ | async) || (joinBreakpoint$ | async))"
+      fxLayout="row" fxLayoutAlign="start center" [@detailExpand]="isSortSelectShown ? 'expanded' : 'collapsed'">
       <mat-form-field appearance="outline" fxFlex>
         <mat-label>Sortowanie</mat-label>
         <mat-select [(value)]="this.sortState" (selectionChange)="changeSortedColumn()"

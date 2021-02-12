@@ -2,28 +2,53 @@
   Moje tablice
   <span class="fill-remaining-space"></span>
   <div class="toolbarFormFields mat-body">
-    <mat-form-field appearance="outline">
+    <mat-form-field *ngIf="(isHandset$ | async) === false" appearance="outline">
       <mat-label>Sortowanie</mat-label>
-      <mat-select>
-        <mat-option>
-          <mat-icon>sort</mat-icon>
-          Sortowanie domyślne
-        </mat-option>
-        <mat-option>
-          <mat-icon>sort_by_alpha</mat-icon>
-          Alfabetycznie rosnąco
-        </mat-option>
-        <mat-option>
-          <mat-icon svgIcon="sort_by_zeta"></mat-icon>
-          Alfabetycznie malejąco
-        </mat-option>
+      <mat-select [(value)]="this.sortState" (selectionChange)="sortBoards()" [compareWith]="customSortCompare">
+        <mat-option [value]="{active: '', direction: ''}">Domyślne</mat-option>
+        <mat-optgroup label="Nazwa">
+          <mat-option [value]="{active: 'boardName', direction: 'asc'}">
+            Nazwa - rosnąco (A-Z)
+          </mat-option>
+          <mat-option [value]="{active: 'boardName', direction: 'desc'}">
+            Nazwa - malejąco (Z-A)
+          </mat-option>
+        </mat-optgroup>
+        <mat-optgroup label="Data dołączenia">
+          <mat-option [value]="{active: 'joinDate', direction: 'asc'}">
+            Data dołączenia - rosnąco
+          </mat-option>
+          <mat-option [value]="{active: 'joinDate', direction: 'desc'}">
+            Data dołączenia - malejąco
+          </mat-option>
+        </mat-optgroup>
       </mat-select>
     </mat-form-field>
   </div>
+
+  <button [hidden]="(isHandset$ | async) === false" mat-icon-button [matMenuTriggerFor]="sortMenu">
+    <mat-icon matBadge [appMatBadgeIcon]="sortBadge">sort</mat-icon>
+  </button>
+  <mat-menu #sortMenu="matMenu">
+    <button mat-menu-item (click)="menuSortBoards({active: '', direction: ''})">Domyślne</button>
+    <button mat-menu-item (click)="menuSortBoards({active: 'boardName', direction: 'asc'})">
+      Nazwa - rosnąco (A-Z)
+    </button>
+    <button mat-menu-item (click)="menuSortBoards({active: 'boardName', direction: 'desc'})">
+      Nazwa - malejąco (Z-A)
+    </button>
+    <button mat-menu-item (click)="menuSortBoards({active: 'joinDate', direction: 'asc'})">
+      Data dołączenia - rosnąco
+    </button>
+    <button mat-menu-item (click)="menuSortBoards({active: 'joinDate', direction: 'desc'})">
+      Data dołączenia - malejąco
+    </button>
+  </mat-menu>
 </mat-toolbar>
 <div class="cardsContainer">
   <div fxLayout="row wrap" fxLayoutGap="1em grid">
-    <div fxFlex.xs="100%" fxFlex.sm="50%" fxFlex.md="33%" fxFlex.lg="25%" fxFlex.xl="20%"  *ngFor="let board of joinedBoards">
+    <div fxFlex.xs="100%" fxFlex.sm="50%" fxFlex.md="33%" fxFlex.lg="25%" fxFlex.xl="20%"
+         *ngFor="let board of joinedBoards">
       <app-board-card [board]="board"></app-board-card>
     </div>
     <div fxFlex.xs="100%" fxFlex.sm="50%" fxFlex.md="33%" fxFlex.lg="25%" fxFlex.xl="20%">
