@@ -34,4 +34,8 @@ export class BoardService {
   createBoard(boardCreateRequest: BoardCreateRequest): Observable<BoardCreateResponse> {
     return this.http.post<any>(`${this.apiURL}/create`, boardCreateRequest);
   }
+
+  changeBoardOrder(boardIds: string[]): Observable<any> {
+    return this.http.put<any>(`${this.apiURL}/changeOrder`, {boardIds});
+  }
 }

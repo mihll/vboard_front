@@ -4,6 +4,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { DialogService } from '../../shared/dialog/dialog-service/dialog.service';
 import { BoardService } from '../services/board-service/board.service';
 import { MyBoard } from '../models/board/board';
 import { Sort } from '@angular/material/sort';
@@ -27,6 +28,7 @@ export class MyBoardsComponent implements OnInit {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private matIconRegistry: MatIconRegistry,
+    private dialogService: DialogService,
     private boardService: BoardService,
     private domSanitizer: DomSanitizer
   ) {
@@ -40,11 +42,23 @@ export class MyBoardsComponent implements OnInit {
     this.columns = window.innerWidth / 400;
     this.boardService.getMyBoards().subscribe(response => {
       this.joinedBoards = response;
+      this.sortByOrderIndex();
     });
   }
 
   onResize(event): void {
     this.columns = event.target.innerWidth / 400;
+  }
+
+  openReorder(): void {
+    this.dialogService.openBoardOrderChangeDialog(this.joinedBoards).beforeClosed()
+      .subscribe(() => {
+        this.boardService.getMyBoards().subscribe(response => {
+          this.sortState = {active: '', direction: ''};
+          this.joinedBoards = response;
+          this.sortByOrderIndex();
+        });
+      });
   }
 
   menuSortBoards(sortOption: Sort): void {
@@ -55,25 +69,29 @@ export class MyBoardsComponent implements OnInit {
   sortBoards(): void {
     switch (this.sortState.active) {
       case 'boardName': {
+        this.sortBadge = 'font_download';
         this.sortByName();
         break;
       }
       case 'joinDate': {
+        this.sortBadge = 'date_range';
         this.sortByJoinDate();
         break;
       }
       default: {
-        // TODO: Save indexes on back-end and pass it in response
         this.sortBadge = null;
-        this.boardService.getMyBoards().subscribe(response => {
-          this.joinedBoards = response;
-        });
+        this.sortByOrderIndex();
       }
     }
   }
 
+  sortByOrderIndex(): void {
+    this.joinedBoards.sort((a, b) => {
+      return a.orderIndex - b.orderIndex;
+    });
+  }
+
   sortByName(): void {
-    this.sortBadge = 'font_download';
     if (this.sortState.direction === 'asc') {
       this.joinedBoards.sort((a, b) => {
         return a.boardName.localeCompare(b.boardName);
@@ -86,7 +104,6 @@ export class MyBoardsComponent implements OnInit {
   }
 
   sortByJoinDate(): void {
-    this.sortBadge = 'date_range';
     if (this.sortState.direction === 'asc') {
       this.joinedBoards.sort((a, b) => {
         return new Date(a.joinDate).getTime() - new Date(b.joinDate).getTime();

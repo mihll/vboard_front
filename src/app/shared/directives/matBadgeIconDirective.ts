@@ -13,7 +13,7 @@ export class MatBadgeIconDirective {
       badge.style.alignItems = 'center';
       badge.style.justifyContent = 'center';
       badge.innerHTML = `<i class="material-icons" style="font-size: 17px">${icon}</i>`;
-    } else {
+    } else if (badge) {
       badge.style.display = 'none';
       badge.innerHTML = ``;
     }

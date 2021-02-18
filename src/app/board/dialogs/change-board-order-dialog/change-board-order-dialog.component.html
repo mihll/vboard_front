@@ -1,0 +1,27 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <h1>Zmień kolejność</h1>
+  <button mat-icon-button mat-dialog-title [mat-dialog-close]>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<div mat-dialog-content>
+  <p>Możesz zmienić kolejność, w której domyślnie będą wyświetlane twoje tablice. <br>
+    W tej kolejności będą wyświetlane również tablice w pasku nawigacyjnym po lewej.</p>
+
+  <div cdkDropList class="board-list" (cdkDropListDropped)="drop($event)">
+    <div class="board-box" *ngFor="let board of joinedBoards" cdkDrag>
+      {{board.boardName}}
+      <mat-icon>drag_handle</mat-icon>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="changeOrder()" [disabled]="!isOrderChanged || loading">
+    Zatwierdź
+    <mat-icon class="buttonTextIcon" *ngIf="loading">
+      <mat-spinner mode="indeterminate" diameter="20"></mat-spinner>
+    </mat-icon>
+  </button>
+</div>

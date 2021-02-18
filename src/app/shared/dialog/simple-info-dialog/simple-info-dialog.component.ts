@@ -10,14 +10,14 @@ export class SimpleInfoDialogComponent implements OnInit {
 
   title: string;
   description: string;
-  reloadAfterClose: boolean;
+  redirectAfterClose: boolean;
 
   constructor(
     private dialogRef: MatDialogRef<SimpleInfoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
     this.description = data.description;
     this.title = data.title;
-    this.reloadAfterClose = data.reloadAfterClose;
+    this.redirectAfterClose = data.redirectAfterClose;
   }
 
   ngOnInit(): void {

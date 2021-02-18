@@ -2,6 +2,7 @@ export class Board {
   public readonly wantNotifications: boolean;
   public readonly joinDate: Date;
   public readonly isAdmin: boolean;
+  public readonly orderIndex: number;
 
   public readonly boardId: string;
   public readonly isPrivate: boolean;
@@ -17,6 +18,7 @@ export interface MyBoard {
   wantNotifications: boolean;
   joinDate: Date;
   isAdmin: boolean;
+  orderIndex: number;
 
   boardId: string;
   isPrivate: boolean;
@@ -38,7 +40,6 @@ export interface BoardInfo {
   addressPostCode: string;
   addressStreet: string;
 }
-
 
 export interface BoardLink {
   boardId: string;

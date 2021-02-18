@@ -44,7 +44,18 @@
       Data dołączenia - malejąco
     </button>
   </mat-menu>
+
+  <button mat-icon-button [matMenuTriggerFor]="settingsMenu">
+    <mat-icon>settings</mat-icon>
+  </button>
+  <mat-menu #settingsMenu="matMenu">
+    <button mat-menu-item (click)="openReorder()">
+      <mat-icon>reorder</mat-icon>
+      Zmień kolejność
+    </button>
+  </mat-menu>
 </mat-toolbar>
+
 <div class="cardsContainer">
   <div fxLayout="row wrap" fxLayoutGap="1em grid">
     <div fxFlex.xs="100%" fxFlex.sm="50%" fxFlex.md="33%" fxFlex.lg="25%" fxFlex.xl="20%"
