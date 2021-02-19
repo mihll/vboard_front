@@ -23,6 +23,11 @@ export class AppComponent {
       map(result => result.matches)
     );
 
+  tabletWidthBreakpoint$: Observable<boolean> = this.breakpointObserver.observe('(max-width: 800px)')
+    .pipe(
+      map(result => result.matches)
+    );
+
   constructor(private breakpointObserver: BreakpointObserver,
               private router: Router,
               private snackbarService: SnackbarService,

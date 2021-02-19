@@ -3,6 +3,7 @@ export class Board {
   public readonly joinDate: Date;
   public readonly isAdmin: boolean;
   public readonly orderIndex: number;
+  public readonly boardMembers: number;
 
   public readonly boardId: string;
   public readonly isPrivate: boolean;
@@ -19,6 +20,7 @@ export interface MyBoard {
   joinDate: Date;
   isAdmin: boolean;
   orderIndex: number;
+  boardMembers: number;
 
   boardId: string;
   isPrivate: boolean;

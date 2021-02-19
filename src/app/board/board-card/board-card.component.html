@@ -1,9 +1,29 @@
-<mat-card (mouseenter)="isHovered = !isHovered" (mouseleave)="isHovered = !isHovered" [class.mat-elevation-z3]="isHovered" routerLink="/board/{{board.boardId}}">
+<mat-card (mouseenter)="isHovered = !isHovered" (mouseleave)="isHovered = !isHovered"
+          [class.mat-elevation-z3]="isHovered" routerLink="/board/{{board.boardId}}">
   <mat-card-title-group>
     <mat-card-title>
       {{board.boardName}}
     </mat-card-title>
-    <mat-icon *ngIf="board.isPrivate">lock</mat-icon>
-    <mat-icon *ngIf="!board.isPrivate">public</mat-icon>
+    <div class="boardIcons">
+      <mat-icon *ngIf="board.isAdmin" matTooltip="Jesteś administratorem">admin_panel_settings</mat-icon>
+      <mat-icon *ngIf="board.isPrivate" matTooltip="Prywatna">lock</mat-icon>
+      <mat-icon *ngIf="!board.isPrivate" matTooltip="Publiczna">public</mat-icon>
+    </div>
   </mat-card-title-group>
+  <mat-card-content>
+    <table class="boardStats">
+      <tr>
+        <th class="borderRight">0</th>
+        <th>{{board.boardMembers}}</th>
+      </tr>
+      <tr>
+        <td class="borderRight">
+          Postów
+        </td>
+        <td>
+          Członków
+        </td>
+      </tr>
+    </table>
+  </mat-card-content>
 </mat-card>

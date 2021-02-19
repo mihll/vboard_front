@@ -12,6 +12,7 @@ import { SharedModule } from '../shared/shared.module';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -26,14 +27,15 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     CreateBoardComponent,
     MyBoardsComponent,
   ],
-  imports: [
-    CommonModule,
-    MaterialModule,
-    SharedModule,
-    ReactiveFormsModule,
-    MatTableModule,
-    MatSortModule,
-    DragDropModule
-  ]
+    imports: [
+        CommonModule,
+        MaterialModule,
+        SharedModule,
+        ReactiveFormsModule,
+        MatTableModule,
+        MatSortModule,
+        DragDropModule,
+        MatTooltipModule
+    ]
 })
 export class BoardModule { }
