@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SnackbarService } from '../../shared/snackbar/snackbar-service/snackbar.service';
 import { DialogService } from '../../shared/dialog/dialog-service/dialog.service';
 import { UserService } from '../services/user-service/user.service';
-import { checkPasswordsMismatch } from '../password-input/password-input.component';
+import { checkPasswordsMismatch } from '../../shared/password-input/password-input.component';
 
 @Component({
   selector: 'app-change-password',

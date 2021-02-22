@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SnackbarService } from '../../../shared/snackbar/snackbar-service/snackbar.service';
 import { AuthenticationService } from '../../../authentication/services/authentication-service/authentication.service';
-import { UserAuth } from '../../../authentication/models/user/userAuth';
+import { UserAuth } from '../../../authentication/models/userAuth';
 import { BoardService } from '../../services/board-service/board.service';
 import { BoardInfo } from '../../models/board/board';
 import { MatTableDataSource } from '@angular/material/table';

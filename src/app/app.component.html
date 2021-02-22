@@ -59,9 +59,12 @@
           <mat-icon>expand_more</mat-icon>
         </button>
         <mat-menu #userMenu="matMenu" xPosition="before">
-          <button
-            mat-flat-button
-            (click)="logout()">
+          <button mat-menu-item routerLink="/userSettings">
+            <mat-icon>manage_accounts</mat-icon>
+            Ustawienia konta
+          </button>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
             Wyloguj się
           </button>
         </mat-menu>

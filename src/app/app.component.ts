@@ -7,7 +7,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { SnackbarService } from './shared/snackbar/snackbar-service/snackbar.service';
 import { DialogService } from './shared/dialog/dialog-service/dialog.service';
 import { AuthenticationService } from './authentication/services/authentication-service/authentication.service';
-import { UserAuth } from './authentication/models/user/userAuth';
+import { UserAuth } from './authentication/models/userAuth';
 
 @Component({
   selector: 'app-root',

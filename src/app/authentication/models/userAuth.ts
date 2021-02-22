@@ -1,4 +1,4 @@
-import { BoardLink } from '../../../board/models/board/board';
+import { BoardLink } from '../../board/models/board/board';
 
 export class UserAuth {
   accessToken?: string;

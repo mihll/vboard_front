@@ -15,6 +15,7 @@ import { SnackbarService } from './shared/snackbar/snackbar-service/snackbar.ser
 import { AuthenticationService } from './authentication/services/authentication-service/authentication.service';
 
 import { AuthenticationModule } from './authentication/authentication.module';
+import { UserModule } from './user/user.module';
 import { BoardModule } from './board/board.module';
 import { SharedModule } from './shared/shared.module';
 import { MaterialModule } from './material/material.module';
@@ -29,6 +30,7 @@ import { MaterialModule } from './material/material.module';
     RoutingModule,
     HttpClientModule,
     AuthenticationModule,
+    UserModule,
     BoardModule,
     SharedModule,
     MaterialModule,

@@ -2,25 +2,29 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { IconSnackbarComponent } from './snackbar/icon-snackbar/icon-snackbar.component';
+import { PasswordInputComponent } from './password-input/password-input.component';
 import { SimpleInfoDialogComponent } from './dialog/simple-info-dialog/simple-info-dialog.component';
+import { MatBadgeIconDirective } from './directives/matBadgeIconDirective';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../material/material.module';
 import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FlexModule } from '@angular/flex-layout';
-import { MatBadgeIconDirective } from './directives/matBadgeIconDirective';
+import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
 
 @NgModule({
   declarations: [
     LoadingSpinnerComponent,
     IconSnackbarComponent,
+    PasswordInputComponent,
     SimpleInfoDialogComponent,
     MatBadgeIconDirective,
   ],
   exports: [
     LoadingSpinnerComponent,
     IconSnackbarComponent,
+    PasswordInputComponent,
     SimpleInfoDialogComponent,
     MatBadgeIconDirective,
     RouterModule,
@@ -34,6 +38,7 @@ import { MatBadgeIconDirective } from './directives/matBadgeIconDirective';
     RouterModule,
     NgxTrimDirectiveModule,
     MaterialModule,
+    MatPasswordStrengthModule,
   ]
 })
 export class SharedModule { }

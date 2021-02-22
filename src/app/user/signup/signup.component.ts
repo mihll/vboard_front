@@ -3,12 +3,12 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { ActivatedRoute, Router } from '@angular/router';
 import { SnackbarService } from '../../shared/snackbar/snackbar-service/snackbar.service';
 import { DialogService } from '../../shared/dialog/dialog-service/dialog.service';
-import { AuthenticationService } from '../services/authentication-service/authentication.service';
+import { AuthenticationService } from '../../authentication/services/authentication-service/authentication.service';
 import { UserService } from '../services/user-service/user.service';
 import { PersonUserSignupRequest } from '../models/user/personUser';
 import { InstitutionUserSignupRequest } from '../models/user/institutionUser';
 import { Observable } from 'rxjs';
-import { checkPasswordsMismatch } from '../password-input/password-input.component';
+import { checkPasswordsMismatch } from '../../shared/password-input/password-input.component';
 
 @Component({
   selector: 'app-signup',

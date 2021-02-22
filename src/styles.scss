@@ -17,15 +17,18 @@ body {
   padding: 20px;
 }
 
+.no-mobilePadding {
+  padding: 0 !important;
+}
+
+.small-mobilePadding {
+  padding: 1em !important;
+}
+
 .formCardContainer {
-  margin: 2em;
+  padding: 2em;
   display: flex;
   justify-content: center;
-
-  mat-card {
-    min-width: 25%;
-    max-width: 450px;
-  }
 
   mat-card-content {
     margin-top: 1em;

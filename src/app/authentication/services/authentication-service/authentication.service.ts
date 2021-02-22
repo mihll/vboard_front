@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
-import { UserAuth } from '../../models/user/userAuth';
+import { UserAuth } from '../../models/userAuth';
 import { BoardService } from '../../../board/services/board-service/board.service';
 
 @Injectable({

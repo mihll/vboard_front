@@ -1,6 +1,6 @@
-<div class="formCardContainer">
+<div class="formCardContainer" ngClass.xs="small-mobilePadding">
   <app-loading-spinner [show]="loading"></app-loading-spinner>
-  <mat-card>
+  <mat-card fxFlex.xs="100%" fxFlex.sm="81.25%" fxFlex.md="62.5%" fxFlex.lg="43.75%" fxFlex.xl="25%">
     <mat-card-title>Zaloguj się</mat-card-title>
     <mat-card-content>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
