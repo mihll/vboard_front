@@ -1,3 +1,4 @@
+<app-loading-spinner [show]="loading"></app-loading-spinner>
 <mat-toolbar>
   Ustawienia konta
 </mat-toolbar>
@@ -13,10 +14,89 @@
           <mat-icon>badge</mat-icon>
         </mat-panel-description>
       </mat-expansion-panel-header>
+      <form *ngIf="currentPersonUser" [formGroup]="personUserDataForm">
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label>Adres e-mail</mat-label>
+            <input matInput disabled [value]="currentPersonUser.email">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Data rejestracji</mat-label>
+            <input matInput disabled [value]="currentPersonUser.signupDate | date">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Imię</mat-label>
+            <input matInput required formControlName="firstName" name="firstName" type="text" trim="blur">
+            <mat-error *ngIf="personUserDataForm.controls['firstName'].hasError('required')">
+              Podaj swoje imię
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Nazwisko</mat-label>
+            <input matInput required formControlName="lastName" name="lastName" type="text" trim="blur">
+            <mat-error *ngIf="personUserDataForm.controls['lastName'].hasError('required')">
+              Podaj swoje nazwisko
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Data urodzenia</mat-label>
+            <input matInput formControlName="birthDate" name="birthday" [matDatepicker]="picker">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker startView="multi-year" [touchUi]="isHandset$ | async"  #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </form>
+
+      <form *ngIf="currentInstitutionUser" [formGroup]="institutionUserDataForm">
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label>Adres e-mail</mat-label>
+            <input matInput disabled [value]="currentInstitutionUser.email">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Data rejestracji</mat-label>
+            <input matInput disabled [value]="currentInstitutionUser.signupDate | date">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Nazwa organizacji</mat-label>
+            <input matInput required formControlName="institutionName" name="orgName" type="text" trim="blur">
+            <mat-error *ngIf="institutionUserDataForm.controls['institutionName'].hasError('required')">
+              Podaj nazwę organizacji
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Miasto</mat-label>
+            <input matInput formControlName="addressCity" name="city" type="text" trim="blur">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Ulica</mat-label>
+            <input matInput formControlName="addressStreet" name="street" type="text" trim="blur">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Kod pocztowy</mat-label>
+            <input matInput formControlName="addressPostCode" name="postCode" type="text" trim="blur">
+          </mat-form-field>
+        </div>
+      </form>
       <mat-action-row>
         <button mat-raised-button color="primary" disabled>Zatwierdź</button>
       </mat-action-row>
     </mat-expansion-panel>
+
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
@@ -31,6 +111,7 @@
         <button mat-raised-button color="primary" disabled>Zatwierdź</button>
       </mat-action-row>
     </mat-expansion-panel>
+
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>

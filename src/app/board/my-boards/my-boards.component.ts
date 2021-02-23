@@ -16,9 +16,10 @@ import { Sort } from '@angular/material/sort';
 })
 export class MyBoardsComponent implements OnInit {
   columns: number;
-  joinedBoards: MyBoard[];
+  joinedBoards: MyBoard[] = [];
   sortState: Sort = {active: '', direction: ''};
   sortBadge: string;
+  loading = true;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -43,6 +44,7 @@ export class MyBoardsComponent implements OnInit {
     this.boardService.getMyBoards().subscribe(response => {
       this.joinedBoards = response;
       this.sortByOrderIndex();
+      this.loading = false;
     });
   }
 

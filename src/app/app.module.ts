@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { RoutingModule } from './routing/routing.module';
@@ -20,6 +20,11 @@ import { BoardModule } from './board/board.module';
 import { SharedModule } from './shared/shared.module';
 import { MaterialModule } from './material/material.module';
 
+import { MatNativeDateModule} from '@angular/material/core';
+import { registerLocaleData } from '@angular/common';
+import localePl from '@angular/common/locales/pl';
+registerLocaleData(localePl);
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,12 +39,14 @@ import { MaterialModule } from './material/material.module';
     BoardModule,
     SharedModule,
     MaterialModule,
+    MatNativeDateModule
   ],
   providers: [
     SnackbarService,
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthenticationService]},
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    { provide: LOCALE_ID, useValue: 'pl-PL'}
   ],
   bootstrap: [AppComponent]
 })

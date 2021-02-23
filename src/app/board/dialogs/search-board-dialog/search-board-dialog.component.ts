@@ -212,7 +212,7 @@ export class SearchBoardDialogComponent implements OnInit {
             value.detailData = element.addressCity;
             return value;
           case 'Data utworzenia':
-            value.detailData = formatDate(element.creationDate, 'dd-MM-yyyy', 'en');
+            value.detailData = formatDate(element.creationDate, 'mediumDate', 'pl');
             return value;
         }
         return value;

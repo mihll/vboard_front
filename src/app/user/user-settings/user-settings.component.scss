@@ -2,4 +2,8 @@
   padding: 2em;
   display: flex;
   justify-content: center;
+
+  mat-form-field {
+    width: 100%;
+  }
 }

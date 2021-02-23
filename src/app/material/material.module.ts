@@ -22,6 +22,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatExpansionModule } from '@angular/material/expansion';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [],
@@ -48,7 +49,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatDividerModule,
     MatProgressBarModule,
     MatBadgeModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatDatepickerModule
   ],
   exports: [
     BrowserAnimationsModule,
@@ -72,7 +74,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatDividerModule,
     MatProgressBarModule,
     MatBadgeModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatDatepickerModule
   ]
 })
 export class MaterialModule { }

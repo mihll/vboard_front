@@ -1,7 +1,8 @@
+<app-loading-spinner [show]="loading"></app-loading-spinner>
 <mat-toolbar>
   Moje tablice
   <span class="fill-remaining-space"></span>
-  <div class="toolbarFormFields mat-body">
+  <div *ngIf="joinedBoards.length !== 0" class="toolbarFormFields mat-body">
     <mat-form-field *ngIf="(isHandset$ | async) === false" appearance="outline">
       <mat-label>Sortowanie</mat-label>
       <mat-select [(value)]="this.sortState" (selectionChange)="sortBoards()" [compareWith]="customSortCompare">
@@ -26,7 +27,7 @@
     </mat-form-field>
   </div>
 
-  <button [hidden]="(isHandset$ | async) === false" mat-icon-button [matMenuTriggerFor]="sortMenu">
+  <button [hidden]="joinedBoards.length === 0 || (isHandset$ | async) === false" mat-icon-button [matMenuTriggerFor]="sortMenu">
     <mat-icon matBadge [appMatBadgeIcon]="sortBadge">sort</mat-icon>
   </button>
   <mat-menu #sortMenu="matMenu">
@@ -45,7 +46,7 @@
     </button>
   </mat-menu>
 
-  <button mat-icon-button [matMenuTriggerFor]="settingsMenu">
+  <button *ngIf="joinedBoards.length !== 0" mat-icon-button [matMenuTriggerFor]="settingsMenu">
     <mat-icon>settings</mat-icon>
   </button>
   <mat-menu #settingsMenu="matMenu">

@@ -100,7 +100,7 @@
       <!-- Creation Date Column -->
       <ng-container matColumnDef="creationDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Data utworzenia</th>
-        <td mat-cell *matCellDef="let element"> {{element.creationDate | date:'dd-MM-yyyy'}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.creationDate | date}} </td>
       </ng-container>
 
       <!-- Address City Column -->
