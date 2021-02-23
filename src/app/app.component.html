@@ -41,7 +41,7 @@
         <button
           mat-flat-button
           routerLink="/signup"
-          *ngIf="!userAuth">
+          *ngIf="!userAuth && ((isHandset$ | async) === false)">
           Zarejestruj się
         </button>
         <button
