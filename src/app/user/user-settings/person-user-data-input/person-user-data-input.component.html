@@ -1,0 +1,38 @@
+<div [formGroup]="parentForm">
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Adres e-mail</mat-label>
+      <input matInput disabled [value]="currentUser.email">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Data rejestracji</mat-label>
+      <input matInput disabled [value]="currentUser.signupDate | date">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>Imię</mat-label>
+      <input matInput required formControlName="firstName" name="firstName" type="text" trim="blur">
+      <mat-error *ngIf="parentForm.controls['firstName'].hasError('required')">
+        Podaj swoje imię
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>Nazwisko</mat-label>
+      <input matInput required formControlName="lastName" name="lastName" type="text" trim="blur">
+      <mat-error *ngIf="parentForm.controls['lastName'].hasError('required')">
+        Podaj swoje nazwisko
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>Data urodzenia</mat-label>
+      <input matInput formControlName="birthDate" name="birthday" [matDatepicker]="picker">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker startView="multi-year" [touchUi]="isHandset$ | async" #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+</div>

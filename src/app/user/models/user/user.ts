@@ -5,4 +5,5 @@ export class User {
   public readonly profileImgUrl: string;
   public readonly enabled: boolean;
   public readonly signupDate: Date;
+  public readonly userType: string;
 }

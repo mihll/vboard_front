@@ -13,4 +13,11 @@ export interface InstitutionUserSignupRequest {
   institutionName: string;
 }
 
+export interface InstitutionUserUpdateRequest {
+  institutionName: string;
+  addressCity: string;
+  addressPostCode: string;
+  addressStreet: string;
+  userType: string;
+}
 

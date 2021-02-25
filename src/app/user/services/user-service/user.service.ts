@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { PersonUserSignupRequest } from '../../models/user/personUser';
-import { InstitutionUserSignupRequest } from '../../models/user/institutionUser';
+import { PersonUserSignupRequest, PersonUserUpdateRequest } from '../../models/user/personUser';
+import { InstitutionUserSignupRequest, InstitutionUserUpdateRequest } from '../../models/user/institutionUser';
 import { User } from '../../models/user/user';
 
 @Injectable({
@@ -33,6 +33,10 @@ export class UserService {
 
   signupPersonUser(personUserSignupRequest: PersonUserSignupRequest): Observable<any> {
     return this.http.post<any>(`${this.apiURL}/signup/person`, personUserSignupRequest);
+  }
+
+  updateUser(userUpdateRequest: PersonUserUpdateRequest | InstitutionUserUpdateRequest): Observable<User> {
+    return this.http.put<any>(`${this.apiURL}/me`, userUpdateRequest);
   }
 
   signupInstitutionUser(institutionUserSignupRequest: InstitutionUserSignupRequest): Observable<any> {

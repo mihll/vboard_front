@@ -68,7 +68,7 @@ export class CreateBoardComponent implements OnInit {
         },
         error: err => {
           if (err.error.status === 'DUPLICATE_ENTITY') {
-            this.snackbarService.openErrorSnackbar('Istnieje już tablica o podanej nazwie');
+            this.snackbarService.openErrorSnackbar('Tablica o podanej nazwie już istnieje');
             this.f.boardName.setErrors({ boardNameAlreadyUsed: true });
           } else {
             this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas tworzenia tablicy');

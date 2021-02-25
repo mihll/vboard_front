@@ -12,3 +12,10 @@ export interface PersonUserSignupRequest {
   firstName: string;
   lastName: string;
 }
+
+export interface PersonUserUpdateRequest {
+  firstName: string;
+  lastName: string;
+  birthDate: Date;
+  userType: string;
+}
