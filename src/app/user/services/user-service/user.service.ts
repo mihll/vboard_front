@@ -5,6 +5,7 @@ import { environment } from '../../../../environments/environment';
 import { PersonUserSignupRequest, PersonUserUpdateRequest } from '../../models/user/personUser';
 import { InstitutionUserSignupRequest, InstitutionUserUpdateRequest } from '../../models/user/institutionUser';
 import { User } from '../../models/user/user';
+import { PasswordChangeRequest } from '../../models/password/passwordChangeRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -29,10 +30,8 @@ export class UserService {
     return this.http.post<any>(`${this.apiURL}/resetPassword`, {email});
   }
 
-  changePassword(password: string, token: string): Observable<any> {
-    const params = new HttpParams()
-      .set('token', token);
-    return this.http.post<any>(`${this.apiURL}/changePassword`, {password}, {params});
+  changePassword(passwordChangeRequest: PasswordChangeRequest): Observable<any> {
+    return this.http.post<any>(`${this.apiURL}/changePassword`, passwordChangeRequest);
   }
 
   signupUser(userSignupRequest: PersonUserSignupRequest | InstitutionUserSignupRequest): Observable<any> {

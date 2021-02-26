@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {User} from '../../models/user/user';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { User } from '../../../models/user/user';
 
 @Component({
   selector: 'app-institution-user-data-input',

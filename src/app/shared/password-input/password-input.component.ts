@@ -9,6 +9,8 @@ import { ErrorStateMatcher } from '@angular/material/core';
 })
 export class PasswordInputComponent implements OnInit {
   @Input() parentForm: FormGroup;
+  @Input() passwordLabel: string;
+  @Input() repeatPasswordLabel: string;
   errorMatcher = new CrossFieldErrorMatcher();
   noSpacesPattern = new RegExp('^\\S+$');
   hidePassword = true;

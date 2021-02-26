@@ -8,8 +8,10 @@ import { ConfirmSignupComponent } from './confirm-signup/confirm-signup.componen
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { SignupComponent } from './signup/signup.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
-import { PersonUserDataInputComponent } from './user-settings/person-user-data-input/person-user-data-input.component';
-import { InstitutionUserDataInputComponent } from './user-settings/institution-user-data-input/institution-user-data-input.component';
+import { PersonUserDataInputComponent } from './user-settings/user-data-settings/person-user-data-input/person-user-data-input.component';
+import { InstitutionUserDataInputComponent } from './user-settings/user-data-settings/institution-user-data-input/institution-user-data-input.component';
+import { UserDataSettingsComponent } from './user-settings/user-data-settings/user-data-settings.component';
+import { UserPasswordSettingsComponent } from './user-settings/user-password-settings/user-password-settings.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { InstitutionUserDataInputComponent } from './user-settings/institution-u
     UserSettingsComponent,
     PersonUserDataInputComponent,
     InstitutionUserDataInputComponent,
+    UserDataSettingsComponent,
+    UserPasswordSettingsComponent,
   ],
   exports: [
     ChangePasswordComponent,

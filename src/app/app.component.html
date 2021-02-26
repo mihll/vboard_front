@@ -5,6 +5,9 @@
                [opened]="userAuth && ((isHandset$ | async) === false) && ((tabletWidthBreakpoint$ | async) === false)">
     <mat-toolbar matRipple routerLink="/myBoards" routerLinkActive="active-list-item" class="linkElement" (click)="closeSidenav()">Moje tablice</mat-toolbar>
     <mat-nav-list>
+      <a mat-list-item *ngIf="!userAuth?.boardLinks">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </a>
       <a mat-list-item *ngFor="let boardLink of userAuth?.boardLinks" routerLink="/board/{{boardLink.boardId}}"
          routerLinkActive="active-list-item" (click)="closeSidenav()">
         <div matLine>{{boardLink.boardName}}</div>

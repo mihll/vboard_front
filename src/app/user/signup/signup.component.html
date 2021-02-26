@@ -55,7 +55,10 @@
           </mat-form-field>
         </div>
         <div class="mat-h2">Hasło:</div>
-        <app-password-input [parentForm]="signupForm"></app-password-input>
+        <app-password-input [parentForm]="signupForm"
+                            passwordLabel="Hasło"
+                            repeatPasswordLabel="Powtórz hasło"
+        ></app-password-input>
         <div class="formActionButtons">
           <button type="submit" mat-raised-button color="primary" [disabled]="signupForm.invalid">
             Zarejestruj się

@@ -1,0 +1,31 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Dane użytkownika
+    </mat-panel-title>
+    <mat-panel-description>
+      <span class="fill-remaining-space"></span>
+      <mat-icon>badge</mat-icon>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <form *ngIf="currentUser?.userType === 'person'" [formGroup]="userDataForm">
+    <app-person-user-data-input [parentForm]="userDataForm"
+                                [currentUser]="currentUser"
+                                [isHandset$]="isHandset$"
+    ></app-person-user-data-input>
+  </form>
+  <form *ngIf="currentUser?.userType === 'institution'" [formGroup]="userDataForm">
+    <app-institution-user-data-input [parentForm]="userDataForm"
+                                     [currentUser]="currentUser"
+    ></app-institution-user-data-input>
+  </form>
+  <mat-action-row>
+    <button mat-raised-button color="primary" (click)="updateUserData()"
+            [disabled]="userDataForm?.untouched || userDataForm?.invalid || loading">
+      Zatwierdź
+      <mat-icon class="buttonTextIcon" *ngIf="loading">
+        <mat-spinner mode="indeterminate" diameter="20"></mat-spinner>
+      </mat-icon>
+    </button>
+  </mat-action-row>
+</mat-expansion-panel>

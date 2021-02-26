@@ -5,6 +5,7 @@ import { SnackbarService } from '../../shared/snackbar/snackbar-service/snackbar
 import { DialogService } from '../../shared/dialog/dialog-service/dialog.service';
 import { UserService } from '../services/user-service/user.service';
 import { checkPasswordsMismatch } from '../../shared/password-input/password-input.component';
+import { PasswordChangeRequest } from '../models/password/passwordChangeRequest';
 
 @Component({
   selector: 'app-change-password',
@@ -13,6 +14,7 @@ import { checkPasswordsMismatch } from '../../shared/password-input/password-inp
 })
 export class ChangePasswordComponent implements OnInit {
   changePasswordForm: FormGroup;
+  passwordChangeRequest: PasswordChangeRequest;
   token: string;
   loading = false;
   noSpacesPattern = new RegExp('^\\S+$');
@@ -55,9 +57,14 @@ export class ChangePasswordComponent implements OnInit {
     if (this.changePasswordForm.invalid) {
       return;
     }
-
     this.loading = true;
-    this.userService.changePassword(this.f.password.value, this.token)
+
+    this.passwordChangeRequest = {
+      token: this.token,
+      newPassword: this.f.password.value
+    };
+
+    this.userService.changePassword(this.passwordChangeRequest)
       .subscribe({
         next: () => {
           this.dialogService.openInfoDialog('Hasło zostało zmienione',
