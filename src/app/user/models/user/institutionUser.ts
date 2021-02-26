@@ -1,4 +1,4 @@
-import { User } from './user';
+import {User, UserSignupRequest} from './user';
 
 export class InstitutionUser extends User {
   public readonly institutionName: string;
@@ -7,9 +7,7 @@ export class InstitutionUser extends User {
   public readonly addressStreet: string;
 }
 
-export interface InstitutionUserSignupRequest {
-  email: string;
-  password: string;
+export interface InstitutionUserSignupRequest extends UserSignupRequest {
   institutionName: string;
 }
 

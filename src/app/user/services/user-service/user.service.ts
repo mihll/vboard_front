@@ -21,6 +21,10 @@ export class UserService {
     return this.http.get<any>(`${this.apiURL}/me`);
   }
 
+  updateUser(userUpdateRequest: PersonUserUpdateRequest | InstitutionUserUpdateRequest): Observable<User> {
+    return this.http.put<any>(`${this.apiURL}/me`, userUpdateRequest);
+  }
+
   resetPassword(email: string): Observable<any> {
     return this.http.post<any>(`${this.apiURL}/resetPassword`, {email});
   }
@@ -31,16 +35,8 @@ export class UserService {
     return this.http.post<any>(`${this.apiURL}/changePassword`, {password}, {params});
   }
 
-  signupPersonUser(personUserSignupRequest: PersonUserSignupRequest): Observable<any> {
-    return this.http.post<any>(`${this.apiURL}/signup/person`, personUserSignupRequest);
-  }
-
-  updateUser(userUpdateRequest: PersonUserUpdateRequest | InstitutionUserUpdateRequest): Observable<User> {
-    return this.http.put<any>(`${this.apiURL}/me`, userUpdateRequest);
-  }
-
-  signupInstitutionUser(institutionUserSignupRequest: InstitutionUserSignupRequest): Observable<any> {
-    return this.http.post<any>(`${this.apiURL}/signup/institution`, institutionUserSignupRequest);
+  signupUser(userSignupRequest: PersonUserSignupRequest | InstitutionUserSignupRequest): Observable<any> {
+    return this.http.post<any>(`${this.apiURL}/signup`, userSignupRequest);
   }
 
   confirmSignup(token: string): Observable<any> {

@@ -17,8 +17,7 @@ import { checkPasswordsMismatch } from '../../shared/password-input/password-inp
 })
 export class SignupComponent implements OnInit, AfterContentChecked {
   signupForm: FormGroup;
-  personUserSignupRequest: PersonUserSignupRequest;
-  institutionUserSignupRequest: InstitutionUserSignupRequest;
+  userSignupRequest: PersonUserSignupRequest | InstitutionUserSignupRequest;
   loading = false;
 
   constructor(
@@ -112,22 +111,24 @@ export class SignupComponent implements OnInit, AfterContentChecked {
 
   signupUser(): Observable<any> {
     if (this.f.type.value === 'person') {
-      this.personUserSignupRequest = {
+      this.userSignupRequest = {
         email: this.f.email.value,
         password: this.f.password.value,
         firstName: this.f.firstName.value,
-        lastName: this.f.lastName.value
+        lastName: this.f.lastName.value,
+        userType: this.f.type.value
       };
-      return this.userService.signupPersonUser(this.personUserSignupRequest);
     }
 
     if (this.f.type.value === 'institution') {
-      this.institutionUserSignupRequest = {
+      this.userSignupRequest = {
         email: this.f.email.value,
         password: this.f.password.value,
-        institutionName: this.f.institutionName.value
+        institutionName: this.f.institutionName.value,
+        userType: this.f.type.value
       };
-      return this.userService.signupInstitutionUser(this.institutionUserSignupRequest);
     }
+
+    return this.userService.signupUser(this.userSignupRequest);
   }
 }

@@ -7,3 +7,10 @@ export class User {
   public readonly signupDate: Date;
   public readonly userType: string;
 }
+
+export interface UserSignupRequest {
+  email: string;
+  password: string;
+  userType: string;
+}
+
