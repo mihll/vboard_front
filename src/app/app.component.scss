@@ -30,3 +30,17 @@ a.mat-list-item.active {
   cursor: pointer;
   outline: none;
 }
+
+.profilePic {
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+}
+
+.userName {
+  padding-right: 6px;
+}
+
+.expandIcon {
+  padding-left: 4px;
+}

@@ -23,12 +23,14 @@ import { MaterialModule } from './material/material.module';
 import { MatNativeDateModule} from '@angular/material/core';
 import { registerLocaleData } from '@angular/common';
 import localePl from '@angular/common/locales/pl';
+import { SecurePipe } from './helpers/pipes/secure.pipe';
 registerLocaleData(localePl);
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingPageComponent,
+    SecurePipe,
   ],
   imports: [
     BrowserModule,

@@ -16,6 +16,7 @@ import { UserAuth } from './authentication/models/userAuth';
 })
 export class AppComponent {
   userAuth: UserAuth;
+  profileImageLoading = true;
   @ViewChild('drawer', {static: false}) drawer: MatSidenav;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
