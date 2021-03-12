@@ -12,6 +12,7 @@ import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FlexModule } from '@angular/flex-layout';
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
+import {SecurePipe} from '../helpers/pipes/secure.pipe';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { MatPasswordStrengthModule } from '@angular-material-extensions/password
     PasswordInputComponent,
     SimpleInfoDialogComponent,
     MatBadgeIconDirective,
+    SecurePipe,
   ],
   exports: [
     LoadingSpinnerComponent,
@@ -31,6 +33,7 @@ import { MatPasswordStrengthModule } from '@angular-material-extensions/password
     NgxTrimDirectiveModule,
     FlexLayoutModule,
     FlexModule,
+    SecurePipe,
   ],
   imports: [
     CommonModule,

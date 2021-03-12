@@ -4,22 +4,7 @@
 <div class="panelContainer" ngClass.xs="small-mobilePadding">
   <mat-accordion fxFlex.xs="100%" fxFlex.sm="87.5%" fxFlex.md="75%" fxFlex.lg="62.5%" fxFlex.xl="50%">
     <app-user-data-settings></app-user-data-settings>
-
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Zdjęcie profilowe
-        </mat-panel-title>
-        <mat-panel-description>
-          <span class="fill-remaining-space"></span>
-          <mat-icon>photo_camera</mat-icon>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <mat-action-row>
-        <button mat-raised-button color="primary" disabled>Zatwierdź</button>
-      </mat-action-row>
-    </mat-expansion-panel>
-
+    <app-user-profile-pic-settings></app-user-profile-pic-settings>
     <app-user-password-settings></app-user-password-settings>
   </mat-accordion>
 </div>

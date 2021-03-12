@@ -1,0 +1,28 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Zdjęcie profilowe
+    </mat-panel-title>
+    <mat-panel-description>
+      <span class="fill-remaining-space"></span>
+      <mat-icon>photo_camera</mat-icon>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+
+  <div class="mat-h2">Aktualne zdjęcie profilowe:</div>
+
+  <div fxLayout="column" fxLayoutAlign="space-around center">
+    <img *ngIf="profilePictureLoading" src="assets/spinner.gif" class="profilePic mat-elevation-z2">
+    <img [hidden]="profilePictureLoading" *ngIf="currentUser" [src]="currentUser?.profilePicUrl | secure | async"
+         (load)="profilePictureLoading = false" class="profilePic mat-elevation-z2">
+
+    <button mat-raised-button color="primary" class="uploadPhotoButton">
+      <mat-icon>file_upload</mat-icon>
+      Wybierz zdjęcie
+    </button>
+  </div>
+
+  <mat-action-row>
+    <button mat-raised-button color="primary" disabled>Zatwierdź</button>
+  </mat-action-row>
+</mat-expansion-panel>

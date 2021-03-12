@@ -23,33 +23,31 @@ import { MaterialModule } from './material/material.module';
 import { MatNativeDateModule} from '@angular/material/core';
 import { registerLocaleData } from '@angular/common';
 import localePl from '@angular/common/locales/pl';
-import { SecurePipe } from './helpers/pipes/secure.pipe';
 registerLocaleData(localePl);
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LandingPageComponent,
-    SecurePipe,
-  ],
-  imports: [
-    BrowserModule,
-    RoutingModule,
-    HttpClientModule,
-    AuthenticationModule,
-    UserModule,
-    BoardModule,
-    SharedModule,
-    MaterialModule,
-    MatNativeDateModule
-  ],
-  providers: [
-    SnackbarService,
-    { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthenticationService]},
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
-    { provide: LOCALE_ID, useValue: 'pl-PL'}
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        LandingPageComponent,
+    ],
+    imports: [
+        BrowserModule,
+        RoutingModule,
+        HttpClientModule,
+        AuthenticationModule,
+        UserModule,
+        BoardModule,
+        SharedModule,
+        MaterialModule,
+        MatNativeDateModule
+    ],
+    providers: [
+        SnackbarService,
+        {provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthenticationService]},
+        {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+        {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+        {provide: LOCALE_ID, useValue: 'pl-PL'}
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

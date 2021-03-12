@@ -12,6 +12,7 @@ import { PersonUserDataInputComponent } from './user-settings/user-data-settings
 import { InstitutionUserDataInputComponent } from './user-settings/user-data-settings/institution-user-data-input/institution-user-data-input.component';
 import { UserDataSettingsComponent } from './user-settings/user-data-settings/user-data-settings.component';
 import { UserPasswordSettingsComponent } from './user-settings/user-password-settings/user-password-settings.component';
+import { UserProfilePicSettingsComponent } from './user-settings/user-profile-pic-settings/user-profile-pic-settings.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { UserPasswordSettingsComponent } from './user-settings/user-password-set
     InstitutionUserDataInputComponent,
     UserDataSettingsComponent,
     UserPasswordSettingsComponent,
+    UserProfilePicSettingsComponent,
   ],
   exports: [
     ChangePasswordComponent,
