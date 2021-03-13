@@ -26,6 +26,13 @@ export class UserService {
     return this.http.put<any>(`${this.apiURL}/me`, userUpdateRequest);
   }
 
+  changeProfilePic(formData: FormData): Observable<any> {
+    return this.http.post<any>(`${this.apiURL}/changeProfilePic`, formData,  {
+      reportProgress: true,
+      observe: 'events'
+    });
+  }
+
   resetPassword(email: string): Observable<any> {
     return this.http.post<any>(`${this.apiURL}/resetPassword`, {email});
   }

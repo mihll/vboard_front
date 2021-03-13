@@ -1,7 +1,16 @@
 .uploadPhotoButton {
   margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.deletePhotoButton {
+  margin-bottom: 1em;
 }
 
 .profilePic {
   border-radius: 4px;
+}
+
+image-cropper {
+  max-height: 400px;
 }

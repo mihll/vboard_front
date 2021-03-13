@@ -9,20 +9,45 @@
     </mat-panel-description>
   </mat-expansion-panel-header>
 
-  <div class="mat-h2">Aktualne zdjęcie profilowe:</div>
-
   <div fxLayout="column" fxLayoutAlign="space-around center">
-    <img *ngIf="profilePictureLoading" src="assets/spinner.gif" class="profilePic mat-elevation-z2">
-    <img [hidden]="profilePictureLoading" *ngIf="currentUser" [src]="currentUser?.profilePicUrl | secure | async"
-         (load)="profilePictureLoading = false" class="profilePic mat-elevation-z2">
+    <img *ngIf="profilePicLoading" src="assets/spinner.gif" class="profilePic mat-elevation-z2">
+    <img *ngIf="shownProfilePicUrl && !croppedImage" [hidden]="profilePicLoading" [src]="shownProfilePicUrl | secure | async"
+         (load)="profilePicLoading = false" class="profilePic mat-elevation-z2">
 
-    <button mat-raised-button color="primary" class="uploadPhotoButton">
+    <!-- Show only if user want to upload new image -->
+    <img *ngIf="croppedImage" [src]="croppedImage" class="profilePic mat-elevation-z2">
+
+    <button mat-raised-button color="primary" class="uploadPhotoButton" (click)="fileInput.click()" [disabled]="uploadingProfilePic">
       <mat-icon>file_upload</mat-icon>
       Wybierz zdjęcie
     </button>
+    <button mat-raised-button *ngIf="!currentUser?.profilePicUrl.includes('default') && !shouldDeleteCurrentProfilePic"
+            color="warn" class="deletePhotoButton" [disabled]="uploadingProfilePic" (click)="deleteCurrentProfilePicClicked()">
+      <mat-icon>delete</mat-icon>
+      Usuń aktualne zdjęcie
+    </button>
+
+    <input style="display: none;" #fileInput type="file" accept="image/*" (change)="fileChangeEvent($event)">
+
+    <image-cropper
+      [imageChangedEvent]="imageChangedEvent"
+      [maintainAspectRatio]="true"
+      format="jpeg"
+      resizeToWidth="200"
+      resizeToHeight="200"
+      backgroundColor="#ffffff"
+      (imageCropped)="imageCropped($event)"
+      (loadImageFailed)="loadImageFailed()"
+      [disabled]="uploadingProfilePic"
+    ></image-cropper>
   </div>
 
   <mat-action-row>
-    <button mat-raised-button color="primary" disabled>Zatwierdź</button>
+    <button mat-raised-button color="primary" [disabled]="!shouldDeleteCurrentProfilePic && (uploadingProfilePic || !croppedImage)" (click)="onSubmit()">
+      Zatwierdź
+      <mat-icon class="buttonTextIcon" *ngIf="uploadingProfilePic">
+        <mat-spinner mode="determinate" diameter="20" [value]="uploadProgress"></mat-spinner>
+      </mat-icon>
+    </button>
   </mat-action-row>
 </mat-expansion-panel>

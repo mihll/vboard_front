@@ -13,6 +13,7 @@ import { InstitutionUserDataInputComponent } from './user-settings/user-data-set
 import { UserDataSettingsComponent } from './user-settings/user-data-settings/user-data-settings.component';
 import { UserPasswordSettingsComponent } from './user-settings/user-password-settings/user-password-settings.component';
 import { UserProfilePicSettingsComponent } from './user-settings/user-profile-pic-settings/user-profile-pic-settings.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { UserProfilePicSettingsComponent } from './user-settings/user-profile-pi
     MaterialModule,
     SharedModule,
     ReactiveFormsModule,
+    ImageCropperModule
   ]
 })
 export class UserModule { }
