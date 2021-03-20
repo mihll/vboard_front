@@ -14,7 +14,7 @@
           <mat-label>Nazwa tablicy</mat-label>
           <input matInput formControlName="boardName" trim="blur" cdkFocusInitial>
           <mat-icon
-            *ngIf="isFoundBoards() && !isSortSelectShown && ((addressCityBreakpoint$ | async) || (creationDateBreakpoint$ | async) || (joinBreakpoint$ | async))"
+            *ngIf="isFoundBoards() && !isSortSelectShown && ((addressCityBreakpoint$ | async) || (createdDateBreakpoint$ | async) || (joinBreakpoint$ | async))"
             matSuffix
             (click)="isSortSelectShown = !isSortSelectShown">
             sort
@@ -33,7 +33,7 @@
     </form>
 
     <div
-      *ngIf="isFoundBoards() && isSortSelectShown && ((addressCityBreakpoint$ | async) || (creationDateBreakpoint$ | async) || (joinBreakpoint$ | async))"
+      *ngIf="isFoundBoards() && isSortSelectShown && ((addressCityBreakpoint$ | async) || (createdDateBreakpoint$ | async) || (joinBreakpoint$ | async))"
       fxLayout="row" fxLayoutAlign="start center" [@detailExpand]="isSortSelectShown ? 'expanded' : 'collapsed'">
       <mat-form-field appearance="outline" fxFlex>
         <mat-label>Sortowanie</mat-label>
@@ -49,10 +49,10 @@
             </mat-option>
           </mat-optgroup>
           <mat-optgroup label="Data utworzenia">
-            <mat-option [value]="{active: 'creationDate', direction: 'asc'}">
+            <mat-option [value]="{active: 'createdDate', direction: 'asc'}">
               Data utworzenia - rosnąco
             </mat-option>
-            <mat-option [value]="{active: 'creationDate', direction: 'desc'}">
+            <mat-option [value]="{active: 'createdDate', direction: 'desc'}">
               Data utworzenia - malejąco
             </mat-option>
           </mat-optgroup>
@@ -98,9 +98,9 @@
       </ng-container>
 
       <!-- Creation Date Column -->
-      <ng-container matColumnDef="creationDate">
+      <ng-container matColumnDef="createdDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Data utworzenia</th>
-        <td mat-cell *matCellDef="let element"> {{element.creationDate | date}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.createdDate | date}} </td>
       </ng-container>
 
       <!-- Address City Column -->

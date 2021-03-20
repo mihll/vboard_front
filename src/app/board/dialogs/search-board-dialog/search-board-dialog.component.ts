@@ -35,7 +35,7 @@ export class SearchBoardDialogComponent implements OnInit {
 
   foundBoards: BoardInfo[];
   dataSource: MatTableDataSource<BoardInfo> = new MatTableDataSource<BoardInfo>();
-  displayedColumns: string[] = ['boardName', 'expandIcon', 'creationDate', 'addressCity', 'addressPostCode', 'addressStreet', 'join'];
+  displayedColumns: string[] = ['boardName', 'expandIcon', 'createdDate', 'addressCity', 'addressPostCode', 'addressStreet', 'join'];
 
   private sort: MatSort;
   @ViewChild(MatSort) set matSort(ms: MatSort) {
@@ -70,7 +70,7 @@ export class SearchBoardDialogComponent implements OnInit {
       map(result => result.matches)
     );
 
-  creationDateBreakpoint$: Observable<boolean> = this.breakpointObserver.observe('(min-width: 501px) and (max-width: 640px)')
+  createdDateBreakpoint$: Observable<boolean> = this.breakpointObserver.observe('(min-width: 501px) and (max-width: 640px)')
     .pipe(
       map(result => result.matches)
     );
@@ -98,20 +98,20 @@ export class SearchBoardDialogComponent implements OnInit {
     // BREAKPOINTS
     this.allVisibleBreakpoint$.subscribe(breakpoint => {
       if (breakpoint) {
-        this.displayedColumns = ['boardName', 'expandIcon', 'creationDate', 'addressCity', 'addressPostCode', 'addressStreet', 'join'];
+        this.displayedColumns = ['boardName', 'expandIcon', 'createdDate', 'addressCity', 'addressPostCode', 'addressStreet', 'join'];
         this.detailsArraySubject.next([new BoardDetails('Opis', '')]);
       }
     });
     this.addressStreetBreakpoint$.subscribe(breakpoint => {
       if (breakpoint) {
-        this.displayedColumns = ['boardName', 'expandIcon', 'creationDate', 'addressCity', 'addressPostCode', 'join'];
+        this.displayedColumns = ['boardName', 'expandIcon', 'createdDate', 'addressCity', 'addressPostCode', 'join'];
         this.detailsArraySubject.next([new BoardDetails('Opis', ''),
           new BoardDetails('Ulica', '')]);
       }
     });
     this.addressPostCodeBreakpoint$.subscribe(breakpoint => {
       if (breakpoint) {
-        this.displayedColumns = ['boardName', 'expandIcon', 'creationDate', 'addressCity', 'join'];
+        this.displayedColumns = ['boardName', 'expandIcon', 'createdDate', 'addressCity', 'join'];
         this.detailsArraySubject.next([new BoardDetails('Opis', ''),
           new BoardDetails('Ulica', ''),
           new BoardDetails('Kod pocztowy', '')]);
@@ -119,14 +119,14 @@ export class SearchBoardDialogComponent implements OnInit {
     });
     this.addressCityBreakpoint$.subscribe(breakpoint => {
       if (breakpoint) {
-        this.displayedColumns = ['boardName', 'expandIcon', 'creationDate', 'join'];
+        this.displayedColumns = ['boardName', 'expandIcon', 'createdDate', 'join'];
         this.detailsArraySubject.next([new BoardDetails('Opis', ''),
           new BoardDetails('Ulica', ''),
           new BoardDetails('Kod pocztowy', ''),
           new BoardDetails('Miasto', '')]);
       }
     });
-    this.creationDateBreakpoint$.subscribe(breakpoint => {
+    this.createdDateBreakpoint$.subscribe(breakpoint => {
       if (breakpoint) {
         this.displayedColumns = ['boardName', 'expandIcon', 'join'];
         this.detailsArraySubject.next([new BoardDetails('Opis', ''),
@@ -212,7 +212,7 @@ export class SearchBoardDialogComponent implements OnInit {
             value.detailData = element.addressCity;
             return value;
           case 'Data utworzenia':
-            value.detailData = formatDate(element.creationDate, 'mediumDate', 'pl');
+            value.detailData = formatDate(element.createdDate, 'mediumDate', 'pl');
             return value;
         }
         return value;

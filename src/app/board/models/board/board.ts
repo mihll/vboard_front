@@ -9,7 +9,7 @@ export class Board {
   public readonly isPrivate: boolean;
   public readonly boardName: string;
   public readonly description: string;
-  public readonly creationDate: Date;
+  public readonly createdDate: Date;
   public readonly addressCity: string;
   public readonly addressPostCode: string;
   public readonly addressStreet: string;
@@ -26,7 +26,7 @@ export interface MyBoard {
   isPrivate: boolean;
   boardName: string;
   description: string;
-  creationDate: Date;
+  createdDate: Date;
   addressCity: string;
   addressPostCode: string;
   addressStreet: string;
@@ -37,7 +37,7 @@ export interface BoardInfo {
   isPrivate: boolean;
   boardName: string;
   description: string;
-  creationDate: Date;
+  createdDate: Date;
   addressCity: string;
   addressPostCode: string;
   addressStreet: string;

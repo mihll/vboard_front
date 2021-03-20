@@ -8,9 +8,14 @@
 }
 
 .profilePic {
+  margin-top: 1em;
   border-radius: 4px;
 }
 
 image-cropper {
   max-height: 400px;
+}
+
+.hidden {
+  display: none;
 }

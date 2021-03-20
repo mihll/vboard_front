@@ -27,7 +27,7 @@
       Usuń aktualne zdjęcie
     </button>
 
-    <input style="display: none;" #fileInput type="file" accept="image/*" (change)="fileChangeEvent($event)">
+    <input class="hidden" #fileInput type="file" accept="image/*" (change)="fileChangeEvent($event)">
 
     <image-cropper
       [imageChangedEvent]="imageChangedEvent"
@@ -37,8 +37,10 @@
       resizeToHeight="200"
       backgroundColor="#ffffff"
       (imageCropped)="imageCropped($event)"
+      (imageLoaded)="imageLoaded($event)"
       (loadImageFailed)="loadImageFailed()"
       [disabled]="uploadingProfilePic"
+      [ngClass]="hideCropperClass"
     ></image-cropper>
   </div>
 

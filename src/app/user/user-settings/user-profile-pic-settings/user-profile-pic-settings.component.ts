@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/user/user';
 import { UserService } from '../../services/user-service/user.service';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import { SnackbarService } from '../../../shared/snackbar/snackbar-service/snackbar.service';
 import { catchError, map } from 'rxjs/operators';
 import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
@@ -23,6 +23,7 @@ export class UserProfilePicSettingsComponent implements OnInit {
 
   imageChangedEvent: any = '';
   croppedImage: any = '';
+  hideCropperClass = 'hidden';
 
   shouldDeleteCurrentProfilePic = false;
 
@@ -55,6 +56,10 @@ export class UserProfilePicSettingsComponent implements OnInit {
 
   imageCropped(event: ImageCroppedEvent): void {
     this.croppedImage = event.base64;
+  }
+
+  imageLoaded(event: LoadedImage): void {
+    this.hideCropperClass = '';
   }
 
   loadImageFailed(): void {
@@ -117,6 +122,7 @@ export class UserProfilePicSettingsComponent implements OnInit {
   resetCropper(): void {
     this.imageChangedEvent = null;
     this.croppedImage = '';
+    this.hideCropperClass = 'hidden';
   }
 
   base64ToFile(data, filename): File {
