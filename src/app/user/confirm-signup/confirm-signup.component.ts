@@ -34,10 +34,20 @@ export class ConfirmSignupComponent implements OnInit {
             'Twoje konto zostało aktywowane pomyślnie. Możesz się teraz na nie zalogować.',
             true , '/login');
         },
-        error: () => {
-          this.dialogService.openInfoDialog('Wystąpił błąd podczas aktywacji konta',
-            '',
-            true , '/');
+        error: err => {
+          switch (err.error.errors.message) {
+            case 'token.not.found':
+              this.dialogService.openInfoDialog('Wystąpił błąd podczas aktywacji konta',
+                'Konto nie zostało aktywowane w ciągu 24 godzin od założenia, więc zostało usunięte z serwisu.<br>' +
+                'Możesz ponownie założyć konto na ten sam adres e-mail i aktywować je w ciągu doby.',
+                true , '/');
+              break;
+            default:
+              this.dialogService.openInfoDialog('Wystąpił błąd podczas aktywacji konta',
+                '',
+                true , '/');
+              break;
+          }
         }
       });
   }

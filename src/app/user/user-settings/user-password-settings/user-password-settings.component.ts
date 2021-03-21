@@ -62,7 +62,6 @@ export class UserPasswordSettingsComponent implements OnInit {
           this.panel.close();
         },
         error: err => {
-          console.log(err);
           switch (err.error.errors.message) {
             case 'current_password.invalid':
               this.snackbarService.openErrorSnackbar('Podałeś nieprawidłowe aktualne hasło');

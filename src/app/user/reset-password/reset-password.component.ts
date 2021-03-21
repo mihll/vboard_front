@@ -51,7 +51,8 @@ export class ResetPasswordComponent implements OnInit {
         next: () => {
           this.loading = false;
           this.dialogService.openInfoDialog('Reset hasła',
-            'Na podany adres e-mail została wysłana wiadomość z łączem do zmiany hasła.', true);
+            'Na podany adres e-mail została wysłana wiadomość z łączem do zmiany hasła. <br>' +
+            'Link będzie ważny przez najbliższe 24 godziny.', true);
         },
         error: () => {
           this.snackbarService.openErrorSnackbar('Wystąpił błąd');

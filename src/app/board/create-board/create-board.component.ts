@@ -64,7 +64,8 @@ export class CreateBoardComponent implements OnInit {
           this.loading = false;
           this.authenticationService.refreshToken().subscribe();
           this.dialogService.openInfoDialog('Pomyślnie utworzono nową tablicę',
-            'Twoja tablica została pomyślnie utworzona.<br>Zostaniesz na nią teraz przekierowany.', true, `/board/${response.boardId}`);
+            'Twoja tablica została pomyślnie utworzona.<br>' +
+            'Zostaniesz na nią teraz przekierowany.', true, `/board/${response.boardId}`);
         },
         error: err => {
           if (err.error.status === 'DUPLICATE_ENTITY') {

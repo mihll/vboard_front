@@ -6,6 +6,7 @@ import { DialogService } from '../../shared/dialog/dialog-service/dialog.service
 import { UserService } from '../services/user-service/user.service';
 import { checkPasswordsMismatch } from '../../shared/password-input/password-input.component';
 import { PasswordChangeRequest } from '../models/password/passwordChangeRequest';
+import { AuthenticationService } from '../../authentication/services/authentication-service/authentication.service';
 
 @Component({
   selector: 'app-change-password',
@@ -25,11 +26,16 @@ export class ChangePasswordComponent implements OnInit {
     private router: Router,
     private snackbarService: SnackbarService,
     private dialogService: DialogService,
-    private userService: UserService
+    private userService: UserService,
+    private authenticationService: AuthenticationService,
   ) {
-    // redirects if token is missing from url
+    // redirects if token is missing from url or user is logged in
     if (!this.route.snapshot.queryParams.token) {
       this.router.navigate(['/']);
+    }
+
+    if (this.authenticationService.userValue) {
+      this.router.navigate(['/']).then(() => this.snackbarService.openErrorSnackbar('Jesteś już zalogowany!'));
     }
   }
 
@@ -71,9 +77,20 @@ export class ChangePasswordComponent implements OnInit {
             'Twoje hasło zostało zmienione pomyślnie. Możesz się teraz zalogować za jego pomocą.',
             true , '/login');
         },
-        error: () => {
-          this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas zmiany hasła.');
-          this.loading = false;
+        error: err => {
+          switch (err.error.errors.message) {
+            case 'token.not.found':
+              this.dialogService.openInfoDialog('Wystąpił błąd podczas zmiany hasła',
+                'Ten link do zmiany hasła nie jest już aktywny. <br>' +
+                'Aby zresetować hasło, wejdź na stronę logowania, a następnie wybierz opcję resetu hasła.',
+                true , '/');
+              break;
+            default:
+              this.dialogService.openInfoDialog('Wystąpił błąd podczas zmiany hasła',
+                '',
+                true , '/');
+              break;
+          }
         }
       });
 
