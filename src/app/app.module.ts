@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
+import 'hammerjs';
 
 import { AppComponent } from './app.component';
 import { RoutingModule } from './routing/routing.module';
@@ -39,7 +40,7 @@ registerLocaleData(localePl);
         BoardModule,
         SharedModule,
         MaterialModule,
-        MatNativeDateModule
+        MatNativeDateModule,
     ],
     providers: [
         SnackbarService,
