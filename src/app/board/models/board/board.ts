@@ -32,6 +32,15 @@ export interface MyBoard {
   addressStreet: string;
 }
 
+export interface RequestedBoardInfo {
+  boardId: string;
+  isPrivate: boolean;
+  boardName: string;
+  joinRequestDate: Date;
+
+  isReverting: boolean;
+}
+
 export interface BoardInfo {
   boardId: string;
   isPrivate: boolean;
@@ -41,6 +50,11 @@ export interface BoardInfo {
   addressCity: string;
   addressPostCode: string;
   addressStreet: string;
+
+  isJoined: boolean;
+  isJoining: boolean;
+  isReverting: boolean;
+  isRequested: boolean;
 }
 
 export interface BoardLink {

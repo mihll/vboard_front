@@ -12,7 +12,9 @@ import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FlexModule } from '@angular/flex-layout';
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
-import {SecurePipe} from '../helpers/pipes/secure.pipe';
+import { SecurePipe } from '../helpers/pipes/secure.pipe';
+import { YesNoDialogComponent } from './dialog/yes-no-dialog/yes-no-dialog.component';
+import { TimeagoModule } from 'ngx-timeago';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,7 @@ import {SecurePipe} from '../helpers/pipes/secure.pipe';
     SimpleInfoDialogComponent,
     MatBadgeIconDirective,
     SecurePipe,
+    YesNoDialogComponent,
   ],
   exports: [
     LoadingSpinnerComponent,
@@ -34,6 +37,7 @@ import {SecurePipe} from '../helpers/pipes/secure.pipe';
     FlexLayoutModule,
     FlexModule,
     SecurePipe,
+    TimeagoModule
   ],
   imports: [
     CommonModule,

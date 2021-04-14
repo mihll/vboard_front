@@ -8,7 +8,6 @@ import { SnackbarService } from '../../shared/snackbar/snackbar-service/snackbar
 import { AuthenticationService } from '../../authentication/services/authentication-service/authentication.service';
 import { MatDialog } from '@angular/material/dialog';
 
-
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
@@ -20,7 +19,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(catchError(err => {
-      if ([0, 401, 403].includes(err.status) && this.authenticationService.userValue) {
+      if ([0, 401].includes(err.status) && this.authenticationService.userValue) {
         // auto logout if 401 or 403 response returned from api
         this.authenticationService.logout();
         this.matDialog.closeAll();

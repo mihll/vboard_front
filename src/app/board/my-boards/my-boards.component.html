@@ -1,7 +1,12 @@
-<app-loading-spinner [show]="loading"></app-loading-spinner>
+<app-loading-spinner [show]="loadingMyBoards"></app-loading-spinner>
 <mat-toolbar>
-  Moje tablice
+  <div class="toolbarTitle">Moje tablice</div>
   <span class="fill-remaining-space"></span>
+
+  <button mat-icon-button (click)="reloadClicked()">
+    <mat-icon>refresh</mat-icon>
+  </button>
+
   <div *ngIf="joinedBoards.length !== 0" class="toolbarFormFields mat-body">
     <mat-form-field *ngIf="(isHandset$ | async) === false" appearance="outline">
       <mat-label>Sortowanie</mat-label>
@@ -27,7 +32,8 @@
     </mat-form-field>
   </div>
 
-  <button [hidden]="joinedBoards.length === 0 || (isHandset$ | async) === false" mat-icon-button [matMenuTriggerFor]="sortMenu">
+  <button [hidden]="joinedBoards.length === 0 || (isHandset$ | async) === false" mat-icon-button
+          [matMenuTriggerFor]="sortMenu">
     <mat-icon matBadge [appMatBadgeIcon]="sortBadge">sort</mat-icon>
   </button>
   <mat-menu #sortMenu="matMenu">
@@ -64,7 +70,24 @@
       <app-board-card [board]="board"></app-board-card>
     </div>
     <div fxFlex.xs="100%" fxFlex.sm="50%" fxFlex.md="33%" fxFlex.lg="25%" fxFlex.xl="20%">
-      <app-create-search-board-card></app-create-search-board-card>
+      <app-create-search-board-card (openSearchDialogEvent)="openSearchDialog()"></app-create-search-board-card>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="requestedBoards.length !== 0">
+  <mat-toolbar>
+    <div class="toolbarTitle">
+      Tablice oczekujące
+    </div>
+  </mat-toolbar>
+
+  <div class="cardsContainer" ngClass.xs="small-mobilePadding">
+    <div fxLayout="row wrap" fxLayoutGap="1em grid">
+      <div fxFlex.xs="100%" fxFlex.sm="50%" fxFlex.md="33%" fxFlex.lg="25%" fxFlex.xl="20%"
+           *ngFor="let board of requestedBoards">
+        <app-requested-board-card [board]="board" (revertJoinEvent)="revertJoin($event)"></app-requested-board-card>
+      </div>
     </div>
   </div>
 </div>

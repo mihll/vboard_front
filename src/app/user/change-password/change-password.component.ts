@@ -6,7 +6,6 @@ import { DialogService } from '../../shared/dialog/dialog-service/dialog.service
 import { UserService } from '../services/user-service/user.service';
 import { checkPasswordsMismatch } from '../../shared/password-input/password-input.component';
 import { PasswordChangeRequest } from '../models/password/passwordChangeRequest';
-import { AuthenticationService } from '../../authentication/services/authentication-service/authentication.service';
 
 @Component({
   selector: 'app-change-password',
@@ -27,17 +26,7 @@ export class ChangePasswordComponent implements OnInit {
     private snackbarService: SnackbarService,
     private dialogService: DialogService,
     private userService: UserService,
-    private authenticationService: AuthenticationService,
-  ) {
-    // redirects if token is missing from url or user is logged in
-    if (!this.route.snapshot.queryParams.token) {
-      this.router.navigate(['/']);
-    }
-
-    if (this.authenticationService.userValue) {
-      this.router.navigate(['/']).then(() => this.snackbarService.openErrorSnackbar('Jesteś już zalogowany!'));
-    }
-  }
+  ) { }
 
   ngOnInit(): void {
     this.changePasswordForm = this.formBuilder.group({

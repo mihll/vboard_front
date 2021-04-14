@@ -29,12 +29,7 @@ export class SignupComponent implements OnInit, AfterContentChecked {
     private authenticationService: AuthenticationService,
     private userService: UserService,
     private cdRef: ChangeDetectorRef
-  ) {
-    // redirects to home if already logged in
-    if (this.authenticationService.userValue) {
-      this.router.navigate(['/']);
-    }
-  }
+  ) { }
 
   ngOnInit(): void {
     this.signupForm = this.formBuilder.group({

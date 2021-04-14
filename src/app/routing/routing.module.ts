@@ -11,20 +11,23 @@ import { ConfirmSignupComponent } from '../user/confirm-signup/confirm-signup.co
 import { NotAuthGuard } from '../helpers/guards/not-auth.guard';
 import { CreateBoardComponent } from '../board/create-board/create-board.component';
 import { UserSettingsComponent } from '../user/user-settings/user-settings.component';
+import { BoardContentComponent } from '../board/board-content/board-content.component';
+import { TokenGuard } from '../helpers/guards/token.guard';
 
 const appRoutes: Routes = [
   { path: '', component: LandingPageComponent, canActivate: [NotAuthGuard]},
   { path: 'landingPage', component: LandingPageComponent},
-  { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent},
-  { path: 'confirmSignup', component: ConfirmSignupComponent},
-  { path: 'resetPassword', component: ResetPasswordComponent},
-  { path: 'changePassword', component: ChangePasswordComponent},
+  { path: 'login', component: LoginComponent , canActivate: [NotAuthGuard]},
+  { path: 'signup', component: SignupComponent, canActivate: [NotAuthGuard] },
+  { path: 'confirmSignup', component: ConfirmSignupComponent, canActivate: [TokenGuard]},
+  { path: 'resetPassword', component: ResetPasswordComponent, canActivate: [NotAuthGuard]},
+  { path: 'changePassword', component: ChangePasswordComponent, canActivate: [NotAuthGuard, TokenGuard]},
   { path: 'userSettings', component: UserSettingsComponent, canActivate: [AuthGuard]},
   { path: 'myBoards', component: MyBoardsComponent, canActivate: [AuthGuard] },
   { path: 'createBoard', component: CreateBoardComponent, canActivate: [AuthGuard]},
+  { path: 'board/:id', component: BoardContentComponent, canActivate: [AuthGuard]},
   // otherwise redirect to landing page
-  { path: '**', redirectTo: ''}
+  { path: '**', redirectTo: 'landingPage'}
   ];
 
 @NgModule({

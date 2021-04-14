@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
-import { MatIconRegistry } from '@angular/material/icon';
-import { DomSanitizer } from '@angular/platform-browser';
 import { DialogService } from '../../shared/dialog/dialog-service/dialog.service';
 import { BoardService } from '../services/board-service/board.service';
-import { MyBoard } from '../models/board/board';
+import { MyBoard, RequestedBoardInfo } from '../models/board/board';
 import { Sort } from '@angular/material/sort';
+import { SnackbarService } from '../../shared/snackbar/snackbar-service/snackbar.service';
+import { EmitterService } from '../../shared/emitter-service/emitter.service';
 
 @Component({
   selector: 'app-my-boards',
@@ -15,11 +15,12 @@ import { Sort } from '@angular/material/sort';
   styleUrls: ['./my-boards.component.scss']
 })
 export class MyBoardsComponent implements OnInit {
-  columns: number;
   joinedBoards: MyBoard[] = [];
+  requestedBoards: RequestedBoardInfo[] = [];
   sortState: Sort = {active: '', direction: ''};
   sortBadge: string;
-  loading = true;
+  loadingMyBoards = true;
+  loadingRequestedBoards = true;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -28,38 +29,57 @@ export class MyBoardsComponent implements OnInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private matIconRegistry: MatIconRegistry,
+    private emitterService: EmitterService,
     private dialogService: DialogService,
-    private boardService: BoardService,
-    private domSanitizer: DomSanitizer
+    private snackbarService: SnackbarService,
+    private boardService: BoardService
   ) {
-    matIconRegistry.addSvgIcon(
-      'sort_by_zeta',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/sort_by_zeta.svg')
-    );
-  }
-
-  ngOnInit(): void {
-    this.columns = window.innerWidth / 400;
-    this.boardService.getMyBoards().subscribe(response => {
-      this.joinedBoards = response;
-      this.sortByOrderIndex();
-      this.loading = false;
+    this.emitterService.shouldReloadBoardsEmitter.subscribe(() => {
+      this.loadMyBoards();
+      this.loadRequestedBoards();
     });
   }
 
-  onResize(event): void {
-    this.columns = event.target.innerWidth / 400;
+  ngOnInit(): void {
+    this.loadMyBoards();
+    this.loadRequestedBoards();
+  }
+
+  loadMyBoards(): void {
+    this.loadingMyBoards = true;
+    this.boardService.getMyBoards().subscribe(response => {
+      this.joinedBoards = response;
+      this.sortState = {active: '', direction: ''};
+      this.sortByOrderIndex();
+      this.loadingMyBoards = false;
+    });
+  }
+
+  loadRequestedBoards(): void {
+    this.loadingRequestedBoards = true;
+    this.boardService.getRequestedBoards().subscribe(response => {
+      this.requestedBoards = response;
+      this.loadingRequestedBoards = false;
+    });
+  }
+
+  reloadClicked(): void {
+    this.loadMyBoards();
+    this.loadRequestedBoards();
   }
 
   openReorder(): void {
     this.dialogService.openBoardOrderChangeDialog(this.joinedBoards).beforeClosed()
       .subscribe(() => {
-        this.boardService.getMyBoards().subscribe(response => {
-          this.sortState = {active: '', direction: ''};
-          this.joinedBoards = response;
-          this.sortByOrderIndex();
-        });
+        this.loadMyBoards();
+      });
+  }
+
+  openSearchDialog(): void {
+    this.dialogService.openBoardSearchDialog().beforeClosed()
+      .subscribe(() => {
+        this.loadMyBoards();
+        this.loadRequestedBoards();
       });
   }
 
@@ -119,6 +139,25 @@ export class MyBoardsComponent implements OnInit {
 
   customSortCompare(o1: Sort, o2: Sort): boolean {
     return o1.active === o2.active && o1.direction === o2.direction;
+  }
+
+  revertJoin(board: RequestedBoardInfo): void {
+    this.dialogService.openYesNoDialog('Czy na pewno chcesz anulować prośbę o dołączenie?', '')
+      .beforeClosed().subscribe(result => {
+        if (result) {
+          board.isReverting = true;
+          this.boardService.revertBoardJoin(board.boardId).subscribe({
+            next: () => {
+              this.loadRequestedBoards();
+              this.snackbarService.openSuccessSnackbar('Anulowano prośbę o dołączenie');
+            },
+            error: () => {
+              this.loadRequestedBoards();
+              this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas anulowania prośby o dołączenie');
+            }
+          });
+        }
+    });
   }
 
 }

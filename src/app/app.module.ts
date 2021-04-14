@@ -26,6 +26,8 @@ import { registerLocaleData } from '@angular/common';
 import localePl from '@angular/common/locales/pl';
 registerLocaleData(localePl);
 
+import { TimeagoCustomFormatter, TimeagoFormatter, TimeagoIntl, TimeagoModule } from 'ngx-timeago';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -41,6 +43,10 @@ registerLocaleData(localePl);
         SharedModule,
         MaterialModule,
         MatNativeDateModule,
+        TimeagoModule.forRoot({
+          intl: { provide: TimeagoIntl },
+          formatter: { provide: TimeagoFormatter, useClass: TimeagoCustomFormatter },
+        })
     ],
     providers: [
         SnackbarService,

@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { DialogService } from '../../shared/dialog/dialog-service/dialog.service';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-create-search-board-card',
@@ -11,14 +10,12 @@ export class CreateSearchBoardCardComponent implements OnInit {
   isUpHovered = false;
   isDownHovered = false;
 
-  constructor(
-    private dialogService: DialogService
-  ) { }
+  @Output() openSearchDialogEvent = new EventEmitter();
 
   ngOnInit(): void {
   }
 
   openSearch(): void {
-    this.dialogService.openBoardSearchDialog();
+    this.openSearchDialogEvent.emit();
   }
 }

@@ -1,0 +1,83 @@
+<app-loading-spinner [show]="loading"></app-loading-spinner>
+<mat-toolbar>
+  <div class="toolbarTitle">{{currentBoard?.boardName}}</div>
+  <span class="fill-remaining-space"></span>
+
+  <div class="toolbarFormFields mat-body">
+    <mat-form-field *ngIf="(isHandset$ | async) === false" appearance="outline">
+      <mat-label>Sortowanie</mat-label>
+      <mat-select [(value)]="this.sortState" (selectionChange)="sortPosts()" [compareWith]="customSortCompare">
+        <mat-option [value]="{active: '', direction: ''}">Domyślne</mat-option>
+        <mat-optgroup label="Data publikacji">
+          <mat-option [value]="{active: 'postDate', direction: 'desc'}">
+            Data publikacji - od najnowszego
+          </mat-option>
+          <mat-option [value]="{active: 'postDate', direction: 'asc'}">
+            Data publikacji - od najstarszego
+          </mat-option>
+        </mat-optgroup>
+        <mat-optgroup label="Aktywność">
+          <mat-option [value]="{active: 'lastActivity', direction: 'desc'}">
+            Aktywność - najnowsza
+          </mat-option>
+          <mat-option [value]="{active: 'lastActivity', direction: 'asc'}">
+            Aktywność - najstarsza
+          </mat-option>
+        </mat-optgroup>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <button [hidden]="(isHandset$ | async) === false" mat-icon-button [matMenuTriggerFor]="sortMenu">
+    <mat-icon matBadge [appMatBadgeIcon]="sortBadge">sort</mat-icon>
+  </button>
+  <mat-menu #sortMenu="matMenu">
+    <button mat-menu-item (click)="menuSortPosts({active: '', direction: ''})">Domyślne</button>
+    <button mat-menu-item (click)="menuSortPosts({active: 'postDate', direction: 'desc'})">
+      Data publikacji - od najnowszego
+    </button>
+    <button mat-menu-item (click)="menuSortPosts({active: 'postDate', direction: 'asc'})">
+      Data publikacji - od najstarszego
+    </button>
+    <button mat-menu-item (click)="menuSortPosts({active: 'lastActivity', direction: 'desc'})">
+      Aktywność - najnowsza
+    </button>
+    <button mat-menu-item (click)="menuSortPosts({active: 'lastActivity', direction: 'asc'})">
+      Aktywność - najstarsza
+    </button>
+  </mat-menu>
+
+  <button mat-icon-button>
+    <mat-icon>search</mat-icon>
+  </button>
+
+  <button mat-icon-button>
+    <mat-icon>share</mat-icon>
+  </button>
+
+  <button mat-icon-button [matMenuTriggerFor]="settingsMenu">
+    <mat-icon>settings</mat-icon>
+  </button>
+  <mat-menu #settingsMenu="matMenu">
+    <button mat-menu-item>
+      <mat-icon>groups</mat-icon>
+      Członkowie tablicy
+    </button>
+    <button mat-menu-item>
+      <mat-icon>info</mat-icon>
+      Informacje o tablicy
+    </button>
+    <button mat-menu-item *ngIf="!currentBoard?.isAdmin">
+      <mat-icon>person_remove</mat-icon>
+      Opuść tablicę
+    </button>
+    <button mat-menu-item *ngIf="currentBoard?.isAdmin">
+      <mat-icon>settings</mat-icon>
+      Ustawienia tablicy
+    </button>
+    <button mat-menu-item *ngIf="currentBoard?.isAdmin">
+      <mat-icon>person_add</mat-icon>
+      Prośby o dołączenie
+    </button>
+  </mat-menu>
+</mat-toolbar>

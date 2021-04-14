@@ -23,12 +23,7 @@ export class ResetPasswordComponent implements OnInit {
     private dialogService: DialogService,
     private authenticationService: AuthenticationService,
     private userService: UserService
-  ) {
-    // redirects to home if already logged in
-    if (this.authenticationService.userValue) {
-      this.router.navigate(['/']);
-    }
-  }
+  ) {}
 
   ngOnInit(): void {
     this.resetPasswordForm = this.formBuilder.group({

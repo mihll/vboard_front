@@ -17,12 +17,7 @@ export class ConfirmSignupComponent implements OnInit {
     private router: Router,
     private dialogService: DialogService,
     private userService: UserService
-  ) {
-    // redirects if token is missing from url
-    if (!this.route.snapshot.queryParams.token) {
-      this.router.navigate(['/']);
-    }
-  }
+  ) { }
 
   ngOnInit(): void {
     this.loading = true;

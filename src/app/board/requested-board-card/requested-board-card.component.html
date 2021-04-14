@@ -1,0 +1,33 @@
+<mat-card>
+  <mat-card-title-group>
+    <mat-card-title>
+      {{board.boardName}}
+    </mat-card-title>
+    <div class="boardIcons">
+      <mat-icon *ngIf="board.isPrivate" matTooltip="Prywatna">lock</mat-icon>
+      <mat-icon *ngIf="!board.isPrivate" matTooltip="Publiczna">public</mat-icon>
+    </div>
+  </mat-card-title-group>
+  <mat-card-content>
+    <table class="boardInfo">
+      <tr>
+        <td>
+          Wysłano
+        </td>
+        <th rowspan="2">
+          <button mat-stroked-button color="warn" (click)="revertJoin()" [disabled]="board.isReverting">
+            Anuluj prośbę
+            <mat-icon class="buttonTextIcon" *ngIf="board.isReverting">
+              <mat-spinner mode="indeterminate" diameter="20"></mat-spinner>
+            </mat-icon>
+          </button>
+        </th>
+      </tr>
+      <tr>
+        <td>
+          {{board.joinRequestDate | timeago:true}}
+        </td>
+      </tr>
+    </table>
+  </mat-card-content>
+</mat-card>

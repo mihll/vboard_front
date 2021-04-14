@@ -5,6 +5,7 @@ import { SimpleInfoDialogComponent } from '../simple-info-dialog/simple-info-dia
 import { SearchBoardDialogComponent } from '../../../board/dialogs/search-board-dialog/search-board-dialog.component';
 import { ChangeBoardOrderDialogComponent } from '../../../board/dialogs/change-board-order-dialog/change-board-order-dialog.component';
 import { MyBoard } from '../../../board/models/board/board';
+import { YesNoDialogComponent } from '../yes-no-dialog/yes-no-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,19 @@ export class DialogService {
         this.router.navigate([pathAfterClose ? pathAfterClose : '/']);
       }
     });
+  }
+
+  openYesNoDialog(dialogTitle: string, dialogDescription: string): MatDialogRef<unknown, any> {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+
+    dialogConfig.data = {
+      title: dialogTitle,
+      description: dialogDescription,
+    };
+
+    return this.matDialog.open(YesNoDialogComponent, dialogConfig);
   }
 
   openBoardSearchDialog(): MatDialogRef<unknown, any> {

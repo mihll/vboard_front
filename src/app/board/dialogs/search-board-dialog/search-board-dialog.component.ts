@@ -14,6 +14,7 @@ import { map } from 'rxjs/operators';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { formatDate } from '@angular/common';
+import { DialogService } from '../../../shared/dialog/dialog-service/dialog.service';
 
 @Component({
   selector: 'app-search-board-dialog',
@@ -84,6 +85,7 @@ export class SearchBoardDialogComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private formBuilder: FormBuilder,
     private snackbarService: SnackbarService,
+    private dialogService: DialogService,
     private authenticationService: AuthenticationService,
     private boardService: BoardService,
   ) {}
@@ -148,8 +150,49 @@ export class SearchBoardDialogComponent implements OnInit {
     });
   }
 
-  isBoardJoined(board: BoardInfo): boolean {
-    return this.userData.boardLinks.some(boardLink => boardLink.boardId === board.boardId);
+  joinBoard(board: BoardInfo): void {
+    this.dialogService.openYesNoDialog('Czy na pewno chcesz dołączyć do tej tablicy?', '')
+      .beforeClosed().subscribe(result => {
+      if (result) {
+        board.isJoining = true;
+
+        this.boardService.joinBoard(board.boardId)
+          .subscribe({
+            next: response => {
+              board.isJoining = false;
+              if (response.isRequested) {
+                board.isRequested = true;
+              } else if (response.isJoined) {
+                board.isJoined = true;
+              }
+            },
+            error: () => {
+              board.isJoining = false;
+              this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas wysłania prośby o dołączenie!');
+            }
+          });
+      }
+    });
+  }
+
+  revertJoin(board: BoardInfo): void {
+    this.dialogService.openYesNoDialog('Czy na pewno chcesz anulować prośbę o dołączenie?', '')
+      .beforeClosed().subscribe(result => {
+      if (result) {
+        board.isReverting = true;
+        this.boardService.revertBoardJoin(board.boardId).subscribe({
+          next: () => {
+            board.isRequested = false;
+            board.isReverting = false;
+            this.snackbarService.openSuccessSnackbar('Anulowano prośbę o dołączenie');
+          },
+          error: () => {
+            board.isReverting = false;
+            this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas anulowania prośby o dołączenie');
+          }
+        });
+      }
+    });
   }
 
   isFoundBoards(): boolean {

@@ -21,12 +21,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private snackbarService: SnackbarService,
     private authenticationService: AuthenticationService
-  ) {
-    // redirects to home if already logged in
-    if (this.authenticationService.userValue) {
-      this.router.navigate(['/']).then(() => this.snackbarService.openSuccessSnackbar('Jesteś już zalogowany'));
-    }
-  }
+  ) { }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({

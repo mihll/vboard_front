@@ -13,6 +13,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { BoardContentComponent } from './board-content/board-content.component';
+import { RequestedBoardCardComponent } from './requested-board-card/requested-board-card.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MyBoardsComponent,
     SearchBoardDialogComponent,
     ChangeBoardOrderDialogComponent,
+    BoardContentComponent,
+    RequestedBoardCardComponent,
   ],
   exports: [
     CreateBoardComponent,

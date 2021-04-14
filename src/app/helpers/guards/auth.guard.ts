@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '../../authentication/services/authentication-service/authentication.service';
+import { SnackbarService } from '../../shared/snackbar/snackbar-service/snackbar.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import { AuthenticationService } from '../../authentication/services/authenticat
 export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
+    private snackbarService: SnackbarService,
     private authenticationService: AuthenticationService
   ) { }
 
@@ -21,7 +23,7 @@ export class AuthGuard implements CanActivate {
       return true;
     } else {
       // not logged in so redirect to login page with return url
-      this.router.navigate(['/login'], {queryParams: {returnUrl: state.url }});
+      this.router.navigate(['/login'], {queryParams: {returnUrl: state.url }}).then(() => this.snackbarService.openErrorSnackbar('Musisz się zalogować, aby mieć dostęp do tej strony!'));
       return false;
     }
   }
