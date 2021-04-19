@@ -12,7 +12,6 @@ import { ErrorInterceptor } from './helpers/interceptors/error.interceptor';
 
 import { LandingPageComponent } from './landing-page/landing-page.component';
 
-import { SnackbarService } from './shared/snackbar/snackbar-service/snackbar.service';
 import { AuthenticationService } from './authentication/services/authentication-service/authentication.service';
 
 import { AuthenticationModule } from './authentication/authentication.module';
@@ -49,7 +48,6 @@ import { TimeagoCustomFormatter, TimeagoFormatter, TimeagoIntl, TimeagoModule } 
         })
     ],
     providers: [
-        SnackbarService,
         {provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthenticationService]},
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},

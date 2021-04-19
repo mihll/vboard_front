@@ -52,6 +52,10 @@ export class BoardService {
     return this.http.post<any>(`${this.apiURL}/revertJoin/${boardId}`, null);
   }
 
+  leaveBoard(boardId: string): Observable<any> {
+    return this.http.post<any>(`${this.apiURL}/leave/${boardId}`, null);
+  }
+
   changeBoardOrder(boardIds: string[]): Observable<any> {
     return this.http.put<any>(`${this.apiURL}/changeOrder`, {boardIds});
   }

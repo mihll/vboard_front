@@ -67,10 +67,6 @@
       <mat-icon>info</mat-icon>
       Informacje o tablicy
     </button>
-    <button mat-menu-item *ngIf="!currentBoard?.isAdmin">
-      <mat-icon>person_remove</mat-icon>
-      Opuść tablicę
-    </button>
     <button mat-menu-item *ngIf="currentBoard?.isAdmin">
       <mat-icon>settings</mat-icon>
       Ustawienia tablicy
@@ -78,6 +74,10 @@
     <button mat-menu-item *ngIf="currentBoard?.isAdmin">
       <mat-icon>person_add</mat-icon>
       Prośby o dołączenie
+    </button>
+    <button mat-menu-item (click)="leaveBoard()">
+      <mat-icon>person_remove</mat-icon>
+      Opuść tablicę
     </button>
   </mat-menu>
 </mat-toolbar>

@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { SimpleInfoDialogComponent } from '../simple-info-dialog/simple-info-dialog.component';
-import { SearchBoardDialogComponent } from '../../../board/dialogs/search-board-dialog/search-board-dialog.component';
 import { ChangeBoardOrderDialogComponent } from '../../../board/dialogs/change-board-order-dialog/change-board-order-dialog.component';
 import { MyBoard } from '../../../board/models/board/board';
 import { YesNoDialogComponent } from '../yes-no-dialog/yes-no-dialog.component';
+import { SEARCH_BOARD_DIALOG_TOKEN } from '../../../injectionTokens';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,8 @@ export class DialogService {
 
   constructor(
     private router: Router,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    @Inject(SEARCH_BOARD_DIALOG_TOKEN) private searchBoardDialogComponent,
   ) { }
 
   openInfoDialog(dialogTitle: string, dialogDescription: string, shouldRedirectAfterClose: boolean, pathAfterClose?: string): void {
@@ -56,7 +57,7 @@ export class DialogService {
     dialogConfig.maxWidth = '90%';
     dialogConfig.width = '90%';
 
-    return this.matDialog.open(SearchBoardDialogComponent, dialogConfig);
+    return this.matDialog.open(this.searchBoardDialogComponent, dialogConfig);
   }
 
   openBoardOrderChangeDialog(joinedBoards: MyBoard[]): MatDialogRef<unknown, any> {

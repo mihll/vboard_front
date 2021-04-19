@@ -28,7 +28,7 @@ export class NotAuthGuard implements CanActivate {
         return false;
       }
       // logged in so redirect to myBoards page
-      this.router.navigate(['/myBoards']).then( () => this.snackbarService.openErrorSnackbar('Jesteś już zalogowany!'));
+      this.router.navigate(['/myBoards']).then( () => this.snackbarService.openSuccessSnackbar('Jesteś zalogowany!'));
       return false;
     }
   }

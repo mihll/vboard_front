@@ -77,4 +77,30 @@ export class BoardContentComponent implements OnInit {
     return o1.active === o2.active && o1.direction === o2.direction;
   }
 
+  leaveBoard(): void {
+    this.dialogService.openYesNoDialog('Czy na pewno opuścić tę tablicę?', 'Po opuszczeniu tablicy nie będziesz mógł już przeglądać jej zawartości, ani publikować nowych ogłoszeń. <br>' +
+      'Żadne twoje ogłoszenia oraz twoje interakcje (komentarze, polubienia, głosy w ankietach itd.) <b>NIE</b> zostaną usunięte po opuszczeniu tablicy. <br><br>' +
+      'Jeżeli chcesz usunąć swoją aktywność, skontatkuj się za administratorem tablicy.')
+      .beforeClosed().subscribe(result => {
+      if (result) {
+        this.loading = true;
+
+        this.boardService.leaveBoard(this.currentBoard.boardId)
+          .subscribe({
+            next: () => {
+              this.router.navigate(['/myBoards']).then(() => this.snackbarService.openSuccessSnackbar('Opuściłeś tablicę!'));
+            },
+            error: err => {
+              this.loading = false;
+              if (err.error.status === 'FORBIDDEN') {
+                this.dialogService.openInfoDialog('Nie możesz opuścić tablicy!', 'Nie możesz opuścić tej tablicy, ponieważ jesteś jej jedynym administratorem.', false);
+              } else {
+                this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas opuszczania tablicy!');
+              }
+            }
+          });
+      }
+    });
+  }
+
 }

@@ -15,6 +15,9 @@ import { MatPasswordStrengthModule } from '@angular-material-extensions/password
 import { SecurePipe } from '../helpers/pipes/secure.pipe';
 import { YesNoDialogComponent } from './dialog/yes-no-dialog/yes-no-dialog.component';
 import { TimeagoModule } from 'ngx-timeago';
+import { SnackbarService } from './snackbar/snackbar-service/snackbar.service';
+import { DialogService } from './dialog/dialog-service/dialog.service';
+import { YES_NO_DIALOG_TOKEN } from '../injectionTokens';
 
 @NgModule({
   declarations: [
@@ -46,6 +49,11 @@ import { TimeagoModule } from 'ngx-timeago';
     NgxTrimDirectiveModule,
     MaterialModule,
     MatPasswordStrengthModule,
+  ],
+  providers: [
+    SnackbarService,
+    DialogService,
+    {provide: YES_NO_DIALOG_TOKEN, useValue: YesNoDialogComponent}
   ]
 })
 export class SharedModule { }

@@ -15,6 +15,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BoardContentComponent } from './board-content/board-content.component';
 import { RequestedBoardCardComponent } from './requested-board-card/requested-board-card.component';
+import { SEARCH_BOARD_DIALOG_TOKEN } from '../injectionTokens';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,9 @@ import { RequestedBoardCardComponent } from './requested-board-card/requested-bo
         MatSortModule,
         DragDropModule,
         MatTooltipModule
-    ]
+    ],
+  providers: [
+    {provide: SEARCH_BOARD_DIALOG_TOKEN, useValue: SearchBoardDialogComponent}
+  ]
 })
 export class BoardModule { }
