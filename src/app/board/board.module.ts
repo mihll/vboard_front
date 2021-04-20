@@ -16,6 +16,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BoardContentComponent } from './board-content/board-content.component';
 import { RequestedBoardCardComponent } from './requested-board-card/requested-board-card.component';
 import { SEARCH_BOARD_DIALOG_TOKEN } from '../injectionTokens';
+import { BoardInfoDialogComponent } from './dialogs/board-info-dialog/board-info-dialog.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { SEARCH_BOARD_DIALOG_TOKEN } from '../injectionTokens';
     ChangeBoardOrderDialogComponent,
     BoardContentComponent,
     RequestedBoardCardComponent,
+    BoardInfoDialogComponent,
   ],
   exports: [
     CreateBoardComponent,

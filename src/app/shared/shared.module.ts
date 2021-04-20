@@ -18,6 +18,7 @@ import { TimeagoModule } from 'ngx-timeago';
 import { SnackbarService } from './snackbar/snackbar-service/snackbar.service';
 import { DialogService } from './dialog/dialog-service/dialog.service';
 import { YES_NO_DIALOG_TOKEN } from '../injectionTokens';
+import { DetailsTableComponent } from './details-table/details-table.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { YES_NO_DIALOG_TOKEN } from '../injectionTokens';
     MatBadgeIconDirective,
     SecurePipe,
     YesNoDialogComponent,
+    DetailsTableComponent,
   ],
   exports: [
     LoadingSpinnerComponent,
@@ -40,7 +42,8 @@ import { YES_NO_DIALOG_TOKEN } from '../injectionTokens';
     FlexLayoutModule,
     FlexModule,
     SecurePipe,
-    TimeagoModule
+    TimeagoModule,
+    DetailsTableComponent
   ],
   imports: [
     CommonModule,

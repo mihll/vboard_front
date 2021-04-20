@@ -1,0 +1,10 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <h1>Informacje o tablicy</h1>
+  <button mat-icon-button mat-dialog-title [mat-dialog-close]>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<div mat-dialog-content>
+  <app-details-table [detailsArray]="detailsArray"></app-details-table>
+</div>

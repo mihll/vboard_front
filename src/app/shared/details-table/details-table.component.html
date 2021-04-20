@@ -1,0 +1,16 @@
+<div class="detail-content">
+  <table mat-table [dataSource]="detailsDataSource">
+
+    <!-- Detail Name Column -->
+    <ng-container matColumnDef="detailName">
+      <td mat-cell *matCellDef="let detailElement"> {{detailElement.detailName}} </td>
+    </ng-container>
+
+    <!-- Detail Data Column -->
+    <ng-container matColumnDef="detailData">
+      <td mat-cell *matCellDef="let detailElement"> {{detailElement.detailData || '—'}} </td>
+    </ng-container>
+
+    <tr mat-row *matRowDef="let row; columns: ['detailName', 'detailData'];"></tr>
+  </table>
+</div>

@@ -15,6 +15,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { formatDate } from '@angular/common';
 import { DialogService } from '../../../shared/dialog/dialog-service/dialog.service';
+import { DetailData } from '../../../shared/details-table/DetailData';
 
 @Component({
   selector: 'app-search-board-dialog',
@@ -47,8 +48,8 @@ export class SearchBoardDialogComponent implements OnInit {
   isSortSelectShown = false;
 
   expandedElement: BoardInfo | null = null;
-  detailsArraySubject: BehaviorSubject<BoardDetails[]> = new BehaviorSubject<BoardDetails[]>([]);
-  detailsDataSource: MatTableDataSource<BoardDetails> = new MatTableDataSource<BoardDetails>();
+  detailsArraySubject: BehaviorSubject<DetailData[]> = new BehaviorSubject<DetailData[]>([]);
+  detailsDataSource: MatTableDataSource<DetailData> = new MatTableDataSource<DetailData>();
 
   // BREAKPOINTS
   allVisibleBreakpoint$: Observable<boolean> = this.breakpointObserver.observe('(min-width: 1101px)')
@@ -101,51 +102,63 @@ export class SearchBoardDialogComponent implements OnInit {
     this.allVisibleBreakpoint$.subscribe(breakpoint => {
       if (breakpoint) {
         this.displayedColumns = ['boardName', 'expandIcon', 'createdDate', 'addressCity', 'addressPostCode', 'addressStreet', 'join'];
-        this.detailsArraySubject.next([new BoardDetails('Opis', '')]);
+        this.detailsArraySubject.next([
+          new DetailData('Opis', '')
+        ]);
       }
     });
     this.addressStreetBreakpoint$.subscribe(breakpoint => {
       if (breakpoint) {
         this.displayedColumns = ['boardName', 'expandIcon', 'createdDate', 'addressCity', 'addressPostCode', 'join'];
-        this.detailsArraySubject.next([new BoardDetails('Opis', ''),
-          new BoardDetails('Ulica', '')]);
+        this.detailsArraySubject.next([
+          new DetailData('Opis', ''),
+          new DetailData('Ulica', '')
+        ]);
       }
     });
     this.addressPostCodeBreakpoint$.subscribe(breakpoint => {
       if (breakpoint) {
         this.displayedColumns = ['boardName', 'expandIcon', 'createdDate', 'addressCity', 'join'];
-        this.detailsArraySubject.next([new BoardDetails('Opis', ''),
-          new BoardDetails('Ulica', ''),
-          new BoardDetails('Kod pocztowy', '')]);
+        this.detailsArraySubject.next([
+          new DetailData('Opis', ''),
+          new DetailData('Ulica', ''),
+          new DetailData('Kod pocztowy', '')
+        ]);
       }
     });
     this.addressCityBreakpoint$.subscribe(breakpoint => {
       if (breakpoint) {
         this.displayedColumns = ['boardName', 'expandIcon', 'createdDate', 'join'];
-        this.detailsArraySubject.next([new BoardDetails('Opis', ''),
-          new BoardDetails('Ulica', ''),
-          new BoardDetails('Kod pocztowy', ''),
-          new BoardDetails('Miasto', '')]);
+        this.detailsArraySubject.next([
+          new DetailData('Opis', ''),
+          new DetailData('Ulica', ''),
+          new DetailData('Kod pocztowy', ''),
+          new DetailData('Miasto', '')
+        ]);
       }
     });
     this.createdDateBreakpoint$.subscribe(breakpoint => {
       if (breakpoint) {
         this.displayedColumns = ['boardName', 'expandIcon', 'join'];
-        this.detailsArraySubject.next([new BoardDetails('Opis', ''),
-          new BoardDetails('Ulica', ''),
-          new BoardDetails('Kod pocztowy', ''),
-          new BoardDetails('Miasto', ''),
-          new BoardDetails('Data utworzenia', '')]);
+        this.detailsArraySubject.next([
+          new DetailData('Opis', ''),
+          new DetailData('Ulica', ''),
+          new DetailData('Kod pocztowy', ''),
+          new DetailData('Miasto', ''),
+          new DetailData('Data utworzenia', '')
+        ]);
       }
     });
     this.joinBreakpoint$.subscribe(breakpoint => {
       if (breakpoint) {
         this.displayedColumns = ['boardName', 'expandIcon'];
-        this.detailsArraySubject.next([new BoardDetails('Opis', ''),
-          new BoardDetails('Ulica', ''),
-          new BoardDetails('Kod pocztowy', ''),
-          new BoardDetails('Miasto', ''),
-          new BoardDetails('Data utworzenia', '')]);
+        this.detailsArraySubject.next([
+          new DetailData('Opis', ''),
+          new DetailData('Ulica', ''),
+          new DetailData('Kod pocztowy', ''),
+          new DetailData('Miasto', ''),
+          new DetailData('Data utworzenia', '')
+        ]);
       }
     });
   }
@@ -263,13 +276,4 @@ export class SearchBoardDialogComponent implements OnInit {
     });
     this.expandedElement = this.expandedElement === element ? null : element;
   }
-}
-
-export class BoardDetails {
-  constructor(detailName: string, detailData: string) {
-    this.detailName = detailName;
-    this.detailData = detailData;
-  }
-  detailName: string;
-  detailData: string;
 }

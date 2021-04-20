@@ -59,13 +59,13 @@
     <mat-icon>settings</mat-icon>
   </button>
   <mat-menu #settingsMenu="matMenu">
+    <button mat-menu-item (click)="openBoardInfo()">
+      <mat-icon>info</mat-icon>
+      Informacje o tablicy
+    </button>
     <button mat-menu-item>
       <mat-icon>groups</mat-icon>
       Członkowie tablicy
-    </button>
-    <button mat-menu-item>
-      <mat-icon>info</mat-icon>
-      Informacje o tablicy
     </button>
     <button mat-menu-item *ngIf="currentBoard?.isAdmin">
       <mat-icon>settings</mat-icon>

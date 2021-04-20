@@ -5,6 +5,7 @@ import { SimpleInfoDialogComponent } from '../simple-info-dialog/simple-info-dia
 import { ChangeBoardOrderDialogComponent } from '../../../board/dialogs/change-board-order-dialog/change-board-order-dialog.component';
 import { MyBoard } from '../../../board/models/board/board';
 import { YesNoDialogComponent } from '../yes-no-dialog/yes-no-dialog.component';
+import { BoardInfoDialogComponent } from '../../../board/dialogs/board-info-dialog/board-info-dialog.component';
 import { SEARCH_BOARD_DIALOG_TOKEN } from '../../../injectionTokens';
 
 @Injectable({
@@ -71,5 +72,16 @@ export class DialogService {
     dialogConfig.autoFocus = false;
 
     return this.matDialog.open(ChangeBoardOrderDialogComponent, dialogConfig);
+  }
+
+  openBoardInfoDialog(board: MyBoard): MatDialogRef<unknown, any> {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = board;
+
+    dialogConfig.autoFocus = false;
+    dialogConfig.maxWidth = '90%';
+
+
+    return this.matDialog.open(BoardInfoDialogComponent, dialogConfig);
   }
 }

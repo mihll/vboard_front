@@ -77,6 +77,10 @@ export class BoardContentComponent implements OnInit {
     return o1.active === o2.active && o1.direction === o2.direction;
   }
 
+  openBoardInfo(): void {
+    this.dialogService.openBoardInfoDialog(this.currentBoard);
+  }
+
   leaveBoard(): void {
     this.dialogService.openYesNoDialog('Czy na pewno opuścić tę tablicę?', 'Po opuszczeniu tablicy nie będziesz mógł już przeglądać jej zawartości, ani publikować nowych ogłoszeń. <br>' +
       'Żadne twoje ogłoszenia oraz twoje interakcje (komentarze, polubienia, głosy w ankietach itd.) <b>NIE</b> zostaną usunięte po opuszczeniu tablicy. <br><br>' +
