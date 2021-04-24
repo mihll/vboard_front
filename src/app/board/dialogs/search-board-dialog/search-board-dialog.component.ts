@@ -174,8 +174,10 @@ export class SearchBoardDialogComponent implements OnInit {
             next: response => {
               board.isJoining = false;
               if (response.isRequested) {
+                this.snackbarService.openSuccessSnackbar('Wysłano prośbę o dołączenie');
                 board.isRequested = true;
               } else if (response.isJoined) {
+                this.snackbarService.openSuccessSnackbar('Dołączono do tablicy');
                 board.isJoined = true;
               }
             },

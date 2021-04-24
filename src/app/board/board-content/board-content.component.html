@@ -3,6 +3,10 @@
   <div class="toolbarTitle">{{currentBoard?.boardName}}</div>
   <span class="fill-remaining-space"></span>
 
+  <button mat-icon-button (click)="reloadClicked()">
+    <mat-icon>refresh</mat-icon>
+  </button>
+
   <div class="toolbarFormFields mat-body">
     <mat-form-field *ngIf="(isHandset$ | async) === false" appearance="outline">
       <mat-label>Sortowanie</mat-label>
@@ -51,19 +55,19 @@
     <mat-icon>search</mat-icon>
   </button>
 
-  <button mat-icon-button>
-    <mat-icon>share</mat-icon>
-  </button>
-
   <button mat-icon-button [matMenuTriggerFor]="settingsMenu">
     <mat-icon>settings</mat-icon>
   </button>
   <mat-menu #settingsMenu="matMenu">
+    <button mat-menu-item>
+      <mat-icon>share</mat-icon>
+      Udostępnij tablicę
+    </button>
     <button mat-menu-item (click)="openBoardInfo()">
       <mat-icon>info</mat-icon>
       Informacje o tablicy
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="openBoardMembers()">
       <mat-icon>groups</mat-icon>
       Członkowie tablicy
     </button>

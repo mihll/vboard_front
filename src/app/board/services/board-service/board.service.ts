@@ -4,6 +4,7 @@ import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { BoardCreateRequest, BoardCreateResponse, BoardInfo, BoardLink, MyBoard, RequestedBoardInfo } from '../../models/board/board';
 import { map } from 'rxjs/operators';
+import { BoardMemberInfo } from '../../models/board/boardMember';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,11 @@ export class BoardService {
 
   getBoardOfId(boardId: string): Observable<MyBoard> {
     return this.http.get<any>(`${this.apiURL}/${boardId}`);
+  }
+
+  getBoardMembersInfo(boardId: string): Observable<BoardMemberInfo[]> {
+    return this.http.get<any>(`${this.apiURL}/${boardId}/members`)
+      .pipe(map(response => response.members));
   }
 
   getMyBoards(): Observable<MyBoard[]> {

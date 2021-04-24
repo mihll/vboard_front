@@ -15,8 +15,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BoardContentComponent } from './board-content/board-content.component';
 import { RequestedBoardCardComponent } from './requested-board-card/requested-board-card.component';
-import { SEARCH_BOARD_DIALOG_TOKEN } from '../injectionTokens';
+import { BOARD_MEMBERS_DIALOG_TOKEN, SEARCH_BOARD_DIALOG_TOKEN } from '../injectionTokens';
 import { BoardInfoDialogComponent } from './dialogs/board-info-dialog/board-info-dialog.component';
+import { BoardMembersDialogComponent } from './dialogs/board-members-dialog/board-members-dialog.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { BoardInfoDialogComponent } from './dialogs/board-info-dialog/board-info
     BoardContentComponent,
     RequestedBoardCardComponent,
     BoardInfoDialogComponent,
+    BoardMembersDialogComponent,
   ],
   exports: [
     CreateBoardComponent,
@@ -45,7 +47,8 @@ import { BoardInfoDialogComponent } from './dialogs/board-info-dialog/board-info
         MatTooltipModule
     ],
   providers: [
-    {provide: SEARCH_BOARD_DIALOG_TOKEN, useValue: SearchBoardDialogComponent}
+    {provide: SEARCH_BOARD_DIALOG_TOKEN, useValue: SearchBoardDialogComponent},
+    {provide: BOARD_MEMBERS_DIALOG_TOKEN, useValue: BoardMembersDialogComponent}
   ]
 })
 export class BoardModule { }

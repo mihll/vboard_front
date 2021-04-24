@@ -56,8 +56,8 @@
           <span *ngIf="(isHandset$ | async) === false" class="userName">
             {{userAuth.name}}
           </span>
-          <img *ngIf="profileImageLoading" src="assets/spinner.gif" class="profilePic">
-          <img [hidden]="profileImageLoading" [src]="userAuth.profilePicUrl | secure | async" (load)="profileImageLoading = false" class="profilePic">
+          <img *ngIf="profilePictureLoading" src="assets/spinner.gif" class="profilePic">
+          <img [hidden]="profilePictureLoading" [src]="userAuth.profilePicUrl | secure | async" (load)="profilePictureLoading = false" class="profilePic">
           <mat-icon class="expandIcon">expand_more</mat-icon>
         </button>
         <mat-menu #userMenu="matMenu" xPosition="before">

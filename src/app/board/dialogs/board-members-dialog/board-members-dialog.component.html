@@ -1,0 +1,143 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <h1>Członkowie tablicy</h1>
+  <button mat-icon-button mat-dialog-title [mat-dialog-close]>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<div mat-dialog-content>
+  <div
+    *ngIf="!loading && ((joinDateBreakpoint$ | async) || (postsNumberBreakpoint$ | async) || (didLeftBreakpoint$ | async) || (isAdminBreakpoint$ | async))"
+    fxLayout="row" fxLayoutAlign="start center">
+    <mat-form-field appearance="outline" fxFlex>
+      <mat-label>Sortowanie</mat-label>
+      <mat-select [(value)]="this.sortState" (selectionChange)="changeSortedColumn()"
+                  [compareWith]="customSortCompare">
+        <mat-option [value]="{active: '', direction: ''}">Domyślne</mat-option>
+        <mat-optgroup label="Użytkownik">
+          <mat-option [value]="{active: 'name', direction: 'asc'}">
+            Użytkownik - rosnąco (A-Z)
+          </mat-option>
+          <mat-option [value]="{active: 'name', direction: 'desc'}">
+            Użytkownik - malejąco (Z-A)
+          </mat-option>
+        </mat-optgroup>
+        <mat-optgroup label="Data dołączenia">
+          <mat-option [value]="{active: 'joinDate', direction: 'asc'}">
+            Data dołączenia - rosnąco
+          </mat-option>
+          <mat-option [value]="{active: 'joinDate', direction: 'desc'}">
+            Data dołączenia - malejąco
+          </mat-option>
+        </mat-optgroup>
+        <mat-optgroup label="Liczba postów">
+          <mat-option [value]="{active: 'postsNumber', direction: 'asc'}">
+            Liczba postów - rosnąco
+          </mat-option>
+          <mat-option [value]="{active: 'postsNumber', direction: 'desc'}">
+            Liczba postów - malejąco
+          </mat-option>
+        </mat-optgroup>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="tableContainer" [class.oneColumnTable]="isAdminBreakpoint$ | async">
+    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+    <table *ngIf="boardMembers ? (boardMembers.length !== 0 && !loading) : false" mat-table [dataSource]="dataSource"
+           matSort (matSortChange)="this.sortState = $event" multiTemplateDataRows>
+
+      <!-- User Column -->
+      <ng-container matColumnDef="name" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Użytkownik</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="userPictureFlex">
+            <img *ngIf="!element.profilePictureLoading && element.profilePictureLoading != false"
+                 src="assets/spinner.gif" class="profilePic">
+            <img [hidden]="element.profilePictureLoading != false" [src]="element.profilePicUrl | secure | async"
+                 (load)="element.profilePictureLoading = false" class="profilePic">
+            <div class="userName">{{element.name}}</div>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Expand Icon Column -->
+      <ng-container matColumnDef="expandIcon">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon *ngIf="element !== expandedElement">expand_more</mat-icon>
+          <mat-icon *ngIf="element === expandedElement">expand_less</mat-icon>
+        </td>
+      </ng-container>
+
+      <!-- Join Date Column -->
+      <ng-container matColumnDef="joinDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Data dołączenia</th>
+        <td mat-cell *matCellDef="let element"> {{element.joinDate | date}} </td>
+      </ng-container>
+
+      <!-- Post Number Column -->
+      <ng-container matColumnDef="postsNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Liczba postów</th>
+        <td mat-cell *matCellDef="let element"> {{element.postsNumber}} </td>
+      </ng-container>
+
+      <!-- Did Left Column -->
+      <ng-container matColumnDef="didLeft">
+        <th mat-header-cell *matHeaderCellDef>Opuścił tablicę</th>
+        <td mat-cell *matCellDef="let element"> {{element.didLeft ? 'Tak' : 'Nie' }} </td>
+      </ng-container>
+
+      <!-- Is Admin Column -->
+      <ng-container matColumnDef="isAdmin">
+        <th mat-header-cell *matHeaderCellDef>Administrator tablicy</th>
+        <td mat-cell *matCellDef="let element"> {{element.isAdmin ? 'Tak' : 'Nie' }} </td>
+      </ng-container>
+
+      <!-- Action Column -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+          <button mat-icon-button>
+            <mat-icon>more_vert</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Expanded Content Column -->
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+          <div class="element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+            <div class="element-detail-content">
+              <table mat-table [dataSource]="detailsDataSource">
+
+                <!-- Detail Name Column -->
+                <ng-container matColumnDef="detailName">
+                  <td mat-cell *matCellDef="let detailElement"> {{detailElement.detailName}} </td>
+                </ng-container>
+
+                <!-- Detail Data Column -->
+                <ng-container matColumnDef="detailData">
+                  <td mat-cell *matCellDef="let detailElement"> {{detailElement.detailData || '—'}} </td>
+                </ng-container>
+
+                <tr mat-row *matRowDef="let row; columns: ['detailName', 'detailData'];"></tr>
+              </table>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Row Definitions -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+          class="element-row"
+          [class.clickable]="this.detailsArraySubject.getValue().length !== 0"
+          [class.expanded-row]="expandedElement === element"
+          (click)="expandRow(element)">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+
+    </table>
+  </div>
+</div>

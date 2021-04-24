@@ -36,19 +36,27 @@ export class BoardContentComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(routeParams => {
-      this.boardService.getBoardOfId(routeParams.id).subscribe({
-        next: response => {
-          this.currentBoard = response;
-          this.loading = false;
-        },
-        error: err => {
-          if (err.error.status === 'FORBIDDEN') {
-            this.router.navigate(['/myBoards']).then(() => this.snackbarService.openErrorSnackbar('Nie należysz do tej tablicy!'));
-          } else {
-            this.router.navigate(['/myBoards']).then(() => this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas pobierania danych tablicy'));
-          }
+      this.loadBoardInfo(routeParams.id);
+    });
+  }
+
+  reloadClicked(): void {
+    this.loadBoardInfo(this.currentBoard.boardId);
+  }
+
+  loadBoardInfo(id: string): void {
+    this.boardService.getBoardOfId(id).subscribe({
+      next: response => {
+        this.currentBoard = response;
+        this.loading = false;
+      },
+      error: err => {
+        if (err.error.status === 'FORBIDDEN') {
+          this.router.navigate(['/myBoards']).then(() => this.snackbarService.openErrorSnackbar('Nie należysz do tej tablicy!'));
+        } else {
+          this.router.navigate(['/myBoards']).then(() => this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas pobierania danych tablicy'));
         }
-      });
+      }
     });
   }
 
@@ -79,6 +87,10 @@ export class BoardContentComponent implements OnInit {
 
   openBoardInfo(): void {
     this.dialogService.openBoardInfoDialog(this.currentBoard);
+  }
+
+  openBoardMembers(): void {
+    this.dialogService.openBoardMembersDialog(this.currentBoard);
   }
 
   leaveBoard(): void {

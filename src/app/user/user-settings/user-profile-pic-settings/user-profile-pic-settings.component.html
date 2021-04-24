@@ -10,12 +10,12 @@
   </mat-expansion-panel-header>
 
   <div fxLayout="column" fxLayoutAlign="space-around center">
-    <img *ngIf="profilePicLoading" src="assets/spinner.gif" class="profilePic mat-elevation-z2">
+    <img *ngIf="profilePicLoading" src="assets/spinner.gif" class="settingsProfilePic mat-elevation-z2">
     <img *ngIf="shownProfilePicUrl && !croppedImage" [hidden]="profilePicLoading" [src]="shownProfilePicUrl | secure | async"
-         (load)="profilePicLoading = false" class="profilePic mat-elevation-z2">
+         (load)="profilePicLoading = false" class="settingsProfilePic mat-elevation-z2">
 
     <!-- Show only if user want to upload new image -->
-    <img *ngIf="croppedImage" [src]="croppedImage" class="profilePic mat-elevation-z2">
+    <img *ngIf="croppedImage" [src]="croppedImage" class="settingsProfilePic mat-elevation-z2">
 
     <button mat-raised-button color="primary" class="uploadPhotoButton" (click)="fileInput.click()" [disabled]="uploadingProfilePic">
       <mat-icon>file_upload</mat-icon>

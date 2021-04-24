@@ -6,7 +6,7 @@ import { ChangeBoardOrderDialogComponent } from '../../../board/dialogs/change-b
 import { MyBoard } from '../../../board/models/board/board';
 import { YesNoDialogComponent } from '../yes-no-dialog/yes-no-dialog.component';
 import { BoardInfoDialogComponent } from '../../../board/dialogs/board-info-dialog/board-info-dialog.component';
-import { SEARCH_BOARD_DIALOG_TOKEN } from '../../../injectionTokens';
+import { BOARD_MEMBERS_DIALOG_TOKEN, SEARCH_BOARD_DIALOG_TOKEN } from '../../../injectionTokens';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +17,7 @@ export class DialogService {
     private router: Router,
     private matDialog: MatDialog,
     @Inject(SEARCH_BOARD_DIALOG_TOKEN) private searchBoardDialogComponent,
+    @Inject(BOARD_MEMBERS_DIALOG_TOKEN) private boardMembersDialogComponent,
   ) { }
 
   openInfoDialog(dialogTitle: string, dialogDescription: string, shouldRedirectAfterClose: boolean, pathAfterClose?: string): void {
@@ -83,5 +84,16 @@ export class DialogService {
 
 
     return this.matDialog.open(BoardInfoDialogComponent, dialogConfig);
+  }
+
+  openBoardMembersDialog(currentBoard: MyBoard): MatDialogRef<unknown, any> {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = currentBoard;
+
+    dialogConfig.autoFocus = false;
+    dialogConfig.maxWidth = '90%';
+    dialogConfig.width = '90%';
+
+    return this.matDialog.open(this.boardMembersDialogComponent, dialogConfig);
   }
 }
