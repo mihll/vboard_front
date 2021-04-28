@@ -34,7 +34,7 @@ export class MyBoardsComponent implements OnInit {
     private snackbarService: SnackbarService,
     private boardService: BoardService
   ) {
-    this.emitterService.shouldReloadBoardsEmitter.subscribe(() => {
+    this.emitterService.shouldReloadMyBoardsEmitter.subscribe(() => {
       this.loadMyBoards();
       this.loadRequestedBoards();
     });

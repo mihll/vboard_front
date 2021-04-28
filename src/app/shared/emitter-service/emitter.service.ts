@@ -5,11 +5,16 @@ import { EventEmitter, Injectable } from '@angular/core';
 })
 export class EmitterService {
 
-  public shouldReloadBoardsEmitter: EventEmitter<boolean> = new EventEmitter();
+  public shouldReloadMyBoardsEmitter: EventEmitter<boolean> = new EventEmitter();
+  public shouldReloadCurrentBoardEmitter: EventEmitter<boolean> = new EventEmitter();
 
   constructor() { }
 
-  emitReloadEvent(): void {
-    this.shouldReloadBoardsEmitter.emit(true);
+  emitReloadMyBoardsEvent(): void {
+    this.shouldReloadMyBoardsEmitter.emit(true);
+  }
+
+  emitReloadCurrentBoardEvent(): void {
+    this.shouldReloadCurrentBoardEmitter.emit(true);
   }
 }

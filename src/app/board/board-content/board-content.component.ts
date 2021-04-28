@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SnackbarService } from '../../shared/snackbar/snackbar-service/snackbar.service';
 import { AuthenticationService } from '../../authentication/services/authentication-service/authentication.service';
+import { EmitterService } from '../../shared/emitter-service/emitter.service';
 
 @Component({
   selector: 'app-board-content',
@@ -33,8 +34,13 @@ export class BoardContentComponent implements OnInit {
     private dialogService: DialogService,
     private snackbarService: SnackbarService,
     private boardService: BoardService,
-    private authenticationService: AuthenticationService
-  ) { }
+    private authenticationService: AuthenticationService,
+    private emitterService: EmitterService,
+  ) {
+    this.emitterService.shouldReloadCurrentBoardEmitter.subscribe(() => {
+      this.loadBoardInfo(this.route.snapshot.params.id);
+    });
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe(routeParams => {

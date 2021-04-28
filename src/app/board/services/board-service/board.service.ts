@@ -58,6 +58,18 @@ export class BoardService {
     return this.http.post<any>(`${this.apiURL}/${boardId}/revertJoin`, null);
   }
 
+  grantBoardAdmin(boardId: string, userId: string): Observable<any> {
+    const params = new HttpParams()
+      .set('userId', userId);
+    return this.http.post<any>(`${this.apiURL}/${boardId}/grantAdmin`, null, {params});
+  }
+
+  revokeBoardAdmin(boardId: string, userId: string): Observable<any> {
+    const params = new HttpParams()
+      .set('userId', userId);
+    return this.http.post<any>(`${this.apiURL}/${boardId}/revokeAdmin`, null, {params});
+  }
+
   leaveBoard(boardId: string, userId: string): Observable<any> {
     const params = new HttpParams()
       .set('userId', userId);

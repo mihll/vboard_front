@@ -106,11 +106,11 @@
 
           <mat-menu #userActionsMenu="matMenu">
 
-            <button *ngIf="element.userId != userData.userId && !element.didLeft" mat-menu-item (click)="removeMember(element)">
+            <button *ngIf="element.userId != currentUser.userId && !element.didLeft" mat-menu-item (click)="removeMember(element)">
               <mat-icon>person_remove</mat-icon>
               Wyrzuć z tablicy
             </button>
-            <button *ngIf="element.userId != userData.userId && !element.didLeft" mat-menu-item>
+            <button *ngIf="element.userId != currentUser.userId && !element.didLeft" mat-menu-item>
               <mat-icon>delete_forever</mat-icon>
               Usuń całkowicie z tablicy
             </button>
@@ -120,11 +120,11 @@
               Przywróć użytkownika
             </button>
 
-            <button *ngIf="!element.isAdmin && !element.didLeft" mat-menu-item>
+            <button *ngIf="!element.isAdmin && !element.didLeft" mat-menu-item (click)="grantBoardAdmin(element)">
               <mat-icon>add_moderator</mat-icon>
               Mianuj administratorem
             </button>
-            <button *ngIf="element.isAdmin && !element.didLeft" mat-menu-item>
+            <button *ngIf="element.isAdmin && !element.didLeft" mat-menu-item (click)="revokeBoardAdmin(element)">
               <mat-icon>remove_moderator</mat-icon>
               Odbierz administratora
             </button>

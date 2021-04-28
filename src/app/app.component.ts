@@ -52,7 +52,7 @@ export class AppComponent {
   openSearch(): void {
     this.dialogService.openBoardSearchDialog().beforeClosed()
       .subscribe(() => {
-        this.emitterService.emitReloadEvent();
+        this.emitterService.emitReloadMyBoardsEvent();
       });
   }
 

@@ -15,6 +15,7 @@ import { BoardService } from '../../services/board-service/board.service';
 import { map } from 'rxjs/operators';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
+import { EmitterService } from '../../../shared/emitter-service/emitter.service';
 
 @Component({
   selector: 'app-board-members-dialog',
@@ -30,7 +31,7 @@ import { formatDate } from '@angular/common';
   ]
 })
 export class BoardMembersDialogComponent implements OnInit {
-  userData: UserAuth;
+  currentUser: UserAuth;
   loading = false;
 
   boardMembers: BoardMemberInfo[];
@@ -82,10 +83,11 @@ export class BoardMembersDialogComponent implements OnInit {
     private dialogService: DialogService,
     private authenticationService: AuthenticationService,
     private boardService: BoardService,
+    private emitterService: EmitterService,
   ) { }
 
   ngOnInit(): void {
-    this.userData = this.authenticationService.userValue;
+    this.currentUser = this.authenticationService.userValue;
 
     this.loading = true;
 
@@ -226,6 +228,65 @@ export class BoardMembersDialogComponent implements OnInit {
             error: () => {
               boardMember.isDoingAction = false;
               this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas wyrzucania użytkownika z tablicy!');
+            }
+          });
+      }
+    });
+  }
+
+  grantBoardAdmin(boardMember: BoardMemberInfo): void {
+    this.dialogService.openYesNoDialog('Czy na pewno chcesz mianować tego użytkownika administratorem?', 'Użytkownik będzie mógł w pełni zarządzać tablicą:' +
+      '<ul>' +
+      '<li>będzie mógł zmieniać ustawienia tablicy w tym: jej nazwę, opis, dane adresowe, prywatność tablicy itd.</li>' +
+      '<li>będzie mógł zarządzać wszystkimi ogłoszeniami na tablicy: usuwać je lub przypinać</li>' +
+      '<li>będzie mógł zarządzać członkami tablicy: akceptować prośby o dołączenie, usuwać ich, nadawać oraz odbierać im uprawienia administratora itp.</li>' +
+      '</ul>')
+      .beforeClosed().subscribe(result => {
+      if (result) {
+        boardMember.isDoingAction = true;
+
+        this.boardService.grantBoardAdmin(this.currentBoard.boardId, boardMember.userId)
+          .subscribe({
+            next: () => {
+              boardMember.isAdmin = true;
+              boardMember.isDoingAction = false;
+              this.snackbarService.openSuccessSnackbar('Pomyślnie mianowano użytkownika administratorem tablicy.');
+            },
+            error: () => {
+              boardMember.isDoingAction = false;
+              this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas mianowania użytkownika administratorem tablicy!');
+            }
+          });
+      }
+    });
+  }
+
+  revokeBoardAdmin(boardMember: BoardMemberInfo): void {
+    this.dialogService.openYesNoDialog('Czy na pewno chcesz odebrać temu użytkownikowi prawa administratora?', 'Użytkownik NIE będzie mógł już dalej zarządzać tablicą.')
+      .beforeClosed().subscribe(result => {
+      if (result) {
+        boardMember.isDoingAction = true;
+
+        this.boardService.revokeBoardAdmin(this.currentBoard.boardId, boardMember.userId)
+          .subscribe({
+            next: () => {
+              // if user revoked his own admin permissions
+              if (boardMember.userId === this.currentUser.userId) {
+                this.displayedColumns.pop();
+                this.emitterService.emitReloadCurrentBoardEvent();
+              }
+
+              boardMember.isAdmin = false;
+              boardMember.isDoingAction = false;
+              this.snackbarService.openSuccessSnackbar('Pomyślnie odebrano użytkownikowi prawa administratora tablicy.');
+            },
+            error: err => {
+              boardMember.isDoingAction = false;
+              if (err.error.status === 'FAILED') {
+                this.dialogService.openInfoDialog('Nie możesz odebrać sobie uprawnień administratora!', 'Nie możesz odebrać sobie uprawnień administratora tablicy, ponieważ jesteś jej jedynym administratorem.', false);
+              } else {
+                this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas odbierania użytkownikowi praw administratora tablicy!');
+              }
             }
           });
       }
