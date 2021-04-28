@@ -51,15 +51,17 @@ export class BoardService {
   }
 
   joinBoard(boardId: string): Observable<BoardInfo> {
-    return this.http.post<any>(`${this.apiURL}/join/${boardId}`, null);
+    return this.http.post<any>(`${this.apiURL}/${boardId}/join`, null);
   }
 
   revertBoardJoin(boardId: string): Observable<any> {
-    return this.http.post<any>(`${this.apiURL}/revertJoin/${boardId}`, null);
+    return this.http.post<any>(`${this.apiURL}/${boardId}/revertJoin`, null);
   }
 
-  leaveBoard(boardId: string): Observable<any> {
-    return this.http.post<any>(`${this.apiURL}/leave/${boardId}`, null);
+  leaveBoard(boardId: string, userId: string): Observable<any> {
+    const params = new HttpParams()
+      .set('userId', userId);
+    return this.http.post<any>(`${this.apiURL}/${boardId}/leave`, null, {params});
   }
 
   changeBoardOrder(boardIds: string[]): Observable<any> {

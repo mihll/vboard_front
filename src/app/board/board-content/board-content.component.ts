@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SnackbarService } from '../../shared/snackbar/snackbar-service/snackbar.service';
+import { AuthenticationService } from '../../authentication/services/authentication-service/authentication.service';
 
 @Component({
   selector: 'app-board-content',
@@ -31,7 +32,8 @@ export class BoardContentComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private dialogService: DialogService,
     private snackbarService: SnackbarService,
-    private boardService: BoardService
+    private boardService: BoardService,
+    private authenticationService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
@@ -101,7 +103,7 @@ export class BoardContentComponent implements OnInit {
       if (result) {
         this.loading = true;
 
-        this.boardService.leaveBoard(this.currentBoard.boardId)
+        this.boardService.leaveBoard(this.currentBoard.boardId, this.authenticationService.userValue.userId)
           .subscribe({
             next: () => {
               this.router.navigate(['/myBoards']).then(() => this.snackbarService.openSuccessSnackbar('Opuściłeś tablicę!'));

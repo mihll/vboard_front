@@ -19,4 +19,5 @@ export interface BoardMemberInfo {
   postsNumber: number;
 
   profilePictureLoading: boolean;
+  isDoingAction: boolean;
 }

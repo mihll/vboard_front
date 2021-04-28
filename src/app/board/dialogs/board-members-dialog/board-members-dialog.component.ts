@@ -43,7 +43,6 @@ export class BoardMembersDialogComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
   sortState: Sort = {active: '', direction: ''};
-  isSortSelectShown = false;
 
   expandedElement: BoardMemberInfo | null = null;
   detailsArraySubject: BehaviorSubject<DetailData[]> = new BehaviorSubject<DetailData[]>([]);
@@ -109,6 +108,7 @@ export class BoardMembersDialogComponent implements OnInit {
     this.allVisibleBreakpoint$.subscribe(breakpoint => {
       if (breakpoint) {
         this.displayedColumns = ['name', 'joinDate', 'postsNumber' , 'didLeft', 'isAdmin'];
+        this.boardMembers?.forEach(member => member.profilePictureLoading = true);
         if (this.currentBoard.isAdmin) {
           this.displayedColumns.push('action');
         }
@@ -119,6 +119,7 @@ export class BoardMembersDialogComponent implements OnInit {
     this.postsNumberBreakpoint$.subscribe(breakpoint => {
       if (breakpoint) {
         this.displayedColumns = ['name', 'expandIcon', 'joinDate' , 'didLeft', 'isAdmin'];
+        this.boardMembers?.forEach(member => member.profilePictureLoading = true);
         if (this.currentBoard.isAdmin) {
           this.displayedColumns.push('action');
         }
@@ -130,6 +131,7 @@ export class BoardMembersDialogComponent implements OnInit {
     this.joinDateBreakpoint$.subscribe(breakpoint => {
       if (breakpoint) {
         this.displayedColumns = ['name', 'expandIcon' , 'didLeft', 'isAdmin'];
+        this.boardMembers?.forEach(member => member.profilePictureLoading = true);
         if (this.currentBoard.isAdmin) {
           this.displayedColumns.push('action');
         }
@@ -142,6 +144,7 @@ export class BoardMembersDialogComponent implements OnInit {
     this.didLeftBreakpoint$.subscribe(breakpoint => {
       if (breakpoint) {
         this.displayedColumns = ['name', 'expandIcon', 'isAdmin'];
+        this.boardMembers?.forEach(member => member.profilePictureLoading = true);
         if (this.currentBoard.isAdmin) {
           this.displayedColumns.push('action');
         }
@@ -155,6 +158,7 @@ export class BoardMembersDialogComponent implements OnInit {
     this.isAdminBreakpoint$.subscribe(breakpoint => {
       if (breakpoint) {
         this.displayedColumns = ['name', 'expandIcon'];
+        this.boardMembers?.forEach(member => member.profilePictureLoading = true);
         if (this.currentBoard.isAdmin) {
           this.displayedColumns.push('action');
         }
@@ -202,6 +206,30 @@ export class BoardMembersDialogComponent implements OnInit {
     if (this.detailsArraySubject.getValue().length !== 0) {
       this.expandedElement = this.expandedElement === element ? null : element;
     }
+  }
+
+  removeMember(boardMember: BoardMemberInfo): void {
+    this.dialogService.openYesNoDialog('Czy na pewno chcesz wyrzucić tego użytkownika?', 'Po opuszczeniu tablicy nie będzie on mógł już przeglądać jej zawartości, ani publikować nowych ogłoszeń. <br>' +
+      'Żadne ogłoszenia tego użytkownika oraz jego interakcje (komentarze, polubienia, głosy w ankietach itd.) <b>NIE</b> zostaną usunięte po opuszczeniu tablicy. <br><br>' +
+      'Jeżeli jednak chcesz usunąć jego aktywność, użyj opcji "Usuń całkowicie z tablicy".')
+      .beforeClosed().subscribe(result => {
+      if (result) {
+        boardMember.isDoingAction = true;
+
+        this.boardService.leaveBoard(this.currentBoard.boardId, boardMember.userId)
+          .subscribe({
+            next: () => {
+              boardMember.didLeft = true;
+              boardMember.isDoingAction = false;
+              this.snackbarService.openSuccessSnackbar('Pomyślnie wyrzucono użytkownika z tablicy');
+            },
+            error: () => {
+              boardMember.isDoingAction = false;
+              this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas wyrzucania użytkownika z tablicy!');
+            }
+          });
+      }
+    });
   }
 
 }
