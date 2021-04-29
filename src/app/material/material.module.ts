@@ -24,6 +24,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTableModule } from '@angular/material/table';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [],
@@ -52,7 +53,8 @@ import { MatTableModule } from '@angular/material/table';
     MatBadgeModule,
     MatExpansionModule,
     MatDatepickerModule,
-    MatTableModule
+    MatTableModule,
+    MatSlideToggleModule,
   ],
   exports: [
     BrowserAnimationsModule,
@@ -78,7 +80,8 @@ import { MatTableModule } from '@angular/material/table';
     MatBadgeModule,
     MatExpansionModule,
     MatDatepickerModule,
-    MatTableModule
+    MatTableModule,
+    MatSlideToggleModule
   ]
 })
 export class MaterialModule { }

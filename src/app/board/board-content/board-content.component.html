@@ -1,6 +1,11 @@
 <app-loading-spinner [show]="loading"></app-loading-spinner>
 <mat-toolbar>
   <div class="toolbarTitle">{{currentBoard?.boardName}}</div>
+  <div class="boardIcons">
+    <mat-icon *ngIf="currentBoard?.isAdmin" matTooltip="Jesteś administratorem">admin_panel_settings</mat-icon>
+    <mat-icon *ngIf="currentBoard?.isPrivate" matTooltip="Prywatna">lock</mat-icon>
+    <mat-icon *ngIf="!currentBoard?.isPrivate" matTooltip="Publiczna">public</mat-icon>
+  </div>
   <span class="fill-remaining-space"></span>
 
   <button mat-icon-button (click)="reloadClicked()">
@@ -71,7 +76,7 @@
       <mat-icon>groups</mat-icon>
       Członkowie tablicy
     </button>
-    <button mat-menu-item *ngIf="currentBoard?.isAdmin">
+    <button mat-menu-item *ngIf="currentBoard?.isAdmin" routerLink="./settings">
       <mat-icon>settings</mat-icon>
       Ustawienia tablicy
     </button>

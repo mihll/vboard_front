@@ -2,7 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
-import { BoardCreateRequest, BoardCreateResponse, BoardInfo, BoardLink, MyBoard, RequestedBoardInfo } from '../../models/board/board';
+import {
+  BoardCreateRequest,
+  BoardCreateResponse,
+  BoardInfo,
+  BoardLink,
+  BoardUpdateRequest,
+  MyBoard,
+  RequestedBoardInfo
+} from '../../models/board/board';
 import { map } from 'rxjs/operators';
 import { BoardMemberInfo } from '../../models/board/boardMember';
 
@@ -48,6 +56,10 @@ export class BoardService {
 
   createBoard(boardCreateRequest: BoardCreateRequest): Observable<BoardCreateResponse> {
     return this.http.post<any>(`${this.apiURL}/create`, boardCreateRequest);
+  }
+
+  updateBoard(boardId: string, boardUpdateRequest: BoardUpdateRequest): Observable<MyBoard> {
+    return this.http.post<any>(`${this.apiURL}/${boardId}/update`, boardUpdateRequest);
   }
 
   joinBoard(boardId: string): Observable<BoardInfo> {

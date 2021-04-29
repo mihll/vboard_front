@@ -24,6 +24,7 @@ export interface MyBoard {
 
   boardId: string;
   isPrivate: boolean;
+  acceptAll: boolean;
   boardName: string;
   description: string;
   createdDate: Date;
@@ -66,6 +67,28 @@ export interface BoardCreateRequest {
   isPrivate: boolean;
   boardName: string;
   description: string;
+  addressCity: string;
+  addressPostCode: string;
+  addressStreet: string;
+}
+
+export interface BoardUpdateRequest {
+  boardName: string;
+  description: string;
+  isPrivate: boolean;
+  acceptAll: boolean;
+  addressCity: string;
+  addressPostCode: string;
+  addressStreet: string;
+}
+
+export interface BoardSettingsData {
+  boardId: string;
+  isPrivate: boolean;
+  acceptAll: boolean;
+  boardName: string;
+  description: string;
+  createdDate: Date;
   addressCity: string;
   addressPostCode: string;
   addressStreet: string;

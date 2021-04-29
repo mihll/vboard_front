@@ -1,0 +1,110 @@
+<mat-toolbar>
+  <button mat-icon-button routerLink="../">
+    <mat-icon>arrow_back_ios</mat-icon>
+  </button>
+  <div class="toolbarTitle">Ustawienia tablicy - {{currentBoard?.boardName}}</div>
+</mat-toolbar>
+<div class="panelContainer" ngClass.xs="small-mobilePadding">
+  <mat-accordion fxFlex.xs="100%" fxFlex.sm="87.5%" fxFlex.md="75%" fxFlex.lg="62.5%" fxFlex.xl="50%">
+    <mat-expansion-panel expanded="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Dane tablicy
+        </mat-panel-title>
+        <mat-panel-description>
+          <span class="fill-remaining-space"></span>
+          <mat-icon>dashboard</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <form *ngIf="boardDataForm" [formGroup]="boardDataForm" style="margin-top: 0.5em">
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Nazwa tablicy</mat-label>
+            <input matInput required formControlName="boardName" trim="blur">
+            <mat-error *ngIf="boardDataForm.controls['boardName'].hasError('required')">
+              Podaj nazwę tablicy
+            </mat-error>
+            <mat-error *ngIf="boardDataForm.controls['boardName'].hasError('boardNameAlreadyUsed')">
+              Tablica o podanej nazwie już istnieje
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Opis tablicy</mat-label>
+            <textarea matInput formControlName="description" trim="blur"></textarea>
+          </mat-form-field>
+        </div>
+        <div class="section">
+          <div class="mat-h2">Typ tablicy:</div>
+          <div *ngIf="f.isPrivate.value" class="mat-h4">Tablica prywatna nie będzie pojawiać się w wynikach wyszukiwania.</div>
+          <div *ngIf="!f.isPrivate.value" class="mat-h4">Tablica publiczna będzie pojawiać się wszystkim użytkownikom w wynikach wyszukiwania.</div>
+          <mat-radio-group formControlName="isPrivate" color="primary" (change)="boardDataForm.markAsTouched()">
+            <mat-radio-button [checked]="f.isPrivate.value" [value]="true">Prywatna</mat-radio-button>
+            <mat-radio-button [checked]="!f.isPrivate.value" style="padding-left: 1em" [value]="false">Publiczna</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="section">
+          <div class="mat-h2">Akceptacja użytkowników:</div>
+
+          <div *ngIf="f.acceptAll.value" class="mat-h4">Wszyscy użytkownicy chcący dołączyć do tablicy, zostaną do niej automatycznie dodani.</div>
+          <div *ngIf="!f.acceptAll.value" class="mat-h4">Użytkownicy chcący dołączyć do tablicy, muszą zostać ręcznie zaakceptowani przez administratora tablicy.</div>
+          <mat-slide-toggle color="primary" formControlName="acceptAll" (change)="boardDataForm.markAsTouched()">Automatycznie akceptuj prośby o dołączenie</mat-slide-toggle>
+        </div>
+        <div class="mat-h2">Dane adresowe:</div>
+        <div class="mat-h4">Dane adresowe, pozwolą odnaleźć innym użytkownikom twoją tablicę po adresie budynku, którego ona dotyczy.</div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Miasto</mat-label>
+            <input matInput formControlName="addressCity" trim="blur">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Kod pocztowy</mat-label>
+            <input matInput formControlName="addressPostCode" trim="blur">
+            <mat-error *ngIf="boardDataForm.controls['addressPostCode'].hasError('pattern')">
+              Podaj prawidłowy kod pocztowy
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Ulica</mat-label>
+            <input matInput formControlName="addressStreet" trim="blur">
+          </mat-form-field>
+        </div>
+      </form>
+
+      <mat-action-row>
+        <button mat-raised-button color="primary" (click)="updateBoardData()"
+                [disabled]="boardDataForm?.untouched || boardDataForm?.invalid || loading">
+          Zatwierdź
+          <mat-icon class="buttonTextIcon" *ngIf="loading">
+            <mat-spinner mode="indeterminate" diameter="20"></mat-spinner>
+          </mat-icon>
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Zarządzaj tablicą
+        </mat-panel-title>
+        <mat-panel-description>
+          <span class="fill-remaining-space"></span>
+          <mat-icon>delete</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div fxLayout="column" fxLayoutAlign="space-around center">
+        <button mat-raised-button color="warn">
+          <mat-icon>delete</mat-icon>
+          Usuń tablicę
+        </button>
+      </div>
+    </mat-expansion-panel>
+
+  </mat-accordion>
+</div>

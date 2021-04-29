@@ -80,8 +80,8 @@ export class DialogService {
     dialogConfig.data = board;
 
     dialogConfig.autoFocus = false;
+    dialogConfig.minWidth = '25%';
     dialogConfig.maxWidth = '90%';
-
 
     return this.matDialog.open(BoardInfoDialogComponent, dialogConfig);
   }
