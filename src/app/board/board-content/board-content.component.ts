@@ -59,7 +59,7 @@ export class BoardContentComponent implements OnInit {
         this.loading = false;
       },
       error: err => {
-        if (err.error.status === 'FORBIDDEN') {
+        if (err.error?.status === 'FORBIDDEN') {
           this.router.navigate(['/myBoards']).then(() => this.snackbarService.openErrorSnackbar('Nie należysz do tej tablicy!'));
         } else {
           this.router.navigate(['/myBoards']).then(() => this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas pobierania danych tablicy'));
@@ -112,6 +112,7 @@ export class BoardContentComponent implements OnInit {
         this.boardService.leaveBoard(this.currentBoard.boardId, this.authenticationService.userValue.userId)
           .subscribe({
             next: () => {
+              this.authenticationService.refreshToken().subscribe();
               this.router.navigate(['/myBoards']).then(() => this.snackbarService.openSuccessSnackbar('Opuściłeś tablicę!'));
             },
             error: err => {

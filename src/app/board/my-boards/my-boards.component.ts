@@ -8,6 +8,7 @@ import { MyBoard, RequestedBoardInfo } from '../models/board/board';
 import { Sort } from '@angular/material/sort';
 import { SnackbarService } from '../../shared/snackbar/snackbar-service/snackbar.service';
 import { EmitterService } from '../../shared/emitter-service/emitter.service';
+import { AuthenticationService } from '../../authentication/services/authentication-service/authentication.service';
 
 @Component({
   selector: 'app-my-boards',
@@ -32,7 +33,8 @@ export class MyBoardsComponent implements OnInit {
     private emitterService: EmitterService,
     private dialogService: DialogService,
     private snackbarService: SnackbarService,
-    private boardService: BoardService
+    private boardService: BoardService,
+    private authenticationService: AuthenticationService,
   ) {
     this.emitterService.shouldReloadMyBoardsEmitter.subscribe(() => {
       this.loadMyBoards();
@@ -53,6 +55,7 @@ export class MyBoardsComponent implements OnInit {
       this.sortByOrderIndex();
       this.loadingMyBoards = false;
     });
+    this.authenticationService.refreshToken().subscribe();
   }
 
   loadRequestedBoards(): void {

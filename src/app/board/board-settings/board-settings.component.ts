@@ -5,6 +5,7 @@ import { DialogService } from '../../shared/dialog/dialog-service/dialog.service
 import { SnackbarService } from '../../shared/snackbar/snackbar-service/snackbar.service';
 import { BoardService } from '../services/board-service/board.service';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthenticationService } from '../../authentication/services/authentication-service/authentication.service';
 
 @Component({
   selector: 'app-board-settings',
@@ -25,6 +26,7 @@ export class BoardSettingsComponent implements OnInit {
     private dialogService: DialogService,
     private snackbarService: SnackbarService,
     private boardService: BoardService,
+    private authenticationService: AuthenticationService,
   ) { }
 
   ngOnInit(): void {
@@ -112,6 +114,7 @@ export class BoardSettingsComponent implements OnInit {
         next: response => {
           this.initializeModel(response);
           this.snackbarService.openSuccessSnackbar('Pomyślnie zmieniono dane tablicy');
+          this.authenticationService.refreshToken().subscribe();
           this.loading = false;
         },
         error: err => {
