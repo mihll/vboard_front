@@ -19,6 +19,7 @@ import { BOARD_MEMBERS_DIALOG_TOKEN, SEARCH_BOARD_DIALOG_TOKEN } from '../inject
 import { BoardInfoDialogComponent } from './dialogs/board-info-dialog/board-info-dialog.component';
 import { BoardMembersDialogComponent } from './dialogs/board-members-dialog/board-members-dialog.component';
 import { BoardSettingsComponent } from './board-settings/board-settings.component';
+import { BoardJoinRequestsDialogComponent } from './dialogs/board-join-requests-dialog/board-join-requests-dialog.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { BoardSettingsComponent } from './board-settings/board-settings.componen
     BoardInfoDialogComponent,
     BoardMembersDialogComponent,
     BoardSettingsComponent,
+    BoardJoinRequestsDialogComponent,
   ],
   exports: [
     CreateBoardComponent,

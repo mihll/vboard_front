@@ -124,7 +124,7 @@
       <!-- Join Column -->
       <ng-container matColumnDef="join">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+        <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()" fxLayout="row" fxLayoutAlign="end center">
           <button *ngIf="!element.isJoined && !element.isRequested && !element.isJoining && !element.isReverting" mat-stroked-button color="primary" (click)="joinBoard(element)">Dołącz</button>
           <button *ngIf="element.isJoined" mat-stroked-button disabled>Już należysz</button>
 

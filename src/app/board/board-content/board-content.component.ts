@@ -101,6 +101,10 @@ export class BoardContentComponent implements OnInit {
     this.dialogService.openBoardMembersDialog(this.currentBoard);
   }
 
+  openBoardJoinRequests(): void {
+    this.dialogService.openBoardJoinRequestsDialog(this.currentBoard);
+  }
+
   leaveBoard(): void {
     this.dialogService.openYesNoDialog('Czy na pewno opuścić tę tablicę?', 'Po opuszczeniu tablicy nie będziesz mógł już przeglądać jej zawartości, ani publikować nowych ogłoszeń. <br>' +
       'Żadne twoje ogłoszenia oraz twoje interakcje (komentarze, polubienia, głosy w ankietach itd.) <b>NIE</b> zostaną usunięte po opuszczeniu tablicy. <br><br>' +

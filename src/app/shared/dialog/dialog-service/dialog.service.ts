@@ -7,6 +7,7 @@ import { MyBoard } from '../../../board/models/board/board';
 import { YesNoDialogComponent } from '../yes-no-dialog/yes-no-dialog.component';
 import { BoardInfoDialogComponent } from '../../../board/dialogs/board-info-dialog/board-info-dialog.component';
 import { BOARD_MEMBERS_DIALOG_TOKEN, SEARCH_BOARD_DIALOG_TOKEN } from '../../../injectionTokens';
+import { BoardJoinRequestsDialogComponent } from '../../../board/dialogs/board-join-requests-dialog/board-join-requests-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -95,5 +96,16 @@ export class DialogService {
     dialogConfig.width = '90%';
 
     return this.matDialog.open(this.boardMembersDialogComponent, dialogConfig);
+  }
+
+  openBoardJoinRequestsDialog(currentBoard: MyBoard): MatDialogRef<unknown, any> {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = currentBoard;
+
+    dialogConfig.autoFocus = false;
+    dialogConfig.maxWidth = '90%';
+    dialogConfig.width = '90%';
+
+    return this.matDialog.open(BoardJoinRequestsDialogComponent, dialogConfig);
   }
 }

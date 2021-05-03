@@ -1,5 +1,5 @@
 <app-loading-spinner [show]="loading"></app-loading-spinner>
-<mat-toolbar>
+<mat-toolbar ngClass.xs="mobileToolbar">
   <div class="toolbarTitle">{{currentBoard?.boardName}}</div>
   <div class="boardIcons">
     <mat-icon *ngIf="currentBoard?.isAdmin" matTooltip="Jesteś administratorem">admin_panel_settings</mat-icon>
@@ -12,8 +12,8 @@
     <mat-icon>refresh</mat-icon>
   </button>
 
-  <div class="toolbarFormFields mat-body">
-    <mat-form-field *ngIf="(isHandset$ | async) === false" appearance="outline">
+  <div *ngIf="(isHandset$ | async) === false"  class="toolbarFormFields mat-body">
+    <mat-form-field appearance="outline">
       <mat-label>Sortowanie</mat-label>
       <mat-select [(value)]="this.sortState" (selectionChange)="sortPosts()" [compareWith]="customSortCompare">
         <mat-option [value]="{active: '', direction: ''}">Domyślne</mat-option>
@@ -76,13 +76,13 @@
       <mat-icon>groups</mat-icon>
       Członkowie tablicy
     </button>
+    <button mat-menu-item *ngIf="currentBoard?.isAdmin" (click)="openBoardJoinRequests()">
+      <mat-icon>person_add</mat-icon>
+      Prośby o dołączenie
+    </button>
     <button mat-menu-item *ngIf="currentBoard?.isAdmin" routerLink="./settings">
       <mat-icon>settings</mat-icon>
       Ustawienia tablicy
-    </button>
-    <button mat-menu-item *ngIf="currentBoard?.isAdmin">
-      <mat-icon>person_add</mat-icon>
-      Prośby o dołączenie
     </button>
     <button mat-menu-item (click)="leaveBoard()">
       <mat-icon>person_remove</mat-icon>

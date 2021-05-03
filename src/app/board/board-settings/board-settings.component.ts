@@ -89,10 +89,9 @@ export class BoardSettingsComponent implements OnInit {
     if (this.currentBoard.isPrivate !== this.f.isPrivate.value) {
       let warnText: string;
       if (this.f.isPrivate.value) {
-        warnText = 'Po zmianie na tablicę prywatną, użytkownicy nie będą mogli już wyszukiwać twojej tablicy.<br>' +
-          'Opcja automatycznej akceptacji użytkowników zostanie również wyłączona - wszyscy nowi użytkownicy będą musieli być akceptowani ręcznie.';
+        warnText = 'Po zmianie na tablicę prywatną, użytkownicy nie będą mogli już wyszukiwać twojej tablicy.';
       } else {
-        warnText = 'Po zmianie na tablicę publiczną, użytkownicy będą mogli wyszukiwać twoją tablicę.';
+        warnText = 'Po zmianie na tablicę publiczną, wszyscy użytkownicy będą mogli wyszukiwać twoją tablicę.';
       }
 
       this.dialogService.openYesNoDialog('Czy na pewno chcesz zmienić typ tablicy?', warnText)

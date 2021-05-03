@@ -1,5 +1,5 @@
 <div fxLayout="row" fxLayoutAlign="space-between center">
-  <h1>Członkowie tablicy</h1>
+  <h1>Prośby o dołączenie</h1>
   <div fxLayout="row">
     <button mat-icon-button mat-dialog-title (click)="loadData()">
       <mat-icon>refresh</mat-icon>
@@ -12,7 +12,7 @@
 
 <div mat-dialog-content>
   <div
-    *ngIf="!loading && ((joinDateBreakpoint$ | async) || (postsNumberBreakpoint$ | async) || (didLeftBreakpoint$ | async) || (isAdminBreakpoint$ | async))"
+    *ngIf="!loading && ((requestDateBreakpoint$ | async) || (actionsBreakpoint$ | async))"
     fxLayout="row" fxLayoutAlign="start center">
     <mat-form-field appearance="outline" fxFlex>
       <mat-label>Sortowanie</mat-label>
@@ -28,28 +28,24 @@
           </mat-option>
         </mat-optgroup>
         <mat-optgroup label="Data dołączenia">
-          <mat-option [value]="{active: 'joinDate', direction: 'asc'}">
-            Data dołączenia - rosnąco
+          <mat-option [value]="{active: 'requestDate', direction: 'asc'}">
+            Data prośby - rosnąco
           </mat-option>
-          <mat-option [value]="{active: 'joinDate', direction: 'desc'}">
-            Data dołączenia - malejąco
-          </mat-option>
-        </mat-optgroup>
-        <mat-optgroup label="Liczba postów">
-          <mat-option [value]="{active: 'postsNumber', direction: 'asc'}">
-            Liczba postów - rosnąco
-          </mat-option>
-          <mat-option [value]="{active: 'postsNumber', direction: 'desc'}">
-            Liczba postów - malejąco
+          <mat-option [value]="{active: 'requestDate', direction: 'desc'}">
+            Data prośby - malejąco
           </mat-option>
         </mat-optgroup>
       </mat-select>
     </mat-form-field>
   </div>
 
-  <div class="tableContainer" [class.oneColumnTable]="isAdminBreakpoint$ | async">
+  <div class="tableContainer" [class.oneColumnTable]="actionsBreakpoint$ | async">
     <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
-    <table *ngIf="boardMembers ? (boardMembers.length !== 0 && !loading) : false" mat-table [dataSource]="dataSource"
+    <div *ngIf="joinRequests?.length === 0 && !loading" class="notFound">
+      <mat-icon [inline]="true">check</mat-icon>
+      Brak nowych próśb o dołączenie
+    </div>
+    <table *ngIf="joinRequests ? (joinRequests.length !== 0 && !loading) : false" mat-table [dataSource]="dataSource"
            matSort (matSortChange)="this.sortState = $event" multiTemplateDataRows>
 
       <!-- User Column -->
@@ -76,65 +72,25 @@
       </ng-container>
 
       <!-- Join Date Column -->
-      <ng-container matColumnDef="joinDate">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Data dołączenia</th>
-        <td mat-cell *matCellDef="let element"> {{element.joinDate | date}} </td>
+      <ng-container matColumnDef="requestDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Data prośby</th>
+        <td mat-cell *matCellDef="let element"> {{element.requestDate | date}} </td>
       </ng-container>
 
-      <!-- Post Number Column -->
-      <ng-container matColumnDef="postsNumber">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Liczba postów</th>
-        <td mat-cell *matCellDef="let element"> {{element.postsNumber}} </td>
-      </ng-container>
-
-      <!-- Did Left Column -->
-      <ng-container matColumnDef="didLeft">
-        <th mat-header-cell *matHeaderCellDef>Opuścił tablicę</th>
-        <td mat-cell *matCellDef="let element"> {{element.didLeft ? 'Tak' : 'Nie' }} </td>
-      </ng-container>
-
-      <!-- Is Admin Column -->
-      <ng-container matColumnDef="isAdmin">
-        <th mat-header-cell *matHeaderCellDef>Administrator tablicy</th>
-        <td mat-cell *matCellDef="let element"> {{element.isAdmin ? 'Tak' : 'Nie' }} </td>
-      </ng-container>
-
-      <!-- Action Column -->
-      <ng-container matColumnDef="action">
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()" fxLayout="row" fxLayoutAlign="end center">
-          <button *ngIf="!element.isDoingAction" mat-icon-button [matMenuTriggerFor]="userActionsMenu">
-            <mat-icon>more_vert</mat-icon>
+          <button *ngIf="!element.isDoingAction" color="primary" mat-stroked-button (click)="acceptRequest(element)">
+            Akceptuj
+            <mat-icon>check</mat-icon>
+          </button>
+          <button *ngIf="!element.isDoingAction" color="warn" mat-stroked-button style="margin-left: 0.5em" (click)="denyRequest(element)">
+            Odrzuć
+            <mat-icon>clear</mat-icon>
           </button>
 
           <mat-spinner mode="indeterminate" diameter="20" *ngIf="element.isDoingAction"></mat-spinner>
-
-          <mat-menu #userActionsMenu="matMenu">
-
-            <button *ngIf="element.userId != currentUser.userId && !element.didLeft" mat-menu-item (click)="removeMember(element)">
-              <mat-icon>person_remove</mat-icon>
-              Wyrzuć z tablicy
-            </button>
-            <button *ngIf="element.userId != currentUser.userId && !element.didLeft" mat-menu-item>
-              <mat-icon>delete_forever</mat-icon>
-              Usuń całkowicie z tablicy
-            </button>
-
-            <button *ngIf="element.didLeft" mat-menu-item (click)="restoreMember(element)">
-              <mat-icon>person_add</mat-icon>
-              Przywróć użytkownika
-            </button>
-
-            <button *ngIf="!element.isAdmin && !element.didLeft" mat-menu-item (click)="grantBoardAdmin(element)">
-              <mat-icon>add_moderator</mat-icon>
-              Mianuj administratorem
-            </button>
-            <button *ngIf="element.isAdmin && !element.didLeft" mat-menu-item (click)="revokeBoardAdmin(element)">
-              <mat-icon>remove_moderator</mat-icon>
-              Odbierz administratora
-            </button>
-
-          </mat-menu>
         </td>
       </ng-container>
 
@@ -157,6 +113,19 @@
 
                 <tr mat-row *matRowDef="let row; columns: ['detailName', 'detailData'];"></tr>
               </table>
+
+              <div class="element-detail-actions" *ngIf="actionsBreakpoint$ | async">
+                <button *ngIf="!element.isDoingAction" color="primary" mat-stroked-button (click)="acceptRequest(element)">
+                  Akceptuj
+                  <mat-icon>check</mat-icon>
+                </button>
+                <button *ngIf="!element.isDoingAction" color="warn" mat-stroked-button (click)="denyRequest(element)">
+                  Odrzuć
+                  <mat-icon>clear</mat-icon>
+                </button>
+
+                <mat-spinner mode="indeterminate" diameter="20" *ngIf="element.isDoingAction"></mat-spinner>
+              </div>
             </div>
           </div>
         </td>

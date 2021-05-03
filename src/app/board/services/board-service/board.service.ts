@@ -13,6 +13,7 @@ import {
 } from '../../models/board/board';
 import { map } from 'rxjs/operators';
 import { BoardMemberInfo } from '../../models/board/boardMember';
+import { BoardJoinRequest } from '../../models/board/boardJoinRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,23 @@ export class BoardService {
   getBoardMembersInfo(boardId: string): Observable<BoardMemberInfo[]> {
     return this.http.get<any>(`${this.apiURL}/${boardId}/members`)
       .pipe(map(response => response.members));
+  }
+
+  getBoardJoinRequests(boardId: string): Observable<BoardJoinRequest[]> {
+    return this.http.get<any>(`${this.apiURL}/${boardId}/joinRequests`)
+      .pipe(map(response => response.joinRequests));
+  }
+
+  acceptJoinRequest(boardId: string, userId: string): Observable<any> {
+    const params = new HttpParams()
+      .set('userId', userId);
+    return this.http.post<any>(`${this.apiURL}/${boardId}/joinRequest/accept`, null, {params});
+  }
+
+  denyJoinRequest(boardId: string, userId: string): Observable<any> {
+    const params = new HttpParams()
+      .set('userId', userId);
+    return this.http.post<any>(`${this.apiURL}/${boardId}/joinRequest/deny`, null, {params});
   }
 
   getMyBoards(): Observable<MyBoard[]> {
@@ -86,6 +104,12 @@ export class BoardService {
     const params = new HttpParams()
       .set('userId', userId);
     return this.http.post<any>(`${this.apiURL}/${boardId}/leave`, null, {params});
+  }
+
+  restoreBoardMember(boardId: string, userId: string): Observable<any> {
+    const params = new HttpParams()
+      .set('userId', userId);
+    return this.http.post<any>(`${this.apiURL}/${boardId}/restoreMember`, null, {params});
   }
 
   changeBoardOrder(boardIds: string[]): Observable<any> {

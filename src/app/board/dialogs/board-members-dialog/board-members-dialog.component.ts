@@ -89,22 +89,7 @@ export class BoardMembersDialogComponent implements OnInit {
   ngOnInit(): void {
     this.currentUser = this.authenticationService.userValue;
 
-    this.loading = true;
-
-    this.boardService.getBoardMembersInfo(this.currentBoard.boardId)
-      .subscribe({
-        next: response => {
-          this.boardMembers = response;
-          this.dataSource.data = this.boardMembers;
-          this.dataSource.sort = this.sort;
-          this.sortState = {active: '', direction: ''};
-          this.loading = false;
-        },
-        error: () => {
-          this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas pobierania danych członków tablicy!');
-          this.dialogRef.close();
-        }
-      });
+    this.loadData();
 
     // BREAKPOINTS
     this.allVisibleBreakpoint$.subscribe(breakpoint => {
@@ -210,6 +195,25 @@ export class BoardMembersDialogComponent implements OnInit {
     }
   }
 
+  loadData(): void {
+    this.loading = true;
+
+    this.boardService.getBoardMembersInfo(this.currentBoard.boardId)
+      .subscribe({
+        next: response => {
+          this.boardMembers = response;
+          this.dataSource.data = this.boardMembers;
+          this.dataSource.sort = this.sort;
+          this.sortState = {active: '', direction: ''};
+          this.loading = false;
+        },
+        error: () => {
+          this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas pobierania danych członków tablicy!');
+          this.dialogRef.close();
+        }
+      });
+  }
+
   removeMember(boardMember: BoardMemberInfo): void {
     this.dialogService.openYesNoDialog('Czy na pewno chcesz wyrzucić tego użytkownika?', 'Po opuszczeniu tablicy nie będzie on mógł już przeglądać jej zawartości, ani publikować nowych ogłoszeń. <br>' +
       'Żadne ogłoszenia tego użytkownika oraz jego interakcje (komentarze, polubienia, głosy w ankietach itd.) <b>NIE</b> zostaną usunięte po opuszczeniu tablicy. <br><br>' +
@@ -233,6 +237,29 @@ export class BoardMembersDialogComponent implements OnInit {
       }
     });
   }
+
+  restoreMember(boardMember: BoardMemberInfo): void {
+    this.dialogService.openYesNoDialog('Czy na pewno chcesz przywrócić tego użytkownika?', null)
+      .beforeClosed().subscribe(result => {
+      if (result) {
+        boardMember.isDoingAction = true;
+
+        this.boardService.restoreBoardMember(this.currentBoard.boardId, boardMember.userId)
+          .subscribe({
+            next: () => {
+              boardMember.didLeft = false;
+              boardMember.isDoingAction = false;
+              this.snackbarService.openSuccessSnackbar('Pomyślnie przywrócono użytkownika');
+            },
+            error: () => {
+              boardMember.isDoingAction = false;
+              this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas przywracania użytkownika!');
+            }
+          });
+      }
+    });
+  }
+
 
   grantBoardAdmin(boardMember: BoardMemberInfo): void {
     this.dialogService.openYesNoDialog('Czy na pewno chcesz mianować tego użytkownika administratorem?', 'Użytkownik będzie mógł w pełni zarządzać tablicą:' +
