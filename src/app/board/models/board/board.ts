@@ -21,6 +21,7 @@ export interface MyBoard {
   isAdmin: boolean;
   orderIndex: number;
   boardMembers: number;
+  notificationsNumber: number;
 
   boardId: string;
   isPrivate: boolean;
@@ -61,6 +62,7 @@ export interface BoardInfo {
 export interface BoardLink {
   boardId: string;
   boardName: string;
+  notificationsNumber: number;
 }
 
 export interface BoardCreateRequest {

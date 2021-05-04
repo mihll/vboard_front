@@ -48,7 +48,7 @@ export class BoardContentComponent implements OnInit {
     });
   }
 
-  reloadClicked(): void {
+  reloadData(): void {
     this.loadBoardInfo(this.currentBoard.boardId);
   }
 
@@ -102,7 +102,10 @@ export class BoardContentComponent implements OnInit {
   }
 
   openBoardJoinRequests(): void {
-    this.dialogService.openBoardJoinRequestsDialog(this.currentBoard);
+    this.dialogService.openBoardJoinRequestsDialog(this.currentBoard).beforeClosed().subscribe( () => {
+      this.reloadData();
+      this.authenticationService.refreshToken().subscribe();
+    });
   }
 
   leaveBoard(): void {
