@@ -50,9 +50,11 @@ export class AppComponent {
   }
 
   openSearch(): void {
-    this.dialogService.openBoardSearchDialog().beforeClosed()
-      .subscribe(() => {
-        this.emitterService.emitReloadMyBoardsEvent();
+    this.dialogService.openBoardSearchDialog().afterClosed()
+      .subscribe(didMakeChanges => {
+        if (didMakeChanges) {
+          this.emitterService.emitReloadMyBoardsEvent();
+        }
       });
   }
 

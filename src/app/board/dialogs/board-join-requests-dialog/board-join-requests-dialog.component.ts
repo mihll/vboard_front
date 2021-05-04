@@ -10,7 +10,6 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { SnackbarService } from '../../../shared/snackbar/snackbar-service/snackbar.service';
 import { AuthenticationService } from '../../../authentication/services/authentication-service/authentication.service';
 import { BoardService } from '../../services/board-service/board.service';
-import { EmitterService } from '../../../shared/emitter-service/emitter.service';
 import { BoardJoinRequest } from '../../models/board/boardJoinRequest';
 import { formatDate } from '@angular/common';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -30,6 +29,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 })
 export class BoardJoinRequestsDialogComponent implements OnInit {
   loading = true;
+  didMakeChanges = false;
 
   joinRequests: BoardJoinRequest[];
   dataSource: MatTableDataSource<BoardJoinRequest> = new MatTableDataSource<BoardJoinRequest>();
@@ -152,6 +152,7 @@ export class BoardJoinRequestsDialogComponent implements OnInit {
   }
 
   acceptRequest(joinRequest: BoardJoinRequest): void {
+    this.didMakeChanges = true;
     joinRequest.isDoingAction = true;
 
     this.boardService.acceptJoinRequest(this.currentBoard.boardId, joinRequest.userId)
@@ -167,6 +168,7 @@ export class BoardJoinRequestsDialogComponent implements OnInit {
   }
 
   denyRequest(joinRequest: BoardJoinRequest): void {
+    this.didMakeChanges = true;
     joinRequest.isDoingAction = true;
 
     this.boardService.denyJoinRequest(this.currentBoard.boardId, joinRequest.userId)

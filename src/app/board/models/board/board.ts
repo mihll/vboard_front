@@ -43,7 +43,7 @@ export interface RequestedBoardInfo {
   isReverting: boolean;
 }
 
-export interface BoardInfo {
+export interface BoardPublicInfo {
   boardId: string;
   isPrivate: boolean;
   boardName: string;

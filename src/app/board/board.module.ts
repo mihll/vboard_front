@@ -20,6 +20,7 @@ import { BoardInfoDialogComponent } from './dialogs/board-info-dialog/board-info
 import { BoardMembersDialogComponent } from './dialogs/board-members-dialog/board-members-dialog.component';
 import { BoardSettingsComponent } from './board-settings/board-settings.component';
 import { BoardJoinRequestsDialogComponent } from './dialogs/board-join-requests-dialog/board-join-requests-dialog.component';
+import { JoinBoardComponent } from './join-board/join-board.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { BoardJoinRequestsDialogComponent } from './dialogs/board-join-requests-
     BoardMembersDialogComponent,
     BoardSettingsComponent,
     BoardJoinRequestsDialogComponent,
+    JoinBoardComponent,
   ],
   exports: [
     CreateBoardComponent,

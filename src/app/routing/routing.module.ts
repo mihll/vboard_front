@@ -14,6 +14,7 @@ import { UserSettingsComponent } from '../user/user-settings/user-settings.compo
 import { BoardContentComponent } from '../board/board-content/board-content.component';
 import { TokenGuard } from '../helpers/guards/token.guard';
 import { BoardSettingsComponent } from '../board/board-settings/board-settings.component';
+import { JoinBoardComponent } from '../board/join-board/join-board.component';
 
 const appRoutes: Routes = [
   { path: '', component: LandingPageComponent, canActivate: [NotAuthGuard]},
@@ -28,6 +29,7 @@ const appRoutes: Routes = [
   { path: 'createBoard', component: CreateBoardComponent, canActivate: [AuthGuard]},
   { path: 'board/:id', component: BoardContentComponent, canActivate: [AuthGuard]},
   { path: 'board/:id/settings', component: BoardSettingsComponent, canActivate: [AuthGuard]},
+  { path: 'joinBoard/:id', component: JoinBoardComponent, canActivate: [AuthGuard]},
   // otherwise redirect to landing page
   { path: '**', redirectTo: 'landingPage'}
   ];

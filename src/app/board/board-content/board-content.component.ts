@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators';
 import { SnackbarService } from '../../shared/snackbar/snackbar-service/snackbar.service';
 import { AuthenticationService } from '../../authentication/services/authentication-service/authentication.service';
 import { EmitterService } from '../../shared/emitter-service/emitter.service';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-board-content',
@@ -36,6 +37,7 @@ export class BoardContentComponent implements OnInit {
     private boardService: BoardService,
     private authenticationService: AuthenticationService,
     private emitterService: EmitterService,
+    private clipboard: Clipboard
   ) {
     this.emitterService.shouldReloadCurrentBoardEmitter.subscribe(() => {
       this.loadBoardInfo(this.route.snapshot.params.id);
@@ -53,6 +55,7 @@ export class BoardContentComponent implements OnInit {
   }
 
   loadBoardInfo(id: string): void {
+    this.loading = true;
     this.boardService.getBoardOfId(id).subscribe({
       next: response => {
         this.currentBoard = response;
@@ -102,10 +105,26 @@ export class BoardContentComponent implements OnInit {
   }
 
   openBoardJoinRequests(): void {
-    this.dialogService.openBoardJoinRequestsDialog(this.currentBoard).beforeClosed().subscribe( () => {
-      this.reloadData();
-      this.authenticationService.refreshToken().subscribe();
+    this.dialogService.openBoardJoinRequestsDialog(this.currentBoard).afterClosed()
+        .subscribe( didMakeChanges => {
+          if (didMakeChanges) {
+            this.reloadData();
+            this.authenticationService.refreshToken().subscribe();
+          }
     });
+  }
+
+  shareBoard(): void {
+    if (navigator.share) {
+      navigator.share({
+        text: `Dołącz do tablicy ogłoszeń "${this.currentBoard.boardName}" w serwisie VBoard!`,
+        url: `localhost:4200/joinBoard/${this.currentBoard.boardId}`
+      });
+    } else {
+      this.clipboard.copy(`Dołącz do tablicy ogłoszeń "${this.currentBoard.boardName}" w serwisie VBoard!
+localhost:4200/joinBoard/${this.currentBoard.boardId}`);
+      this.snackbarService.openSuccessSnackbar('Skopiowano link do schowka!');
+    }
   }
 
   leaveBoard(): void {

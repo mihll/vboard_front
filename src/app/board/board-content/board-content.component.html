@@ -64,7 +64,7 @@
     <mat-icon matBadge="{{currentBoard?.notificationsNumber}}" [matBadgeHidden]="currentBoard?.notificationsNumber === 0" matBadgeColor="warn">settings</mat-icon>
   </button>
   <mat-menu #settingsMenu="matMenu">
-    <button mat-menu-item>
+    <button mat-menu-item (click)="shareBoard()">
       <mat-icon>share</mat-icon>
       Udostępnij tablicę
     </button>

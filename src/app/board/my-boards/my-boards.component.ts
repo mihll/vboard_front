@@ -72,17 +72,21 @@ export class MyBoardsComponent implements OnInit {
   }
 
   openReorder(): void {
-    this.dialogService.openBoardOrderChangeDialog(this.joinedBoards).beforeClosed()
-      .subscribe(() => {
-        this.loadMyBoards();
+    this.dialogService.openBoardOrderChangeDialog(this.joinedBoards).afterClosed()
+      .subscribe(didMakeChanges => {
+        if (didMakeChanges) {
+          this.loadMyBoards();
+        }
       });
   }
 
   openSearchDialog(): void {
-    this.dialogService.openBoardSearchDialog().beforeClosed()
-      .subscribe(() => {
-        this.loadMyBoards();
-        this.loadRequestedBoards();
+    this.dialogService.openBoardSearchDialog().afterClosed()
+      .subscribe(didMakeChanges => {
+        if (didMakeChanges) {
+          this.loadMyBoards();
+          this.loadRequestedBoards();
+        }
       });
   }
 
@@ -121,7 +125,7 @@ export class MyBoardsComponent implements OnInit {
       this.joinedBoards.sort((a, b) => {
         return a.boardName.localeCompare(b.boardName);
       });
-    } else if (this.sortState.direction  === 'desc') {
+    } else if (this.sortState.direction === 'desc') {
       this.joinedBoards.sort((a, b) => {
         return b.boardName.localeCompare(a.boardName);
       });
@@ -133,7 +137,7 @@ export class MyBoardsComponent implements OnInit {
       this.joinedBoards.sort((a, b) => {
         return new Date(a.joinDate).getTime() - new Date(b.joinDate).getTime();
       });
-    } else if (this.sortState.direction  === 'desc') {
+    } else if (this.sortState.direction === 'desc') {
       this.joinedBoards.sort((a, b) => {
         return new Date(b.joinDate).getTime() - new Date(a.joinDate).getTime();
       });
@@ -147,19 +151,19 @@ export class MyBoardsComponent implements OnInit {
   revertJoin(board: RequestedBoardInfo): void {
     this.dialogService.openYesNoDialog('Czy na pewno chcesz anulować prośbę o dołączenie?', '')
       .beforeClosed().subscribe(result => {
-        if (result) {
-          board.isReverting = true;
-          this.boardService.revertBoardJoin(board.boardId).subscribe({
-            next: () => {
-              this.loadRequestedBoards();
-              this.snackbarService.openSuccessSnackbar('Anulowano prośbę o dołączenie');
-            },
-            error: () => {
-              this.loadRequestedBoards();
-              this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas anulowania prośby o dołączenie');
-            }
-          });
-        }
+      if (result) {
+        board.isReverting = true;
+        this.boardService.revertBoardJoin(board.boardId).subscribe({
+          next: () => {
+            this.loadRequestedBoards();
+            this.snackbarService.openSuccessSnackbar('Anulowano prośbę o dołączenie');
+          },
+          error: () => {
+            this.loadRequestedBoards();
+            this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas anulowania prośby o dołączenie');
+          }
+        });
+      }
     });
   }
 

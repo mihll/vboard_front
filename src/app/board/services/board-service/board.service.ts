@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import {
   BoardCreateRequest,
   BoardCreateResponse,
-  BoardInfo,
+  BoardPublicInfo,
   BoardLink,
   BoardUpdateRequest,
   MyBoard,
@@ -26,6 +26,10 @@ export class BoardService {
 
   getBoardOfId(boardId: string): Observable<MyBoard> {
     return this.http.get<any>(`${this.apiURL}/${boardId}`);
+  }
+
+  getBoardPublicInfo(boardId: string): Observable<BoardPublicInfo> {
+    return this.http.get<any>(`${this.apiURL}/${boardId}/publicInfo`);
   }
 
   getBoardMembersInfo(boardId: string): Observable<BoardMemberInfo[]> {
@@ -65,7 +69,7 @@ export class BoardService {
       .pipe(map(response => response.boardLinks));
   }
 
-  findBoardsByName(boardNameToFind: string): Observable<BoardInfo[]> {
+  findBoardsByName(boardNameToFind: string): Observable<BoardPublicInfo[]> {
     const params = new HttpParams()
       .set('name', boardNameToFind);
     return this.http.get<any>(`${this.apiURL}/findByName`, {params})
@@ -80,7 +84,7 @@ export class BoardService {
     return this.http.post<any>(`${this.apiURL}/${boardId}/update`, boardUpdateRequest);
   }
 
-  joinBoard(boardId: string): Observable<BoardInfo> {
+  joinBoard(boardId: string): Observable<BoardPublicInfo> {
     return this.http.post<any>(`${this.apiURL}/${boardId}/join`, null);
   }
 

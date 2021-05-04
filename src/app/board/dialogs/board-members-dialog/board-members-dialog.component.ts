@@ -88,7 +88,6 @@ export class BoardMembersDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = this.authenticationService.userValue;
-
     this.loadData();
 
     // BREAKPOINTS

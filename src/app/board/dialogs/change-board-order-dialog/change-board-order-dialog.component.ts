@@ -34,14 +34,12 @@ export class ChangeBoardOrderDialogComponent implements OnInit {
   changeOrder(): void {
     this.loading = true;
     const boardIds: string[] = this.joinedBoards.map(o => o.boardId);
-    console.log(boardIds);
     this.boardService.changeBoardOrder(boardIds)
       .subscribe({
         next: () => {
           this.loading = false;
-          this.authenticationService.refreshToken().subscribe();
           this.snackbarService.openSuccessSnackbar('Pomyślnie zmieniono kolejność tablic');
-          this.dialogRef.close();
+          this.dialogRef.close(true);
         },
         error: () => {
           this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas zmiany kolejności');

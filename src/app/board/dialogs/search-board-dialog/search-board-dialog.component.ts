@@ -4,7 +4,7 @@ import { SnackbarService } from '../../../shared/snackbar/snackbar-service/snack
 import { AuthenticationService } from '../../../authentication/services/authentication-service/authentication.service';
 import { UserAuth } from '../../../authentication/models/userAuth';
 import { BoardService } from '../../services/board-service/board.service';
-import { BoardInfo } from '../../models/board/board';
+import { BoardPublicInfo } from '../../models/board/board';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
 
@@ -16,6 +16,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { formatDate } from '@angular/common';
 import { DialogService } from '../../../shared/dialog/dialog-service/dialog.service';
 import { DetailData } from '../../../shared/details-table/DetailData';
+import {MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-search-board-dialog',
@@ -34,9 +35,10 @@ export class SearchBoardDialogComponent implements OnInit {
   searchForm: FormGroup;
   userData: UserAuth;
   loading = false;
+  didMakeChanges = false;
 
-  foundBoards: BoardInfo[];
-  dataSource: MatTableDataSource<BoardInfo> = new MatTableDataSource<BoardInfo>();
+  foundBoards: BoardPublicInfo[];
+  dataSource: MatTableDataSource<BoardPublicInfo> = new MatTableDataSource<BoardPublicInfo>();
   displayedColumns: string[] = ['boardName', 'expandIcon', 'createdDate', 'addressCity', 'addressPostCode', 'addressStreet', 'join'];
 
   private sort: MatSort;
@@ -47,7 +49,7 @@ export class SearchBoardDialogComponent implements OnInit {
   sortState: Sort = {active: '', direction: ''};
   isSortSelectShown = false;
 
-  expandedElement: BoardInfo | null = null;
+  expandedElement: BoardPublicInfo | null = null;
   detailsArraySubject: BehaviorSubject<DetailData[]> = new BehaviorSubject<DetailData[]>([]);
   detailsDataSource: MatTableDataSource<DetailData> = new MatTableDataSource<DetailData>();
 
@@ -83,13 +85,16 @@ export class SearchBoardDialogComponent implements OnInit {
     );
 
   constructor(
+    private dialogRef: MatDialogRef<SearchBoardDialogComponent>,
     private breakpointObserver: BreakpointObserver,
     private formBuilder: FormBuilder,
     private snackbarService: SnackbarService,
     private dialogService: DialogService,
     private authenticationService: AuthenticationService,
     private boardService: BoardService,
-  ) {}
+  ) {
+    dialogRef.beforeClosed().subscribe(() => dialogRef.close(this.didMakeChanges));
+  }
 
   ngOnInit(): void {
     this.searchForm = this.formBuilder.group({
@@ -163,10 +168,11 @@ export class SearchBoardDialogComponent implements OnInit {
     });
   }
 
-  joinBoard(board: BoardInfo): void {
+  joinBoard(board: BoardPublicInfo): void {
     this.dialogService.openYesNoDialog('Czy na pewno chcesz dołączyć do tej tablicy?', '')
       .beforeClosed().subscribe(result => {
       if (result) {
+        this.didMakeChanges = true;
         board.isJoining = true;
 
         this.boardService.joinBoard(board.boardId)
@@ -190,10 +196,11 @@ export class SearchBoardDialogComponent implements OnInit {
     });
   }
 
-  revertJoin(board: BoardInfo): void {
+  revertJoin(board: BoardPublicInfo): void {
     this.dialogService.openYesNoDialog('Czy na pewno chcesz anulować prośbę o dołączenie?', '')
       .beforeClosed().subscribe(result => {
       if (result) {
+        this.didMakeChanges = true;
         board.isReverting = true;
         this.boardService.revertBoardJoin(board.boardId).subscribe({
           next: () => {
@@ -253,7 +260,7 @@ export class SearchBoardDialogComponent implements OnInit {
     return o1.active === o2.active && o1.direction === o2.direction;
   }
 
-  expandRow(element: BoardInfo): void {
+  expandRow(element: BoardPublicInfo): void {
     this.detailsArraySubject.subscribe(detailsArray => {
       this.detailsDataSource.data = detailsArray.map(((value) => {
         switch (value.detailName){
