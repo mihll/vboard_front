@@ -14,6 +14,7 @@ import {
 import { map } from 'rxjs/operators';
 import { BoardMemberInfo } from '../../models/board/boardMember';
 import { BoardJoinRequest } from '../../models/board/boardJoinRequest';
+import { BoardPost } from '../../../post/models/post';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,7 @@ export class BoardService {
 
   constructor(private http: HttpClient) { }
 
+  // general board
   getBoardOfId(boardId: string): Observable<MyBoard> {
     return this.http.get<any>(`${this.apiURL}/${boardId}`);
   }
@@ -32,11 +34,17 @@ export class BoardService {
     return this.http.get<any>(`${this.apiURL}/${boardId}/publicInfo`);
   }
 
-  getBoardMembersInfo(boardId: string): Observable<BoardMemberInfo[]> {
-    return this.http.get<any>(`${this.apiURL}/${boardId}/members`)
-      .pipe(map(response => response.members));
+  // board posts
+  getAllBoardPosts(boardId: string): Observable<BoardPost[]> {
+    return this.http.get<any>(`${this.apiURL}/${boardId}/posts/all`)
+      .pipe(map(response => response.posts));
   }
 
+  getPinnedBoardPosts(boardId: string): Observable<BoardPost[]> {
+    return this.http.get<any>(`${this.apiURL}/${boardId}/posts/pinned`);
+  }
+
+  // manage join requests
   getBoardJoinRequests(boardId: string): Observable<BoardJoinRequest[]> {
     return this.http.get<any>(`${this.apiURL}/${boardId}/joinRequests`)
       .pipe(map(response => response.joinRequests));
@@ -54,6 +62,7 @@ export class BoardService {
     return this.http.post<any>(`${this.apiURL}/${boardId}/joinRequest/deny`, null, {params});
   }
 
+  // my boards
   getMyBoards(): Observable<MyBoard[]> {
     return this.http.get<any>(`${this.apiURL}/my`)
       .pipe(map(response => response.boards));
@@ -69,13 +78,11 @@ export class BoardService {
       .pipe(map(response => response.boardLinks));
   }
 
-  findBoardsByName(boardNameToFind: string): Observable<BoardPublicInfo[]> {
-    const params = new HttpParams()
-      .set('name', boardNameToFind);
-    return this.http.get<any>(`${this.apiURL}/findByName`, {params})
-      .pipe(map(response => response.boards));
+  changeBoardOrder(boardIds: string[]): Observable<any> {
+    return this.http.put<any>(`${this.apiURL}/changeOrder`, {boardIds});
   }
 
+  // CRUD board
   createBoard(boardCreateRequest: BoardCreateRequest): Observable<BoardCreateResponse> {
     return this.http.post<any>(`${this.apiURL}/create`, boardCreateRequest);
   }
@@ -84,6 +91,15 @@ export class BoardService {
     return this.http.post<any>(`${this.apiURL}/${boardId}/update`, boardUpdateRequest);
   }
 
+  // find boards
+  findBoardsByName(boardNameToFind: string): Observable<BoardPublicInfo[]> {
+    const params = new HttpParams()
+      .set('name', boardNameToFind);
+    return this.http.get<any>(`${this.apiURL}/findByName`, {params})
+      .pipe(map(response => response.boards));
+  }
+
+  // join board
   joinBoard(boardId: string): Observable<BoardPublicInfo> {
     return this.http.post<any>(`${this.apiURL}/${boardId}/join`, null);
   }
@@ -92,18 +108,13 @@ export class BoardService {
     return this.http.post<any>(`${this.apiURL}/${boardId}/revertJoin`, null);
   }
 
-  grantBoardAdmin(boardId: string, userId: string): Observable<any> {
-    const params = new HttpParams()
-      .set('userId', userId);
-    return this.http.post<any>(`${this.apiURL}/${boardId}/grantAdmin`, null, {params});
+  // manage board members
+  getBoardMembersInfo(boardId: string): Observable<BoardMemberInfo[]> {
+    return this.http.get<any>(`${this.apiURL}/${boardId}/members`)
+      .pipe(map(response => response.members));
   }
 
-  revokeBoardAdmin(boardId: string, userId: string): Observable<any> {
-    const params = new HttpParams()
-      .set('userId', userId);
-    return this.http.post<any>(`${this.apiURL}/${boardId}/revokeAdmin`, null, {params});
-  }
-
+  // board leave/restore
   leaveBoard(boardId: string, userId: string): Observable<any> {
     const params = new HttpParams()
       .set('userId', userId);
@@ -116,7 +127,16 @@ export class BoardService {
     return this.http.post<any>(`${this.apiURL}/${boardId}/restoreMember`, null, {params});
   }
 
-  changeBoardOrder(boardIds: string[]): Observable<any> {
-    return this.http.put<any>(`${this.apiURL}/changeOrder`, {boardIds});
+  // manage board admins
+  grantBoardAdmin(boardId: string, userId: string): Observable<any> {
+    const params = new HttpParams()
+      .set('userId', userId);
+    return this.http.post<any>(`${this.apiURL}/${boardId}/grantAdmin`, null, {params});
+  }
+
+  revokeBoardAdmin(boardId: string, userId: string): Observable<any> {
+    const params = new HttpParams()
+      .set('userId', userId);
+    return this.http.post<any>(`${this.apiURL}/${boardId}/revokeAdmin`, null, {params});
   }
 }

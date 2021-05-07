@@ -1,0 +1,20 @@
+<mat-card (mouseenter)="isHovered = !isHovered" (mouseleave)="isHovered = !isHovered"
+          [class.mat-elevation-z3]="isHovered" routerLink="./{{post.postId}}">
+  <mat-card-title-group>
+    <mat-card-title>
+      <div class="userPictureFlex">
+        <img *ngIf="post.profilePictureLoading != false"
+             src="assets/spinner.gif" class="profilePic">
+        <img [hidden]="post.profilePictureLoading != false" [src]="post.profilePicUrl | secure | async"
+             (load)="post.profilePictureLoading = false" class="profilePic">
+        <div class="userName" routerLink="/user/{{post.userId}}">{{post.userName}}</div>
+        <div class="boardIcons">
+          <mat-icon *ngIf="post.isAdmin" matTooltip="Administrator">admin_panel_settings</mat-icon>
+        </div>
+      </div>
+    </mat-card-title>
+  </mat-card-title-group>
+  <mat-card-content>
+    <p class="postText textPreWrap">{{post.postText}}</p>
+  </mat-card-content>
+</mat-card>

@@ -1,5 +1,4 @@
 <div class="formCardContainer" ngClass.xs="small-mobilePadding">
-  <app-loading-spinner [show]="loading"></app-loading-spinner>
   <mat-card fxFlex.xs="100%" fxFlex.sm="81.25%" fxFlex.md="62.5%" fxFlex.lg="43.75%" fxFlex.xl="25%">
     <mat-card-title>Utwórz nową tablicę</mat-card-title>
     <mat-card-content>
@@ -29,7 +28,8 @@
         <div>
           <mat-form-field appearance="outline">
             <mat-label>Opis tablicy</mat-label>
-            <textarea matInput formControlName="description" trim="blur"></textarea>
+            <textarea cdkTextareaAutosize
+                      cdkAutosizeMinRows="4" matInput formControlName="description" trim="blur"></textarea>
           </mat-form-field>
         </div>
         <div class="mat-h2">Dane adresowe:</div>
@@ -56,8 +56,11 @@
           </mat-form-field>
         </div>
         <div class="formActionButtons">
-          <button type="submit" mat-raised-button color="primary" [disabled]="createBoardForm.invalid">
+          <button type="submit" mat-raised-button color="primary" [disabled]="createBoardForm.invalid || loading">
             Utwórz tablicę
+            <mat-icon class="buttonTextIcon" *ngIf="loading">
+              <mat-spinner mode="indeterminate" diameter="20"></mat-spinner>
+            </mat-icon>
           </button>
         </div>
       </form>

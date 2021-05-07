@@ -11,6 +11,7 @@ import { SnackbarService } from '../../shared/snackbar/snackbar-service/snackbar
 import { AuthenticationService } from '../../authentication/services/authentication-service/authentication.service';
 import { EmitterService } from '../../shared/emitter-service/emitter.service';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { BoardPost } from '../../post/models/post';
 
 @Component({
   selector: 'app-board-content',
@@ -19,6 +20,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 })
 export class BoardContentComponent implements OnInit {
   currentBoard: MyBoard;
+  allBoardPosts: BoardPost[] = [];
   sortState: Sort = {active: '', direction: ''};
   sortBadge: string;
   loading = true;
@@ -47,11 +49,13 @@ export class BoardContentComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(routeParams => {
       this.loadBoardInfo(routeParams.id);
+      this.loadAllBoardPosts(routeParams.id);
     });
   }
 
   reloadData(): void {
     this.loadBoardInfo(this.currentBoard.boardId);
+    this.loadAllBoardPosts(this.currentBoard.boardId);
   }
 
   loadBoardInfo(id: string): void {
@@ -66,6 +70,25 @@ export class BoardContentComponent implements OnInit {
           this.router.navigate(['/myBoards']).then(() => this.snackbarService.openErrorSnackbar('Nie należysz do tej tablicy!'));
         } else {
           this.router.navigate(['/myBoards']).then(() => this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas pobierania danych tablicy'));
+        }
+      }
+    });
+  }
+
+  loadAllBoardPosts(id: string): void {
+    this.loading = true;
+    this.boardService.getAllBoardPosts(id).subscribe({
+      next: response => {
+        this.allBoardPosts = response;
+        this.loading = false;
+      },
+      error: err => {
+        if (err.error?.status === 'FORBIDDEN') {
+          this.router.navigate(['/myBoards'])
+            .then(() => this.snackbarService.openErrorSnackbar('Nie należysz do tej tablicy!'));
+        } else {
+          this.router.navigate(['/myBoards'])
+            .then(() => this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas pobierania ogłoszeń!'));
         }
       }
     });

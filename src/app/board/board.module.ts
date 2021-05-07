@@ -21,6 +21,7 @@ import { BoardMembersDialogComponent } from './dialogs/board-members-dialog/boar
 import { BoardSettingsComponent } from './board-settings/board-settings.component';
 import { BoardJoinRequestsDialogComponent } from './dialogs/board-join-requests-dialog/board-join-requests-dialog.component';
 import { JoinBoardComponent } from './join-board/join-board.component';
+import { PostModule } from '../post/post.module';
 
 @NgModule({
   declarations: [
@@ -42,16 +43,17 @@ import { JoinBoardComponent } from './join-board/join-board.component';
     CreateBoardComponent,
     MyBoardsComponent,
   ],
-    imports: [
-        CommonModule,
-        MaterialModule,
-        SharedModule,
-        ReactiveFormsModule,
-        MatTableModule,
-        MatSortModule,
-        DragDropModule,
-        MatTooltipModule
-    ],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    SharedModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatSortModule,
+    DragDropModule,
+    MatTooltipModule,
+    PostModule
+  ],
   providers: [
     {provide: SEARCH_BOARD_DIALOG_TOKEN, useValue: SearchBoardDialogComponent},
     {provide: BOARD_MEMBERS_DIALOG_TOKEN, useValue: BoardMembersDialogComponent}

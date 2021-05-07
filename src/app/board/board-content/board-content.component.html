@@ -12,7 +12,7 @@
     <mat-icon>refresh</mat-icon>
   </button>
 
-  <div *ngIf="(isHandset$ | async) === false"  class="toolbarFormFields mat-body">
+  <div *ngIf="(isHandset$ | async) === false" class="toolbarFormFields mat-body">
     <mat-form-field appearance="outline">
       <mat-label>Sortowanie</mat-label>
       <mat-select [(value)]="this.sortState" (selectionChange)="sortPosts()" [compareWith]="customSortCompare">
@@ -61,7 +61,11 @@
   </button>
 
   <button mat-icon-button [matMenuTriggerFor]="settingsMenu">
-    <mat-icon matBadge="{{currentBoard?.notificationsNumber}}" [matBadgeHidden]="currentBoard?.notificationsNumber === 0" matBadgeColor="warn">settings</mat-icon>
+    <mat-icon matBadge="{{currentBoard?.notificationsNumber}}"
+              [matBadgeHidden]="currentBoard?.notificationsNumber === 0"
+              matBadgeColor="warn">
+      settings
+    </mat-icon>
   </button>
   <mat-menu #settingsMenu="matMenu">
     <button mat-menu-item (click)="shareBoard()">
@@ -77,7 +81,11 @@
       Członkowie tablicy
     </button>
     <button mat-menu-item *ngIf="currentBoard?.isAdmin" (click)="openBoardJoinRequests()">
-      <mat-icon matBadge="{{currentBoard?.notificationsNumber}}" [matBadgeHidden]="currentBoard?.notificationsNumber === 0"  matBadgeColor="warn" matBadgeSize="small">person_add</mat-icon>
+      <mat-icon matBadge="{{currentBoard?.notificationsNumber}}"
+                [matBadgeHidden]="currentBoard?.notificationsNumber === 0"
+                matBadgeColor="warn" matBadgeSize="small">
+        person_add
+      </mat-icon>
       Prośby o dołączenie
     </button>
     <button mat-menu-item *ngIf="currentBoard?.isAdmin" routerLink="./settings">
@@ -90,3 +98,23 @@
     </button>
   </mat-menu>
 </mat-toolbar>
+
+<div *ngIf="allBoardPosts.length !== 0 && !loading" class="postCardsContainer" ngClass.xs="small-mobilePadding">
+  <div fxLayout="row wrap" fxLayoutGap="1em grid">
+    <div fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="50%" fxFlex.lg="33%" fxFlex.xl="25%"
+         *ngFor="let post of allBoardPosts">
+      <app-post-card [post]="post"></app-post-card>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="allBoardPosts.length === 0 && !loading" class="postCardsContainer" ngClass.xs="small-mobilePadding">
+  <div class="noPosts">
+    <mat-icon [inline]="true">dashboard</mat-icon>
+    Jeszcze nie ma żadnych ogłoszeń na tej tablicy
+  </div>
+</div>
+
+<button mat-fab color="primary" routerLink="./createPost">
+  <mat-icon>add</mat-icon>
+</button>

@@ -1,0 +1,35 @@
+mat-card {
+  min-height: 10em;
+  cursor: pointer;
+  outline: none;
+
+  .userPictureFlex {
+    display: flex;
+    align-items: center;
+
+    .userName {
+      padding-left: 0.5em;
+    }
+
+    .userName:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .mat-card-title {
+    font-size: inherit;
+  }
+
+  .mat-card-content {
+    padding-top: 0.5em;
+    height: 16em;
+  }
+}
+
+.postText {
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 9;
+  -webkit-box-orient: vertical;
+}
