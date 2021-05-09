@@ -12,7 +12,7 @@
 
 <div mat-dialog-content>
   <div
-    *ngIf="!loading && ((joinDateBreakpoint$ | async) || (postsNumberBreakpoint$ | async) || (didLeftBreakpoint$ | async) || (isAdminBreakpoint$ | async))"
+    *ngIf="!loading && ((joinDateBreakpoint$ | async) || (memberPostsCountBreakpoint$ | async) || (didLeftBreakpoint$ | async) || (isAdminBreakpoint$ | async))"
     fxLayout="row" fxLayoutAlign="start center">
     <mat-form-field appearance="outline" fxFlex>
       <mat-label>Sortowanie</mat-label>
@@ -35,12 +35,12 @@
             Data dołączenia - malejąco
           </mat-option>
         </mat-optgroup>
-        <mat-optgroup label="Liczba postów">
-          <mat-option [value]="{active: 'postsNumber', direction: 'asc'}">
-            Liczba postów - rosnąco
+        <mat-optgroup label="Liczba ogłoszeń">
+          <mat-option [value]="{active: 'memberPostsCount', direction: 'asc'}">
+            Liczba ogłoszeń - rosnąco
           </mat-option>
-          <mat-option [value]="{active: 'postsNumber', direction: 'desc'}">
-            Liczba postów - malejąco
+          <mat-option [value]="{active: 'memberPostsCount', direction: 'desc'}">
+            Liczba ogłoszeń - malejąco
           </mat-option>
         </mat-optgroup>
       </mat-select>
@@ -81,10 +81,10 @@
         <td mat-cell *matCellDef="let element"> {{element.joinDate | date}} </td>
       </ng-container>
 
-      <!-- Post Number Column -->
-      <ng-container matColumnDef="postsNumber">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Liczba postów</th>
-        <td mat-cell *matCellDef="let element"> {{element.postsNumber}} </td>
+      <!-- Member Posts Count Column -->
+      <ng-container matColumnDef="memberPostsCount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Liczba ogłoszeń</th>
+        <td mat-cell *matCellDef="let element"> {{element.memberPostsCount}} </td>
       </ng-container>
 
       <!-- Did Left Column -->

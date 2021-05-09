@@ -1,6 +1,6 @@
 <mat-card (mouseenter)="isHovered = !isHovered" (mouseleave)="isHovered = !isHovered"
           [class.mat-elevation-z3]="isHovered" routerLink="/board/{{board.boardId}}"
-          matBadge="{{board.notificationsNumber}}" [matBadgeHidden]="board.notificationsNumber === 0" matBadgeColor="warn">
+          matBadge="{{board.notificationsCount}}" [matBadgeHidden]="board.notificationsCount === 0" matBadgeColor="warn">
   <mat-card-title-group>
     <mat-card-title>
       {{board.boardName}}
@@ -14,12 +14,12 @@
   <mat-card-content>
     <table class="boardStats">
       <tr>
-        <th class="borderRight">0</th>
+        <th class="borderRight">{{board.boardPostsCount}}</th>
         <th>{{board.boardMembers}}</th>
       </tr>
       <tr>
         <td class="borderRight">
-          Postów
+          Ogłoszeń
         </td>
         <td>
           Członków

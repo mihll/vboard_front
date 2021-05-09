@@ -5,7 +5,7 @@ export class BoardMember {
   public readonly didLeft: boolean;
   public readonly name: string;
   public readonly joinDate: Date;
-  public readonly postsNumber: number;
+  public readonly memberPostsCount: number;
 }
 
 export interface BoardMemberInfo {
@@ -16,7 +16,7 @@ export interface BoardMemberInfo {
   isAdmin: boolean;
   didLeft: boolean;
   joinDate: Date;
-  postsNumber: number;
+  memberPostsCount: number;
 
   profilePictureLoading: boolean;
   isDoingAction: boolean;

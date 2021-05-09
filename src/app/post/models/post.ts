@@ -6,6 +6,8 @@ export interface BoardPost {
 
   postId: string;
   postText: string;
+  createdDate: Date;
+  lastModifiedDate: Date;
   isPinned: boolean;
 
   profilePictureLoading: boolean;

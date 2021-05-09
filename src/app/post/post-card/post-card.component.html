@@ -7,7 +7,11 @@
              src="assets/spinner.gif" class="profilePic">
         <img [hidden]="post.profilePictureLoading != false" [src]="post.profilePicUrl | secure | async"
              (load)="post.profilePictureLoading = false" class="profilePic">
-        <div class="userName" routerLink="/user/{{post.userId}}">{{post.userName}}</div>
+        <div class="cardHeaderText">
+          <div class="userName" routerLink="/user/{{post.userId}}">{{post.userName}}</div>
+          <div *ngIf="post.createdDate === post.lastModifiedDate" class="postDate" matTooltip="{{post.createdDate | date: 'short'}}">{{post.createdDate | timeago:true}}</div>
+          <div *ngIf="post.createdDate !== post.lastModifiedDate" class="postDate" matTooltip="{{post.lastModifiedDate | date: 'short'}}">Edytowano {{post.lastModifiedDate | timeago:true}}</div>
+        </div>
         <div class="boardIcons">
           <mat-icon *ngIf="post.isAdmin" matTooltip="Administrator">admin_panel_settings</mat-icon>
         </div>

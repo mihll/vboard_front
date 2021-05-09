@@ -7,12 +7,22 @@ mat-card {
     display: flex;
     align-items: center;
 
-    .userName {
+    .cardHeaderText {
       padding-left: 0.5em;
-    }
 
-    .userName:hover {
-      text-decoration: underline;
+      .userName {
+        font-size: medium;
+      }
+
+      .userName:hover {
+        text-decoration: underline;
+      }
+
+      .postDate {
+        font-size: small;
+        font-weight: normal;
+      }
+
     }
   }
 

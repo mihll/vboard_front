@@ -1,4 +1,4 @@
-<app-loading-spinner [show]="loading"></app-loading-spinner>
+<app-loading-spinner [show]="boardLoading"></app-loading-spinner>
 <mat-toolbar ngClass.xs="mobileToolbar">
   <div class="toolbarTitle">{{currentBoard?.boardName}}</div>
   <div class="boardIcons">
@@ -61,8 +61,8 @@
   </button>
 
   <button mat-icon-button [matMenuTriggerFor]="settingsMenu">
-    <mat-icon matBadge="{{currentBoard?.notificationsNumber}}"
-              [matBadgeHidden]="currentBoard?.notificationsNumber === 0"
+    <mat-icon matBadge="{{currentBoard?.notificationsCount}}"
+              [matBadgeHidden]="currentBoard?.notificationsCount === 0"
               matBadgeColor="warn">
       settings
     </mat-icon>
@@ -81,8 +81,8 @@
       Członkowie tablicy
     </button>
     <button mat-menu-item *ngIf="currentBoard?.isAdmin" (click)="openBoardJoinRequests()">
-      <mat-icon matBadge="{{currentBoard?.notificationsNumber}}"
-                [matBadgeHidden]="currentBoard?.notificationsNumber === 0"
+      <mat-icon matBadge="{{currentBoard?.notificationsCount}}"
+                [matBadgeHidden]="currentBoard?.notificationsCount === 0"
                 matBadgeColor="warn" matBadgeSize="small">
         person_add
       </mat-icon>
@@ -99,7 +99,13 @@
   </mat-menu>
 </mat-toolbar>
 
-<div *ngIf="allBoardPosts.length !== 0 && !loading" class="postCardsContainer" ngClass.xs="small-mobilePadding">
+<div *ngIf="postsLoading" class="postCardsContainer" ngClass.xs="small-mobilePadding">
+  <div class="centerInfo">
+    <mat-progress-bar mode="indeterminate" style="width: 50vw"></mat-progress-bar>
+  </div>
+</div>
+
+<div *ngIf="allBoardPosts.length !== 0 && !postsLoading" class="postCardsContainer" ngClass.xs="small-mobilePadding">
   <div fxLayout="row wrap" fxLayoutGap="1em grid">
     <div fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="50%" fxFlex.lg="33%" fxFlex.xl="25%"
          *ngFor="let post of allBoardPosts">
@@ -108,8 +114,8 @@
   </div>
 </div>
 
-<div *ngIf="allBoardPosts.length === 0 && !loading" class="postCardsContainer" ngClass.xs="small-mobilePadding">
-  <div class="noPosts">
+<div *ngIf="allBoardPosts.length === 0 && !postsLoading" class="postCardsContainer" ngClass.xs="small-mobilePadding">
+  <div class="centerInfo">
     <mat-icon [inline]="true">dashboard</mat-icon>
     Jeszcze nie ma żadnych ogłoszeń na tej tablicy
   </div>

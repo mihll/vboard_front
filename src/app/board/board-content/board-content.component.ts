@@ -23,7 +23,8 @@ export class BoardContentComponent implements OnInit {
   allBoardPosts: BoardPost[] = [];
   sortState: Sort = {active: '', direction: ''};
   sortBadge: string;
-  loading = true;
+  boardLoading = true;
+  postsLoading = true;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -59,11 +60,11 @@ export class BoardContentComponent implements OnInit {
   }
 
   loadBoardInfo(id: string): void {
-    this.loading = true;
+    this.boardLoading = true;
     this.boardService.getBoardOfId(id).subscribe({
       next: response => {
         this.currentBoard = response;
-        this.loading = false;
+        this.boardLoading = false;
       },
       error: err => {
         if (err.error?.status === 'FORBIDDEN') {
@@ -76,11 +77,11 @@ export class BoardContentComponent implements OnInit {
   }
 
   loadAllBoardPosts(id: string): void {
-    this.loading = true;
+    this.postsLoading = true;
     this.boardService.getAllBoardPosts(id).subscribe({
       next: response => {
         this.allBoardPosts = response;
-        this.loading = false;
+        this.postsLoading = false;
       },
       error: err => {
         if (err.error?.status === 'FORBIDDEN') {
@@ -156,7 +157,7 @@ localhost:4200/joinBoard/${this.currentBoard.boardId}`);
       'Jeżeli chcesz usunąć swoją aktywność, skontatkuj się za administratorem tablicy.')
       .beforeClosed().subscribe(result => {
       if (result) {
-        this.loading = true;
+        this.boardLoading = true;
 
         this.boardService.leaveBoard(this.currentBoard.boardId, this.authenticationService.userValue.userId)
           .subscribe({
@@ -165,7 +166,7 @@ localhost:4200/joinBoard/${this.currentBoard.boardId}`);
               this.router.navigate(['/myBoards']).then(() => this.snackbarService.openSuccessSnackbar('Opuściłeś tablicę!'));
             },
             error: err => {
-              this.loading = false;
+              this.boardLoading = false;
               if (err.error.status === 'FORBIDDEN') {
                 this.dialogService.openInfoDialog('Nie możesz opuścić tablicy!', 'Nie możesz opuścić tej tablicy, ponieważ jesteś jej jedynym administratorem.', false);
               } else {

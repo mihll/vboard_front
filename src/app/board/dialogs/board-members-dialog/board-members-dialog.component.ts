@@ -36,7 +36,7 @@ export class BoardMembersDialogComponent implements OnInit {
 
   boardMembers: BoardMemberInfo[];
   dataSource: MatTableDataSource<BoardMemberInfo> = new MatTableDataSource<BoardMemberInfo>();
-  displayedColumns: string[] = ['name', 'expandIcon', 'joinDate', 'postsNumber' , 'didLeft', 'isAdmin', 'action'];
+  displayedColumns: string[] = ['name', 'expandIcon', 'joinDate', 'memberPostsCount' , 'didLeft', 'isAdmin', 'action'];
 
   private sort: MatSort;
   @ViewChild(MatSort) set matSort(ms: MatSort) {
@@ -55,7 +55,7 @@ export class BoardMembersDialogComponent implements OnInit {
       map(result => result.matches)
     );
 
-  postsNumberBreakpoint$: Observable<boolean> = this.breakpointObserver.observe(['(min-width: 831px) and (max-width: 930px)'])
+  memberPostsCountBreakpoint$: Observable<boolean> = this.breakpointObserver.observe(['(min-width: 831px) and (max-width: 930px)'])
     .pipe(
       map(result => result.matches)
     );
@@ -93,7 +93,7 @@ export class BoardMembersDialogComponent implements OnInit {
     // BREAKPOINTS
     this.allVisibleBreakpoint$.subscribe(breakpoint => {
       if (breakpoint) {
-        this.displayedColumns = ['name', 'joinDate', 'postsNumber' , 'didLeft', 'isAdmin'];
+        this.displayedColumns = ['name', 'joinDate', 'memberPostsCount' , 'didLeft', 'isAdmin'];
         this.boardMembers?.forEach(member => member.profilePictureLoading = true);
         if (this.currentBoard.isAdmin) {
           this.displayedColumns.push('action');
@@ -102,7 +102,7 @@ export class BoardMembersDialogComponent implements OnInit {
         this.expandedElement = null;
       }
     });
-    this.postsNumberBreakpoint$.subscribe(breakpoint => {
+    this.memberPostsCountBreakpoint$.subscribe(breakpoint => {
       if (breakpoint) {
         this.displayedColumns = ['name', 'expandIcon', 'joinDate' , 'didLeft', 'isAdmin'];
         this.boardMembers?.forEach(member => member.profilePictureLoading = true);
@@ -110,7 +110,7 @@ export class BoardMembersDialogComponent implements OnInit {
           this.displayedColumns.push('action');
         }
         this.detailsArraySubject.next([
-          new DetailData('Liczba postów', ''),
+          new DetailData('Liczba ogłoszeń', ''),
         ]);
       }
     });
@@ -122,7 +122,7 @@ export class BoardMembersDialogComponent implements OnInit {
           this.displayedColumns.push('action');
         }
         this.detailsArraySubject.next([
-          new DetailData('Liczba postów', ''),
+          new DetailData('Liczba ogłoszeń', ''),
           new DetailData('Data dołączenia', ''),
         ]);
       }
@@ -135,7 +135,7 @@ export class BoardMembersDialogComponent implements OnInit {
           this.displayedColumns.push('action');
         }
         this.detailsArraySubject.next([
-          new DetailData('Liczba postów', ''),
+          new DetailData('Liczba ogłoszeń', ''),
           new DetailData('Data dołączenia', ''),
           new DetailData('Opuścił tablicę', ''),
         ]);
@@ -149,7 +149,7 @@ export class BoardMembersDialogComponent implements OnInit {
           this.displayedColumns.push('action');
         }
         this.detailsArraySubject.next([
-          new DetailData('Liczba postów', ''),
+          new DetailData('Liczba ogłoszeń', ''),
           new DetailData('Data dołączenia', ''),
           new DetailData('Opuścił tablicę', ''),
           new DetailData('Administrator tablicy', ''),
@@ -173,8 +173,8 @@ export class BoardMembersDialogComponent implements OnInit {
     this.detailsArraySubject.subscribe(detailsArray => {
       this.detailsDataSource.data = detailsArray.map(((value) => {
         switch (value.detailName){
-          case 'Liczba postów':
-            value.detailData = element.postsNumber.toString();
+          case 'Liczba ogłoszeń':
+            value.detailData = element.memberPostsCount.toString();
             return value;
           case 'Data dołączenia':
             value.detailData = formatDate(element.joinDate, 'mediumDate', 'pl');

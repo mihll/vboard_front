@@ -26,7 +26,7 @@ export class BoardInfoDialogComponent implements OnInit {
       new DetailData('Data utworzenia', formatDate(this.board.createdDate, 'mediumDate', 'pl')),
       new DetailData('Typ tablicy', this.board.isPrivate ? 'Prywatna' : 'Publiczna'),
       new DetailData('Liczba członków', String(this.board.boardMembers)),
-      new DetailData('Liczba postów', '0')
+      new DetailData('Liczba ogłoszeń', String(this.board.boardPostsCount))
     ];
   }
 
