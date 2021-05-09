@@ -12,6 +12,7 @@ import { AuthenticationService } from '../../authentication/services/authenticat
 import { EmitterService } from '../../shared/emitter-service/emitter.service';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { BoardPost } from '../../post/models/post';
+import {PostService} from '../../post/services/post-service/post.service';
 
 @Component({
   selector: 'app-board-content',
@@ -21,10 +22,13 @@ import { BoardPost } from '../../post/models/post';
 export class BoardContentComponent implements OnInit {
   currentBoard: MyBoard;
   allBoardPosts: BoardPost[] = [];
+  pinnedBoardPosts: BoardPost[] = [];
   sortState: Sort = {active: '', direction: ''};
   sortBadge: string;
   boardLoading = true;
-  postsLoading = true;
+
+  pinnedPostsLoading = true;
+  allPostsLoading = true;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -38,6 +42,7 @@ export class BoardContentComponent implements OnInit {
     private dialogService: DialogService,
     private snackbarService: SnackbarService,
     private boardService: BoardService,
+    private postService: PostService,
     private authenticationService: AuthenticationService,
     private emitterService: EmitterService,
     private clipboard: Clipboard
@@ -50,12 +55,14 @@ export class BoardContentComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(routeParams => {
       this.loadBoardInfo(routeParams.id);
+      this.loadPinnedBoardPosts(routeParams.id);
       this.loadAllBoardPosts(routeParams.id);
     });
   }
 
   reloadData(): void {
     this.loadBoardInfo(this.currentBoard.boardId);
+    this.loadPinnedBoardPosts(this.currentBoard.boardId);
     this.loadAllBoardPosts(this.currentBoard.boardId);
   }
 
@@ -76,12 +83,31 @@ export class BoardContentComponent implements OnInit {
     });
   }
 
+  loadPinnedBoardPosts(id: string): void {
+    this.pinnedPostsLoading = true;
+    this.boardService.getPinnedBoardPosts(id).subscribe({
+      next: response => {
+        this.pinnedBoardPosts = response;
+        this.pinnedPostsLoading = false;
+      },
+      error: err => {
+        if (err.error?.status === 'FORBIDDEN') {
+          this.router.navigate(['/myBoards'])
+            .then(() => this.snackbarService.openErrorSnackbar('Nie należysz do tej tablicy!'));
+        } else {
+          this.router.navigate(['/myBoards'])
+            .then(() => this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas pobierania ogłoszeń!'));
+        }
+      }
+    });
+  }
+
   loadAllBoardPosts(id: string): void {
-    this.postsLoading = true;
+    this.allPostsLoading = true;
     this.boardService.getAllBoardPosts(id).subscribe({
       next: response => {
         this.allBoardPosts = response;
-        this.postsLoading = false;
+        this.allPostsLoading = false;
       },
       error: err => {
         if (err.error?.status === 'FORBIDDEN') {
@@ -176,6 +202,47 @@ localhost:4200/joinBoard/${this.currentBoard.boardId}`);
           });
       }
     });
+  }
+
+  pinPost(postToPin: BoardPost): void {
+    this.boardLoading = true;
+
+    this.postService.pinPost(postToPin.postId)
+      .subscribe({
+        next: () => {
+          postToPin.isPinned = true;
+          this.pinnedBoardPosts.push(postToPin);
+          this.snackbarService.openSuccessSnackbar('Pomyślnie przypięto ogłoszenie');
+          this.boardLoading = false;
+        },
+        error: () => {
+          this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas przypinania ogłoszenia!');
+          this.boardLoading = false;
+        }
+      });
+  }
+
+  unpinPost(postToUnpin: BoardPost): void {
+    this.boardLoading = true;
+
+    this.postService.unpinPost(postToUnpin.postId)
+      .subscribe({
+        next: () => {
+          postToUnpin.isPinned = false;
+          const postIndexInPinnedPosts = this.pinnedBoardPosts.indexOf(postToUnpin, 0);
+          this.pinnedBoardPosts.splice(postIndexInPinnedPosts, 1);
+          this.snackbarService.openSuccessSnackbar('Pomyślnie odpięto ogłoszenie');
+          this.boardLoading = false;
+        },
+        error: () => {
+          this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas odpinania ogłoszenia!');
+          this.boardLoading = false;
+        }
+      });
+  }
+
+  getCurrentUserId(): string {
+    return this.authenticationService.userValue.userId;
   }
 
 }

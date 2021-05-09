@@ -32,7 +32,11 @@
 }
 
 .mat-fab {
-  position: absolute;
+  position: fixed;
   bottom: 5%;
   right: 5%;
+}
+
+.bottomSpacer {
+  padding-bottom: 100px;
 }

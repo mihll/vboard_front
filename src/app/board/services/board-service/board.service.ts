@@ -41,7 +41,8 @@ export class BoardService {
   }
 
   getPinnedBoardPosts(boardId: string): Observable<BoardPost[]> {
-    return this.http.get<any>(`${this.apiURL}/${boardId}/posts/pinned`);
+    return this.http.get<any>(`${this.apiURL}/${boardId}/posts/pinned`)
+      .pipe(map(response => response.posts));
   }
 
   // manage join requests

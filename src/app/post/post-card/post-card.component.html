@@ -1,14 +1,14 @@
 <mat-card (mouseenter)="isHovered = !isHovered" (mouseleave)="isHovered = !isHovered"
-          [class.mat-elevation-z3]="isHovered" routerLink="./{{post.postId}}">
+          [class.mat-elevation-z3]="isHovered">
   <mat-card-title-group>
     <mat-card-title>
-      <div class="userPictureFlex">
+      <div class="userPictureFlex" (click)="$event.stopPropagation()">
         <img *ngIf="post.profilePictureLoading != false"
              src="assets/spinner.gif" class="profilePic">
         <img [hidden]="post.profilePictureLoading != false" [src]="post.profilePicUrl | secure | async"
              (load)="post.profilePictureLoading = false" class="profilePic">
         <div class="cardHeaderText">
-          <div class="userName" routerLink="/user/{{post.userId}}">{{post.userName}}</div>
+          <div class="userName">{{post.userName}}</div>
           <div *ngIf="post.createdDate === post.lastModifiedDate" class="postDate" matTooltip="{{post.createdDate | date: 'short'}}">{{post.createdDate | timeago:true}}</div>
           <div *ngIf="post.createdDate !== post.lastModifiedDate" class="postDate" matTooltip="{{post.lastModifiedDate | date: 'short'}}">Edytowano {{post.lastModifiedDate | timeago:true}}</div>
         </div>
@@ -17,8 +17,52 @@
         </div>
       </div>
     </mat-card-title>
+    <button *ngIf="isCurrentUserBoardAdmin || currentUserId === post.userId" mat-icon-button [matMenuTriggerFor]="postMenu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #postMenu="matMenu">
+      <button mat-menu-item *ngIf="isCurrentUserBoardAdmin && !post.isPinned" (click)="pinPost()">
+        <mat-icon>push_pin</mat-icon>
+        Przypnij ogłoszenie
+      </button>
+      <button mat-menu-item *ngIf="isCurrentUserBoardAdmin && post.isPinned" (click)="unpinPost()">
+        <mat-icon>push_pin</mat-icon>
+        Odepnij ogłoszenie
+      </button>
+      <button mat-menu-item *ngIf="currentUserId === post.userId">
+        <mat-icon>edit</mat-icon>
+        Edytuj ogłoszenie
+      </button>
+      <button mat-menu-item>
+        <mat-icon>delete</mat-icon>
+        Usuń ogłoszenie
+      </button>
+    </mat-menu>
+
   </mat-card-title-group>
-  <mat-card-content>
-    <p class="postText textPreWrap">{{post.postText}}</p>
+  <mat-card-content routerLink="./{{post.postId}}">
+    <p [class.postTextLess]="isShownLess" class="textPreWrap" #postTextBox>{{post.postText}}</p>
+    <p *ngIf="postTextBox.offsetHeight < postTextBox.scrollHeight || postTextBox.offsetWidth < postTextBox.scrollWidth"
+       class="showMoreLessButton" (click)="$event.stopPropagation(); isShownLess = !isShownLess">
+      Pokaż więcej...
+    </p>
+    <p *ngIf="!isShownLess" class="showMoreLessButton" (click)="$event.stopPropagation(); isShownLess = !isShownLess">
+      Pokaż mniej...
+    </p>
   </mat-card-content>
+  <mat-card-actions>
+    <button mat-stroked-button fxFlex="50">
+      <mat-icon>thumb_up_off_alt</mat-icon>
+      Polub (5)
+    </button>
+<!--    <button mat-stroked-button color="primary" fxFlex="50">
+      <mat-icon>thumb_up_alt</mat-icon>
+      Polubiono (5)
+    </button>-->
+    <button mat-stroked-button fxFlex="50">
+      <mat-icon>comment</mat-icon>
+      Komentarze (5)
+    </button>
+  </mat-card-actions>
 </mat-card>

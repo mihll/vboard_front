@@ -1,6 +1,5 @@
 mat-card {
   min-height: 10em;
-  cursor: pointer;
   outline: none;
 
   .userPictureFlex {
@@ -11,6 +10,7 @@ mat-card {
       padding-left: 0.5em;
 
       .userName {
+        cursor: pointer;
         font-size: medium;
       }
 
@@ -31,15 +31,33 @@ mat-card {
   }
 
   .mat-card-content {
+    cursor: pointer;
     padding-top: 0.5em;
-    height: 16em;
+  }
+
+  .mat-card-actions {
+    button {
+      margin-left: 8px;
+    }
   }
 }
 
-.postText {
+.postTextLess {
   overflow : hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 9;
+  -webkit-line-clamp: 8;
   -webkit-box-orient: vertical;
+}
+
+.postTextMore {
+}
+
+.showMoreLessButton {
+  text-align: right;
+}
+
+.showMoreLessButton:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }

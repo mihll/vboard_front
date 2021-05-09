@@ -99,27 +99,48 @@
   </mat-menu>
 </mat-toolbar>
 
-<div *ngIf="postsLoading" class="postCardsContainer" ngClass.xs="small-mobilePadding">
+<div *ngIf="pinnedPostsLoading || allPostsLoading" class="postCardsContainer" ngClass.xs="small-mobilePadding">
   <div class="centerInfo">
     <mat-progress-bar mode="indeterminate" style="width: 50vw"></mat-progress-bar>
   </div>
 </div>
 
-<div *ngIf="allBoardPosts.length !== 0 && !postsLoading" class="postCardsContainer" ngClass.xs="small-mobilePadding">
+<mat-toolbar *ngIf="pinnedBoardPosts.length !== 0">
+  Przypięte ogłoszenia
+</mat-toolbar>
+
+<div *ngIf="pinnedBoardPosts.length !== 0 && !pinnedPostsLoading" class="postCardsContainer" ngClass.xs="small-mobilePadding">
   <div fxLayout="row wrap" fxLayoutGap="1em grid">
     <div fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="50%" fxFlex.lg="33%" fxFlex.xl="25%"
-         *ngFor="let post of allBoardPosts">
-      <app-post-card [post]="post"></app-post-card>
+         *ngFor="let post of pinnedBoardPosts">
+      <app-post-card [post]="post" [currentUserId]="getCurrentUserId()" [isCurrentUserBoardAdmin]="currentBoard?.isAdmin"
+                     (pinPostEvent)="pinPost($event)" (unpinPostEvent)="unpinPost($event)"></app-post-card>
     </div>
   </div>
 </div>
 
-<div *ngIf="allBoardPosts.length === 0 && !postsLoading" class="postCardsContainer" ngClass.xs="small-mobilePadding">
+<mat-toolbar *ngIf="pinnedBoardPosts.length !== 0">
+  Wszystkie ogłoszenia
+</mat-toolbar>
+
+<div *ngIf="allBoardPosts.length !== 0 && !allPostsLoading" class="postCardsContainer" ngClass.xs="small-mobilePadding">
+  <div fxLayout="row wrap" fxLayoutGap="1em grid">
+    <div fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="50%" fxFlex.lg="33%" fxFlex.xl="25%"
+         *ngFor="let post of allBoardPosts">
+      <app-post-card [post]="post" [currentUserId]="getCurrentUserId()" [isCurrentUserBoardAdmin]="currentBoard?.isAdmin"
+                     (pinPostEvent)="pinPost($event)" (unpinPostEvent)="unpinPost($event)"></app-post-card>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="allBoardPosts.length === 0 && !allPostsLoading" class="postCardsContainer" ngClass.xs="small-mobilePadding">
   <div class="centerInfo">
     <mat-icon [inline]="true">dashboard</mat-icon>
     Jeszcze nie ma żadnych ogłoszeń na tej tablicy
   </div>
 </div>
+
+<div class="bottomSpacer"></div>
 
 <button mat-fab color="primary" routerLink="./createPost">
   <mat-icon>add</mat-icon>

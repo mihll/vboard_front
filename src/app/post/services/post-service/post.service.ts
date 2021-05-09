@@ -16,4 +16,12 @@ export class PostService {
   createPost(postCreateRequest: PostCreateRequest): Observable<PostCreateResponse> {
     return this.http.post<any>(`${this.apiURL}/create`, postCreateRequest);
   }
+
+  pinPost(postId: string): Observable<any> {
+    return this.http.put<any>(`${this.apiURL}/${postId}/pin`, null);
+  }
+
+  unpinPost(postId: string): Observable<any> {
+    return this.http.put<any>(`${this.apiURL}/${postId}/unpin`, null);
+  }
 }

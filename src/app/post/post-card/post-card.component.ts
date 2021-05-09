@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { BoardPost } from '../models/post';
 
 @Component({
@@ -8,12 +8,24 @@ import { BoardPost } from '../models/post';
 })
 export class PostCardComponent implements OnInit {
   isHovered = false;
+  isShownLess = true;
 
   @Input() post: BoardPost;
+  @Input() currentUserId: string;
+  @Input() isCurrentUserBoardAdmin: boolean;
+  @Output() pinPostEvent = new EventEmitter<BoardPost>();
+  @Output() unpinPostEvent = new EventEmitter<BoardPost>();
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  pinPost(): void {
+    this.pinPostEvent.emit(this.post);
+  }
+
+  unpinPost(): void {
+    this.unpinPostEvent.emit(this.post);
+  }
 }
