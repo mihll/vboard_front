@@ -12,7 +12,7 @@ import { AuthenticationService } from '../../authentication/services/authenticat
 import { EmitterService } from '../../shared/emitter-service/emitter.service';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { BoardPost } from '../../post/models/post';
-import {PostService} from '../../post/services/post-service/post.service';
+import { PostService } from '../../post/services/post-service/post.service';
 
 @Component({
   selector: 'app-board-content',
@@ -48,15 +48,15 @@ export class BoardContentComponent implements OnInit {
     private clipboard: Clipboard
   ) {
     this.emitterService.shouldReloadCurrentBoardEmitter.subscribe(() => {
-      this.loadBoardInfo(this.route.snapshot.params.id);
+      this.loadBoardInfo(this.route.snapshot.params.boardId);
     });
   }
 
   ngOnInit(): void {
     this.route.params.subscribe(routeParams => {
-      this.loadBoardInfo(routeParams.id);
-      this.loadPinnedBoardPosts(routeParams.id);
-      this.loadAllBoardPosts(routeParams.id);
+      this.loadBoardInfo(routeParams.boardId);
+      this.loadPinnedBoardPosts(routeParams.boardId);
+      this.loadAllBoardPosts(routeParams.boardId);
     });
   }
 
@@ -66,9 +66,9 @@ export class BoardContentComponent implements OnInit {
     this.loadAllBoardPosts(this.currentBoard.boardId);
   }
 
-  loadBoardInfo(id: string): void {
+  loadBoardInfo(boardId: string): void {
     this.boardLoading = true;
-    this.boardService.getBoardOfId(id).subscribe({
+    this.boardService.getBoardOfId(boardId).subscribe({
       next: response => {
         this.currentBoard = response;
         this.boardLoading = false;
@@ -83,9 +83,9 @@ export class BoardContentComponent implements OnInit {
     });
   }
 
-  loadPinnedBoardPosts(id: string): void {
+  loadPinnedBoardPosts(boardId: string): void {
     this.pinnedPostsLoading = true;
-    this.boardService.getPinnedBoardPosts(id).subscribe({
+    this.boardService.getPinnedBoardPosts(boardId).subscribe({
       next: response => {
         this.pinnedBoardPosts = response;
         this.pinnedPostsLoading = false;
@@ -102,9 +102,9 @@ export class BoardContentComponent implements OnInit {
     });
   }
 
-  loadAllBoardPosts(id: string): void {
+  loadAllBoardPosts(boardId: string): void {
     this.allPostsLoading = true;
-    this.boardService.getAllBoardPosts(id).subscribe({
+    this.boardService.getAllBoardPosts(boardId).subscribe({
       next: response => {
         this.allBoardPosts = response;
         this.allPostsLoading = false;

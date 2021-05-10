@@ -18,6 +18,10 @@ export interface PostCreateRequest {
   postText: string;
 }
 
+export interface PostUpdateRequest {
+  postText: string;
+}
+
 export interface PostCreateResponse {
   postId: string;
 }

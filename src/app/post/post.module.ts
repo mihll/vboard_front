@@ -9,12 +9,14 @@ import { MatSortModule } from '@angular/material/sort';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CreatePostComponent } from './create-post/create-post.component';
+import { EditPostComponent } from './edit-post/edit-post.component';
 
 
 @NgModule({
   declarations: [
     PostCardComponent,
     CreatePostComponent,
+    EditPostComponent,
   ],
   exports: [
     PostCardComponent,

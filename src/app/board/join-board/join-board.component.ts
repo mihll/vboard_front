@@ -23,7 +23,7 @@ export class JoinBoardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.boardService.getBoardPublicInfo(this.route.snapshot.params.id).subscribe({
+    this.boardService.getBoardPublicInfo(this.route.snapshot.params.boardId).subscribe({
       next: boardInfoResponse => {
         this.boardToJoin = boardInfoResponse;
         this.loading = false;

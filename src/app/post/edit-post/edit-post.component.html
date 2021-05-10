@@ -1,0 +1,34 @@
+<mat-toolbar>
+  <button mat-icon-button (click)="goBackToBoard()">
+    <mat-icon>arrow_back_ios</mat-icon>
+  </button>
+  <div class="toolbarTitle">Edytuj ogłoszenie</div>
+</mat-toolbar>
+<div class="formCardContainer" ngClass.xs="small-mobilePadding">
+  <mat-card fxFlex.xs="100%" fxFlex.sm="81.25%" fxFlex.md="62.5%" fxFlex.lg="43.75%" fxFlex.xl="25%">
+    <mat-card-title>Edytuj swoje ogłoszenie</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="editPostForm" (ngSubmit)="onSubmit()" style="margin-top: 0.5em">
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Treść ogłoszenia</mat-label>
+            <textarea matInput formControlName="postText" trim="blur"
+                      cdkTextareaAutosize
+                      cdkAutosizeMinRows="8"></textarea>
+            <mat-error *ngIf="editPostForm.controls['postText'].hasError('required')">
+              Wprowadź treść ogłoszenia
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="formActionButtons">
+          <button type="submit" mat-raised-button color="primary" [disabled]="editPostForm.invalid || loading">
+            Zatwierdź
+            <mat-icon class="buttonTextIcon" *ngIf="loading">
+              <mat-spinner mode="indeterminate" diameter="20"></mat-spinner>
+            </mat-icon>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

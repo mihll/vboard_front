@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {SnackbarService} from '../../shared/snackbar/snackbar-service/snackbar.service';
-import {PostCreateRequest} from '../models/post';
-import {PostService} from '../services/post-service/post.service';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SnackbarService } from '../../shared/snackbar/snackbar-service/snackbar.service';
+import { PostCreateRequest } from '../models/post';
+import { PostService } from '../services/post-service/post.service';
 
 @Component({
   selector: 'app-create-post',
@@ -42,18 +42,18 @@ export class CreatePostComponent implements OnInit {
     this.loading = true;
 
     this.createPostRequest = {
-      boardId: this.route.snapshot.params.id,
+      boardId: this.route.snapshot.params.boardId,
       postText: this.f.postText.value,
     };
 
     this.postService.createPost(this.createPostRequest)
       .subscribe({
-        next: response => {
+        next: () => {
           this.loading = false;
-          this.router.navigate([`/board/${this.route.snapshot.params.id}`]).then(() => this.snackbarService.openSuccessSnackbar('Pomyślnie dodano ogłoszenie'));
+          this.router.navigate([`/board/${this.route.snapshot.params.boardId}`]).then(() => this.snackbarService.openSuccessSnackbar('Pomyślnie dodano ogłoszenie'));
         },
-        error: err => {
-          this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas dodawania ogłoszenia');
+        error: () => {
+          this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas dodawania ogłoszenia!');
           this.loading = false;
         }
       });

@@ -31,12 +31,12 @@ export class BoardSettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(routeParams => {
-      this.loadBoardInfo(routeParams.id);
+      this.loadBoardInfo(routeParams.boardId);
     });
   }
 
-  loadBoardInfo(id: string): void {
-    this.boardService.getBoardOfId(id).subscribe({
+  loadBoardInfo(boardId: string): void {
+    this.boardService.getBoardOfId(boardId).subscribe({
       next: response => {
         this.initializeModel(response);
         this.loading = false;
