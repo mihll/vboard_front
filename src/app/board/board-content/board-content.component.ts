@@ -241,8 +241,58 @@ localhost:4200/joinBoard/${this.currentBoard.boardId}`);
       });
   }
 
+  likePost(postToLike: BoardPost): void {
+    postToLike.isDoingLike = true;
+
+    this.postService.likePost(postToLike.postId)
+      .subscribe({
+        next: response => {
+          postToLike.postLikesCount = response.postLikesCount;
+          postToLike.isLiked = true;
+          this.updateAllPostsLikes(postToLike);
+          postToLike.isDoingLike = false;
+        },
+        error: () => {
+          this.snackbarService.openErrorSnackbar('Wystąpił błąd przesyłania polubienia!');
+        }
+      });
+  }
+
+  unlikePost(postToUnlike: BoardPost): void {
+    postToUnlike.isDoingLike = true;
+
+    this.postService.unlikePost(postToUnlike.postId)
+      .subscribe({
+        next: response => {
+          postToUnlike.postLikesCount = response.postLikesCount;
+          postToUnlike.isLiked = false;
+          this.updateAllPostsLikes(postToUnlike);
+          postToUnlike.isDoingLike = false;
+        },
+        error: () => {
+          this.snackbarService.openErrorSnackbar('Wystąpił błąd przesyłania polubienia!');
+        }
+      });
+  }
+
   getCurrentUserId(): string {
     return this.authenticationService.userValue.userId;
+  }
+
+  updateAllPostsLikes(updatedPost: BoardPost): void {
+    for (const pinnedPost of this.pinnedBoardPosts) {
+      if (pinnedPost.postId === updatedPost.postId) {
+        pinnedPost.postLikesCount = updatedPost.postLikesCount;
+        pinnedPost.isLiked = updatedPost.isLiked;
+      }
+    }
+
+    for (const post of this.allBoardPosts) {
+      if (post.postId === updatedPost.postId) {
+        post.postLikesCount = updatedPost.postLikesCount;
+        post.isLiked = updatedPost.isLiked;
+      }
+    }
   }
 
 }

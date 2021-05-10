@@ -52,14 +52,14 @@
     </p>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-stroked-button fxFlex="50">
+    <button *ngIf="!post.isLiked" mat-stroked-button fxFlex="50" (click)="likePost()">
       <mat-icon>thumb_up_off_alt</mat-icon>
-      Polub (5)
+      Polub {{post.postLikesCount !== 0 ? '(' + post.postLikesCount + ')' : ''}}
     </button>
-<!--    <button mat-stroked-button color="primary" fxFlex="50">
+    <button *ngIf="post.isLiked" mat-stroked-button color="primary" fxFlex="50" (click)="unlikePost()">
       <mat-icon>thumb_up_alt</mat-icon>
-      Polubiono (5)
-    </button>-->
+      Polubiono {{post.postLikesCount !== 0 ? '(' + post.postLikesCount + ')' : ''}}
+    </button>
     <button mat-stroked-button fxFlex="50">
       <mat-icon>comment</mat-icon>
       Komentarze (5)

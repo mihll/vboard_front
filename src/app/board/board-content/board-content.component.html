@@ -114,7 +114,8 @@
     <div fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="50%" fxFlex.lg="33%" fxFlex.xl="25%"
          *ngFor="let post of pinnedBoardPosts">
       <app-post-card [post]="post" [currentUserId]="getCurrentUserId()" [isCurrentUserBoardAdmin]="currentBoard?.isAdmin"
-                     (pinPostEvent)="pinPost($event)" (unpinPostEvent)="unpinPost($event)"></app-post-card>
+                     (pinPostEvent)="pinPost($event)" (unpinPostEvent)="unpinPost($event)"
+                     (likePostEvent)="likePost($event)" (unlikePostEvent)="unlikePost($event)"></app-post-card>
     </div>
   </div>
 </div>
@@ -128,7 +129,8 @@
     <div fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="50%" fxFlex.lg="33%" fxFlex.xl="25%"
          *ngFor="let post of allBoardPosts">
       <app-post-card [post]="post" [currentUserId]="getCurrentUserId()" [isCurrentUserBoardAdmin]="currentBoard?.isAdmin"
-                     (pinPostEvent)="pinPost($event)" (unpinPostEvent)="unpinPost($event)"></app-post-card>
+                     (pinPostEvent)="pinPost($event)" (unpinPostEvent)="unpinPost($event)"
+                     (likePostEvent)="likePost($event)" (unlikePostEvent)="unlikePost($event)"></app-post-card>
     </div>
   </div>
 </div>

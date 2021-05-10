@@ -15,6 +15,8 @@ export class PostCardComponent implements OnInit {
   @Input() isCurrentUserBoardAdmin: boolean;
   @Output() pinPostEvent = new EventEmitter<BoardPost>();
   @Output() unpinPostEvent = new EventEmitter<BoardPost>();
+  @Output() likePostEvent = new EventEmitter<BoardPost>();
+  @Output() unlikePostEvent = new EventEmitter<BoardPost>();
 
   constructor() { }
 
@@ -27,5 +29,13 @@ export class PostCardComponent implements OnInit {
 
   unpinPost(): void {
     this.unpinPostEvent.emit(this.post);
+  }
+
+  likePost(): void {
+    this.likePostEvent.emit(this.post);
+  }
+
+  unlikePost(): void {
+    this.unlikePostEvent.emit(this.post);
   }
 }

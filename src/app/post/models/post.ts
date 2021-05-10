@@ -9,8 +9,11 @@ export interface BoardPost {
   createdDate: Date;
   lastModifiedDate: Date;
   isPinned: boolean;
+  isLiked: boolean;
+  postLikesCount: number;
 
   profilePictureLoading: boolean;
+  isDoingLike: boolean;
 }
 
 export interface PostCreateRequest {
@@ -24,4 +27,8 @@ export interface PostUpdateRequest {
 
 export interface PostCreateResponse {
   postId: string;
+}
+
+export interface PostLikeResponse {
+  postLikesCount: number;
 }
