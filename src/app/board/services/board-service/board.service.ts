@@ -14,7 +14,6 @@ import {
 import { map } from 'rxjs/operators';
 import { BoardMemberInfo } from '../../models/board/boardMember';
 import { BoardJoinRequest } from '../../models/board/boardJoinRequest';
-import { BoardPost } from '../../../post/models/post';
 
 @Injectable({
   providedIn: 'root'
@@ -32,17 +31,6 @@ export class BoardService {
 
   getBoardPublicInfo(boardId: string): Observable<BoardPublicInfo> {
     return this.http.get<any>(`${this.apiURL}/${boardId}/publicInfo`);
-  }
-
-  // board posts
-  getAllBoardPosts(boardId: string): Observable<BoardPost[]> {
-    return this.http.get<any>(`${this.apiURL}/${boardId}/posts/all`)
-      .pipe(map(response => response.posts));
-  }
-
-  getPinnedBoardPosts(boardId: string): Observable<BoardPost[]> {
-    return this.http.get<any>(`${this.apiURL}/${boardId}/posts/pinned`)
-      .pipe(map(response => response.posts));
   }
 
   // manage join requests

@@ -142,7 +142,15 @@
   </div>
 </div>
 
-<div class="bottomSpacer"></div>
+
+<div class="bottomSpacer">
+  <button *ngIf="!isLastPageLoaded && allBoardPosts.length !== 0" mat-button (click)="loadNextPage()">
+    Załaduj więcej...
+    <mat-icon class="buttonTextIcon" *ngIf="nextPageLoading">
+      <mat-spinner mode="indeterminate" diameter="20"></mat-spinner>
+    </mat-icon>
+  </button>
+</div>
 
 <button mat-fab color="primary" routerLink="./createPost">
   <mat-icon>add</mat-icon>

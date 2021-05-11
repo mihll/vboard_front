@@ -22,6 +22,7 @@ import { PostService } from '../../post/services/post-service/post.service';
 export class BoardContentComponent implements OnInit {
   currentBoard: MyBoard;
   allBoardPosts: BoardPost[] = [];
+  currentBoardRequestPage = 0;
   pinnedBoardPosts: BoardPost[] = [];
   sortState: Sort = {active: '', direction: ''};
   sortBadge: string;
@@ -29,6 +30,8 @@ export class BoardContentComponent implements OnInit {
 
   pinnedPostsLoading = true;
   allPostsLoading = true;
+  nextPageLoading = false;
+  isLastPageLoaded = false;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -61,6 +64,7 @@ export class BoardContentComponent implements OnInit {
   }
 
   reloadData(): void {
+    this.sortState = {active: '', direction: ''};
     this.loadBoardInfo(this.currentBoard.boardId);
     this.loadPinnedBoardPosts(this.currentBoard.boardId);
     this.loadAllBoardPosts(this.currentBoard.boardId);
@@ -85,7 +89,7 @@ export class BoardContentComponent implements OnInit {
 
   loadPinnedBoardPosts(boardId: string): void {
     this.pinnedPostsLoading = true;
-    this.boardService.getPinnedBoardPosts(boardId).subscribe({
+    this.postService.getPinnedBoardPosts(boardId).subscribe({
       next: response => {
         this.pinnedBoardPosts = response;
         this.pinnedPostsLoading = false;
@@ -103,8 +107,10 @@ export class BoardContentComponent implements OnInit {
   }
 
   loadAllBoardPosts(boardId: string): void {
+    this.currentBoardRequestPage = 0;
+    this.isLastPageLoaded = false;
     this.allPostsLoading = true;
-    this.boardService.getAllBoardPosts(boardId).subscribe({
+    this.postService.getAllBoardPosts(boardId, this.currentBoardRequestPage, this.sortState).subscribe({
       next: response => {
         this.allBoardPosts = response;
         this.allPostsLoading = false;
@@ -121,23 +127,51 @@ export class BoardContentComponent implements OnInit {
     });
   }
 
+  loadNextPage(): void {
+    this.currentBoardRequestPage = Math.floor(this.allBoardPosts.length / 10);
+    this.nextPageLoading = true;
+    this.postService.getAllBoardPosts(this.currentBoard.boardId, this.currentBoardRequestPage, this.sortState).subscribe({
+      next: response => {
+        if (response.length < 10) {
+          this. isLastPageLoaded = true;
+        }
+        this.allBoardPosts = this.allBoardPosts.concat(response);
+        this.nextPageLoading = false;
+      },
+      error: err => {
+        if (err.error?.status === 'FORBIDDEN') {
+          this.router.navigate(['/myBoards'])
+            .then(() => this.snackbarService.openErrorSnackbar('Nie należysz do tej tablicy!'));
+        } else {
+          this.router.navigate(['/myBoards'])
+            .then(() => this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas pobierania ogłoszeń!'));
+        }
+      }
+    });
+    console.log(this.currentBoardRequestPage);
+  }
+
   menuSortPosts(sortOption: Sort): void {
     this.sortState = sortOption;
     this.sortPosts();
   }
 
   sortPosts(): void {
+    this.currentBoardRequestPage = 0;
     switch (this.sortState.active) {
       case 'postDate': {
-        this.sortBadge = 'font_download';
+        this.sortBadge = 'date_range';
+        this.loadAllBoardPosts(this.currentBoard.boardId);
         break;
       }
       case 'lastActivity': {
-        this.sortBadge = 'date_range';
+        this.sortBadge = 'access_time';
+        this.loadAllBoardPosts(this.currentBoard.boardId);
         break;
       }
       default: {
         this.sortBadge = null;
+        this.loadAllBoardPosts(this.currentBoard.boardId);
       }
     }
   }

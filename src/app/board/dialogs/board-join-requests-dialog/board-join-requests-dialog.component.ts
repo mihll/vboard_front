@@ -69,7 +69,9 @@ export class BoardJoinRequestsDialogComponent implements OnInit {
     private snackbarService: SnackbarService,
     private authenticationService: AuthenticationService,
     private boardService: BoardService
-  ) { }
+  ) {
+    dialogRef.beforeClosed().subscribe(() => dialogRef.close(this.didMakeChanges));
+  }
 
   ngOnInit(): void {
     this.loadData();

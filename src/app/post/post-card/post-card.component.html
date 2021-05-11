@@ -10,7 +10,7 @@
         <div class="cardHeaderText">
           <div class="userName">{{post.userName}}</div>
           <div *ngIf="post.createdDate === post.lastModifiedDate" class="postDate" matTooltip="Opublikowano: {{post.createdDate | date: 'short'}}">{{post.createdDate | timeago:true}}</div>
-          <div *ngIf="post.createdDate !== post.lastModifiedDate" class="postDate" matTooltip="Ostatnia edycja: {{post.lastModifiedDate | date: 'short'}}">Edytowano {{post.lastModifiedDate | timeago:true}}</div>
+          <div *ngIf="post.createdDate !== post.lastModifiedDate" class="postDate" matTooltip="Ostatnia aktywność: {{post.lastModifiedDate | date: 'short'}}">Aktywność {{post.lastModifiedDate | timeago:true}}</div>
         </div>
         <div class="boardIcons">
           <mat-icon *ngIf="post.isAdmin" matTooltip="Administrator">admin_panel_settings</mat-icon>

@@ -13,7 +13,7 @@
       <a mat-list-item *ngFor="let boardLink of userAuth?.boardLinks" routerLink="/board/{{boardLink.boardId}}"
          routerLinkActive="active-list-item" (click)="closeSidenav()">
         <div matLine>{{boardLink.boardName}}</div>
-        <div *ngIf="boardLink.notificationsNumber != 0" matBadge="{{boardLink.notificationsNumber}}" matBadgeColor="warn" style="padding-left: 1.5em"></div>
+        <div *ngIf="boardLink.notificationsCount != 0" matBadge="{{boardLink.notificationsCount}}" matBadgeColor="warn" style="padding-left: 1.5em"></div>
       </a>
       <a mat-list-item routerLink="/createBoard" routerLinkActive="active-list-item" (click)="closeSidenav()">
         <mat-icon matListIcon>add</mat-icon>

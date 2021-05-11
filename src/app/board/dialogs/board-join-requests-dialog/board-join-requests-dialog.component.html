@@ -12,7 +12,7 @@
 
 <div mat-dialog-content>
   <div
-    *ngIf="!loading && ((requestDateBreakpoint$ | async) || (actionsBreakpoint$ | async))"
+    *ngIf="!loading && joinRequests.length !== 0 && ((requestDateBreakpoint$ | async) || (actionsBreakpoint$ | async))"
     fxLayout="row" fxLayoutAlign="start center">
     <mat-form-field appearance="outline" fxFlex>
       <mat-label>Sortowanie</mat-label>
