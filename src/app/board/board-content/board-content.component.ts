@@ -112,6 +112,9 @@ export class BoardContentComponent implements OnInit {
     this.allPostsLoading = true;
     this.postService.getAllBoardPosts(boardId, this.currentBoardRequestPage, this.sortState).subscribe({
       next: response => {
+        if (response.length < 10) {
+          this.isLastPageLoaded = true;
+        }
         this.allBoardPosts = response;
         this.allPostsLoading = false;
       },
@@ -133,7 +136,7 @@ export class BoardContentComponent implements OnInit {
     this.postService.getAllBoardPosts(this.currentBoard.boardId, this.currentBoardRequestPage, this.sortState).subscribe({
       next: response => {
         if (response.length < 10) {
-          this. isLastPageLoaded = true;
+          this.isLastPageLoaded = true;
         }
         this.allBoardPosts = this.allBoardPosts.concat(response);
         this.nextPageLoading = false;
