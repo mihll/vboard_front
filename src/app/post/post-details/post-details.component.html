@@ -1,0 +1,70 @@
+<mat-toolbar>
+  <button mat-icon-button routerLink="/board/{{currentBoard?.boardId}}">
+    <mat-icon>arrow_back_ios</mat-icon>
+  </button>
+  <div class="toolbarTitle">Szczegóły ogłoszenia</div>
+  <span class="fill-remaining-space"></span>
+</mat-toolbar>
+<app-loading-spinner [show]="postLoading"></app-loading-spinner>
+<div class="formCardContainer" ngClass.xs="small-mobilePadding">
+  <mat-card *ngIf="currentPost" fxFlex.xs="100%" fxFlex.sm="81.25%" fxFlex.md="62.5%" fxFlex.lg="43.75%" fxFlex.xl="25%">
+    <mat-card-title-group>
+      <mat-card-title>
+        <div class="userPictureFlex" (click)="$event.stopPropagation()">
+          <img *ngIf="currentPost.profilePictureLoading != false"
+               src="assets/spinner.gif" class="bigProfilePic">
+          <img [hidden]="currentPost.profilePictureLoading != false" [src]="currentPost.profilePicUrl | secure | async"
+               (load)="currentPost.profilePictureLoading = false" class="bigProfilePic">
+          <div class="cardHeaderText">
+            <div class="userName">{{currentPost.userName}}</div>
+            <div class="postDate" matTooltip="Opublikowano: {{currentPost.createdDate | date: 'short'}}">Opublikowano {{currentPost.createdDate | timeago:true}}</div>
+            <div *ngIf="currentPost.createdDate !== currentPost.lastModifiedDate" class="postDate" matTooltip="Ostatnia aktywność: {{currentPost.lastModifiedDate | date: 'short'}}">Ostatnia aktywność {{currentPost.lastModifiedDate | timeago:true}}</div>
+          </div>
+          <div class="boardIcons">
+            <mat-icon *ngIf="currentPost.isAdmin" matTooltip="Administrator">admin_panel_settings</mat-icon>
+          </div>
+        </div>
+      </mat-card-title>
+      <button *ngIf="currentBoard?.isAdmin || currentUserId === currentPost.userId" mat-icon-button [matMenuTriggerFor]="postMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <mat-menu #postMenu="matMenu">
+        <button mat-menu-item *ngIf="currentBoard?.isAdmin && !currentPost.isPinned" (click)="pinPost()">
+          <mat-icon>push_pin</mat-icon>
+          Przypnij ogłoszenie
+        </button>
+        <button mat-menu-item *ngIf="currentBoard?.isAdmin && currentPost.isPinned" (click)="unpinPost()">
+          <mat-icon>push_pin</mat-icon>
+          Odepnij ogłoszenie
+        </button>
+        <button mat-menu-item *ngIf="currentUserId === currentPost.userId" routerLink="/board/{{this.currentBoard?.boardId}}/post/{{currentPost.postId}}/edit">
+          <mat-icon>edit</mat-icon>
+          Edytuj ogłoszenie
+        </button>
+        <button mat-menu-item>
+          <mat-icon>delete</mat-icon>
+          Usuń ogłoszenie
+        </button>
+      </mat-menu>
+
+    </mat-card-title-group>
+    <mat-card-content>
+      <p class="textPreWrap">{{currentPost.postText}}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button *ngIf="!currentPost.isLiked" mat-stroked-button fxFlex="96.5" (click)="likePost()">
+        <mat-icon>thumb_up_off_alt</mat-icon>
+        Polub {{currentPost.postLikesCount !== 0 ? '(' + currentPost.postLikesCount + ')' : ''}}
+      </button>
+      <button *ngIf="currentPost.isLiked" mat-stroked-button color="primary" fxFlex="96.5" (click)="unlikePost()">
+        <mat-icon>thumb_up_alt</mat-icon>
+        Polubiono {{currentPost.postLikesCount !== 0 ? '(' + currentPost.postLikesCount + ')' : ''}}
+      </button>
+    </mat-card-actions>
+    <mat-divider></mat-divider>
+    <div class="commentsSection">
+      Test
+    </div>
+  </mat-card>
+</div>

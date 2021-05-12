@@ -1,0 +1,19 @@
+<mat-toolbar class="postSearchBar" ngClass.xs="mobileToolbar">
+  <span ngClass.xs="removeSpaceOnMobile" class="fill-remaining-space"></span>
+  <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+    <mat-form-field appearance="outline" ngClass.xs="formFieldMobileWidth" class="formFieldWidth">
+      <mat-label>Szukana treść ogłoszenia</mat-label>
+      <input matInput formControlName="searchText" trim="blur" cdkFocusInitial>
+      <button mat-icon-button matSuffix>
+        <mat-icon>search</mat-icon>
+      </button>
+      <mat-error *ngIf="searchForm.controls['searchText'].hasError('required')">
+        Wpisz fragment treści szukanego ogłoszenia
+      </mat-error>
+      <mat-error *ngIf="searchForm.controls['searchText'].hasError('minLength')">
+        Musisz wpisać minimum 3 znaki
+      </mat-error>
+    </mat-form-field>
+  </form>
+  <span class="fill-remaining-space"></span>
+</mat-toolbar>

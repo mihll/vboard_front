@@ -1,16 +1,15 @@
 <app-loading-spinner [show]="boardLoading"></app-loading-spinner>
 <mat-toolbar ngClass.xs="mobileToolbar">
-  <div class="toolbarTitle">{{currentBoard?.boardName}}</div>
+  <button mat-icon-button routerLink="../">
+    <mat-icon>arrow_back_ios</mat-icon>
+  </button>
+  <div class="toolbarTitle">Szukaj ogłoszeń - {{currentBoard?.boardName}}</div>
   <div class="boardIcons">
     <mat-icon *ngIf="currentBoard?.isAdmin" matTooltip="Jesteś administratorem">admin_panel_settings</mat-icon>
     <mat-icon *ngIf="currentBoard?.isPrivate" matTooltip="Prywatna">lock</mat-icon>
     <mat-icon *ngIf="!currentBoard?.isPrivate" matTooltip="Publiczna">public</mat-icon>
   </div>
   <span class="fill-remaining-space"></span>
-
-  <button mat-icon-button (click)="reloadData()">
-    <mat-icon>refresh</mat-icon>
-  </button>
 
   <div *ngIf="(isHandset$ | async) === false" class="toolbarFormFields mat-body">
     <mat-form-field appearance="outline">
@@ -55,68 +54,22 @@
       Aktywność - najstarsza
     </button>
   </mat-menu>
-
-  <button mat-icon-button routerLink="./searchPosts">
-    <mat-icon>search</mat-icon>
-  </button>
-
-  <button mat-icon-button [matMenuTriggerFor]="settingsMenu">
-    <mat-icon matBadge="{{currentBoard?.notificationsCount}}"
-              [matBadgeHidden]="currentBoard?.notificationsCount === 0"
-              matBadgeColor="warn">
-      settings
-    </mat-icon>
-  </button>
-  <mat-menu #settingsMenu="matMenu">
-    <button mat-menu-item (click)="shareBoard()">
-      <mat-icon>share</mat-icon>
-      Udostępnij tablicę
-    </button>
-    <button mat-menu-item (click)="openBoardInfo()">
-      <mat-icon>info</mat-icon>
-      Informacje o tablicy
-    </button>
-    <button mat-menu-item (click)="openBoardMembers()">
-      <mat-icon>groups</mat-icon>
-      Członkowie tablicy
-    </button>
-    <button mat-menu-item *ngIf="currentBoard?.isAdmin" (click)="openBoardJoinRequests()">
-      <mat-icon matBadge="{{currentBoard?.notificationsCount}}"
-                [matBadgeHidden]="currentBoard?.notificationsCount === 0"
-                matBadgeColor="warn" matBadgeSize="small">
-        person_add
-      </mat-icon>
-      Prośby o dołączenie
-    </button>
-    <button mat-menu-item *ngIf="currentBoard?.isAdmin" routerLink="./settings">
-      <mat-icon>settings</mat-icon>
-      Ustawienia tablicy
-    </button>
-    <button mat-menu-item (click)="leaveBoard()">
-      <mat-icon>person_remove</mat-icon>
-      Opuść tablicę
-    </button>
-  </mat-menu>
 </mat-toolbar>
 
-<mat-divider *ngIf="pinnedBoardPosts.length !== 0"></mat-divider>
+<app-post-search-bar></app-post-search-bar>
 
-<div *ngIf="pinnedPostsLoading || allPostsLoading" class="postCardsContainer" ngClass.xs="small-mobilePadding">
+<div *ngIf="searchPostsLoading"  class="postCardsContainer" ngClass.xs="small-mobilePadding">
   <div class="centerInfo">
     <mat-progress-bar mode="indeterminate" style="width: 50vw"></mat-progress-bar>
   </div>
 </div>
 
 <div>
-  <mat-toolbar *ngIf="pinnedBoardPosts.length !== 0">
-    <div class="toolbarTitle">Przypięte ogłoszenia</div>
-  </mat-toolbar>
-
-  <div *ngIf="pinnedBoardPosts.length !== 0 && !pinnedPostsLoading" class="postCardsContainer"
+  <div *ngIf="foundBoardPosts.length !== 0 && !searchPostsLoading" class="postCardsContainer"
        ngClass.xs="small-mobilePadding">
     <div fxLayout="row wrap" fxLayoutGap="1em grid">
       <div fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="50%" fxFlex.lg="33%" fxFlex.xl="25%"
-           *ngFor="let post of pinnedBoardPosts">
+           *ngFor="let post of foundBoardPosts">
         <app-post-card [post]="post" [currentUserId]="getCurrentUserId()"
                        [currentBoardId]="currentBoard.boardId"
                        [isCurrentUserBoardAdmin]="currentBoard?.isAdmin"
@@ -126,43 +79,21 @@
     </div>
   </div>
 
-  <mat-toolbar *ngIf="pinnedBoardPosts.length !== 0">
-    <div class="toolbarTitle">Wszystkie ogłoszenia</div>
-  </mat-toolbar>
-
-  <div *ngIf="allBoardPosts.length !== 0 && !allPostsLoading" class="postCardsContainer"
-       ngClass.xs="small-mobilePadding">
-    <div fxLayout="row wrap" fxLayoutGap="1em grid">
-      <div fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="50%" fxFlex.lg="33%" fxFlex.xl="25%"
-           *ngFor="let post of allBoardPosts">
-        <app-post-card [post]="post" [currentUserId]="getCurrentUserId()"
-                       [currentBoardId]="currentBoard.boardId"
-                       [isCurrentUserBoardAdmin]="currentBoard?.isAdmin"
-                       (pinPostEvent)="pinPost($event)" (unpinPostEvent)="unpinPost($event)"
-                       (likePostEvent)="likePost($event)" (unlikePostEvent)="unlikePost($event)"></app-post-card>
-      </div>
-    </div>
-  </div>
-
-  <div *ngIf="allBoardPosts.length === 0 && !allPostsLoading" class="postCardsContainer"
+  <div *ngIf="isSearchPerformed && !searchPostsLoading && foundBoardPosts.length === 0" class="postCardsContainer"
        ngClass.xs="small-mobilePadding">
     <div class="centerInfo">
-      <mat-icon [inline]="true">dashboard</mat-icon>
-      Jeszcze nie ma żadnych ogłoszeń na tej tablicy
+      <mat-icon [inline]="true">search_off</mat-icon>
+      Nie znaleziono ogłoszeń zawierających podaną frazę
     </div>
   </div>
 
+
   <div class="bottomSpacer">
-    <button *ngIf="!isLastPageLoaded && allBoardPosts.length !== 0" mat-button (click)="loadNextPage()">
+    <button *ngIf="!isLastPageLoaded && foundBoardPosts.length !== 0" mat-button (click)="loadNextPage()">
       Załaduj więcej...
       <mat-icon class="buttonTextIcon" *ngIf="nextPageLoading">
         <mat-spinner mode="indeterminate" diameter="20"></mat-spinner>
       </mat-icon>
     </button>
   </div>
-
 </div>
-
-<button mat-fab color="primary" routerLink="./createPost">
-  <mat-icon>add</mat-icon>
-</button>

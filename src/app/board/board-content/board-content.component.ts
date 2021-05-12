@@ -21,16 +21,19 @@ import { PostService } from '../../post/services/post-service/post.service';
 })
 export class BoardContentComponent implements OnInit {
   currentBoard: MyBoard;
-  allBoardPosts: BoardPost[] = [];
+
   currentBoardRequestPage = 0;
   pinnedBoardPosts: BoardPost[] = [];
+  allBoardPosts: BoardPost[] = [];
+
   sortState: Sort = {active: '', direction: ''};
   sortBadge: string;
-  boardLoading = true;
 
+  boardLoading = true;
   pinnedPostsLoading = true;
   allPostsLoading = true;
   nextPageLoading = false;
+
   isLastPageLoaded = false;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -57,6 +60,7 @@ export class BoardContentComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(routeParams => {
+      this.sortState = {active: '', direction: ''};
       this.loadBoardInfo(routeParams.boardId);
       this.loadPinnedBoardPosts(routeParams.boardId);
       this.loadAllBoardPosts(routeParams.boardId);
@@ -87,6 +91,7 @@ export class BoardContentComponent implements OnInit {
     });
   }
 
+  // pinned posts
   loadPinnedBoardPosts(boardId: string): void {
     this.pinnedPostsLoading = true;
     this.postService.getPinnedBoardPosts(boardId).subscribe({
@@ -106,6 +111,7 @@ export class BoardContentComponent implements OnInit {
     });
   }
 
+  // all posts
   loadAllBoardPosts(boardId: string): void {
     this.currentBoardRequestPage = 0;
     this.isLastPageLoaded = false;
@@ -144,14 +150,13 @@ export class BoardContentComponent implements OnInit {
       error: err => {
         if (err.error?.status === 'FORBIDDEN') {
           this.router.navigate(['/myBoards'])
-            .then(() => this.snackbarService.openErrorSnackbar('Nie należysz do tej tablicy!'));
+              .then(() => this.snackbarService.openErrorSnackbar('Nie należysz do tej tablicy!'));
         } else {
           this.router.navigate(['/myBoards'])
-            .then(() => this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas pobierania ogłoszeń!'));
+              .then(() => this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas pobierania ogłoszeń!'));
         }
       }
     });
-    console.log(this.currentBoardRequestPage);
   }
 
   menuSortPosts(sortOption: Sort): void {

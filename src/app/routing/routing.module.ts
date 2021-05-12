@@ -17,6 +17,8 @@ import { BoardSettingsComponent } from '../board/board-settings/board-settings.c
 import { JoinBoardComponent } from '../board/join-board/join-board.component';
 import { CreatePostComponent } from '../post/create-post/create-post.component';
 import { EditPostComponent } from '../post/edit-post/edit-post.component';
+import { SearchPostsComponent } from '../post/search-posts/search-posts.component';
+import { PostDetailsComponent } from '../post/post-details/post-details.component';
 
 const appRoutes: Routes = [
   { path: '', component: LandingPageComponent, canActivate: [NotAuthGuard]},
@@ -30,7 +32,9 @@ const appRoutes: Routes = [
   { path: 'myBoards', component: MyBoardsComponent, canActivate: [AuthGuard] },
   { path: 'createBoard', component: CreateBoardComponent, canActivate: [AuthGuard]},
   { path: 'board/:boardId', component: BoardContentComponent, canActivate: [AuthGuard]},
+  { path: 'board/:boardId/searchPosts', component: SearchPostsComponent, canActivate: [AuthGuard]},
   { path: 'board/:boardId/createPost', component: CreatePostComponent, canActivate: [AuthGuard]},
+  { path: 'board/:boardId/post/:postId', component: PostDetailsComponent, canActivate: [AuthGuard]},
   { path: 'board/:boardId/post/:postId/edit', component: EditPostComponent, canActivate: [AuthGuard]},
   { path: 'board/:boardId/settings', component: BoardSettingsComponent, canActivate: [AuthGuard]},
   { path: 'joinBoard/:boardId', component: JoinBoardComponent, canActivate: [AuthGuard]},

@@ -32,6 +32,16 @@ export class PostService {
       .pipe(map(response => response.posts));
   }
 
+  searchBoardPosts(boardId: string, page: number, sort: Sort, searchText: string): Observable<BoardPost[]> {
+    const params = new HttpParams()
+      .set('page', String(page))
+      .set('sortBy', sort.active)
+      .set('direction', sort.direction)
+      .set('searchText', searchText);
+    return this.http.get<any>(`${this.apiURL}/board/${boardId}/search`, {params})
+      .pipe(map(response => response.posts));
+  }
+
   getPinnedBoardPosts(boardId: string): Observable<BoardPost[]> {
     return this.http.get<any>(`${this.apiURL}/board/${boardId}/pinned`)
       .pipe(map(response => response.posts));

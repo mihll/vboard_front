@@ -10,6 +10,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CreatePostComponent } from './create-post/create-post.component';
 import { EditPostComponent } from './edit-post/edit-post.component';
+import { PostSearchBarComponent } from './post-search-bar/post-search-bar.component';
+import { SearchPostsComponent } from './search-posts/search-posts.component';
+import { PostDetailsComponent } from './post-details/post-details.component';
 
 
 @NgModule({
@@ -17,10 +20,14 @@ import { EditPostComponent } from './edit-post/edit-post.component';
     PostCardComponent,
     CreatePostComponent,
     EditPostComponent,
+    PostSearchBarComponent,
+    SearchPostsComponent,
+    PostDetailsComponent,
   ],
-  exports: [
-    PostCardComponent,
-  ],
+    exports: [
+        PostCardComponent,
+        PostSearchBarComponent,
+    ],
   imports: [
     CommonModule,
     MaterialModule,

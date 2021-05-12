@@ -7,6 +7,7 @@ export class EmitterService {
 
   public shouldReloadMyBoardsEmitter: EventEmitter<boolean> = new EventEmitter();
   public shouldReloadCurrentBoardEmitter: EventEmitter<boolean> = new EventEmitter();
+  public searchPostsEmitter: EventEmitter<string> = new EventEmitter();
 
   constructor() { }
 
@@ -16,5 +17,9 @@ export class EmitterService {
 
   emitReloadCurrentBoardEvent(): void {
     this.shouldReloadCurrentBoardEmitter.emit(true);
+  }
+
+  emitSearchPostsEvent(searchText: string): void {
+    this.searchPostsEmitter.emit(searchText);
   }
 }

@@ -1,0 +1,45 @@
+mat-card {
+  outline: none;
+
+  .userPictureFlex {
+    display: flex;
+    align-items: center;
+
+    .cardHeaderText {
+      padding-left: 0.5em;
+
+      .userName {
+        cursor: pointer;
+        font-size: medium;
+      }
+
+      .userName:hover {
+        text-decoration: underline;
+      }
+
+      .postDate {
+        font-size: small;
+        font-weight: normal;
+      }
+
+    }
+  }
+
+  .mat-card-title {
+    font-size: inherit;
+  }
+
+  .mat-card-content {
+    padding-top: 0.5em;
+  }
+
+  .mat-card-actions {
+    button {
+      margin-left: 8px;
+    }
+  }
+
+  .commentsSection {
+    padding-top: 1em;
+  }
+}

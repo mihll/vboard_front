@@ -13,6 +13,7 @@ export class PostCardComponent implements OnInit {
   @Input() post: BoardPost;
   @Input() currentUserId: string;
   @Input() isCurrentUserBoardAdmin: boolean;
+  @Input() currentBoardId: string;
   @Output() pinPostEvent = new EventEmitter<BoardPost>();
   @Output() unpinPostEvent = new EventEmitter<BoardPost>();
   @Output() likePostEvent = new EventEmitter<BoardPost>();
