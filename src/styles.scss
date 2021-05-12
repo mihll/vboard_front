@@ -92,6 +92,34 @@ body {
   height: 64px;
 }
 
+.userPictureFlex {
+  display: flex;
+  align-items: center;
+
+  .cardHeaderText {
+    padding-left: 0.5em;
+
+    .userName {
+      font-size: medium;
+    }
+
+    .smallUserName {
+      font-size: small;
+    }
+
+    .date {
+      font-size: small;
+      font-weight: normal;
+    }
+
+    .smallDate {
+      font-size: smaller;
+      font-weight: normal;
+    }
+
+  }
+}
+
 .panelContainer {
   padding: 2em;
   display: flex;

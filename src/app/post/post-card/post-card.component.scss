@@ -2,30 +2,6 @@ mat-card {
   min-height: 10em;
   outline: none;
 
-  .userPictureFlex {
-    display: flex;
-    align-items: center;
-
-    .cardHeaderText {
-      padding-left: 0.5em;
-
-      .userName {
-        cursor: pointer;
-        font-size: medium;
-      }
-
-      .userName:hover {
-        text-decoration: underline;
-      }
-
-      .postDate {
-        font-size: small;
-        font-weight: normal;
-      }
-
-    }
-  }
-
   .mat-card-title {
     font-size: inherit;
   }

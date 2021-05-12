@@ -9,8 +9,8 @@
              (load)="post.profilePictureLoading = false" class="profilePic">
         <div class="cardHeaderText">
           <div class="userName">{{post.userName}}</div>
-          <div *ngIf="post.createdDate === post.lastModifiedDate" class="postDate" matTooltip="Opublikowano: {{post.createdDate | date: 'short'}}">Opublikowano {{post.createdDate | timeago:true}}</div>
-          <div *ngIf="post.createdDate !== post.lastModifiedDate" class="postDate" matTooltip="Ostatnia aktywność: {{post.lastModifiedDate | date: 'short'}}">Aktywność {{post.lastModifiedDate | timeago:true}}</div>
+          <div *ngIf="post.createdDate === post.lastModifiedDate" class="date" matTooltip="Opublikowano: {{post.createdDate | date: 'short'}}">Opublikowano {{post.createdDate | timeago:true}}</div>
+          <div *ngIf="post.createdDate !== post.lastModifiedDate" class="date" matTooltip="Ostatnia aktywność: {{post.lastModifiedDate | date: 'short'}}">Aktywność {{post.lastModifiedDate | timeago:true}}</div>
         </div>
         <div class="boardIcons">
           <mat-icon *ngIf="post.isAdmin" matTooltip="Administrator">admin_panel_settings</mat-icon>
@@ -62,7 +62,7 @@
     </button>
     <button mat-stroked-button fxFlex="50" routerLink="/board/{{this.currentBoardId}}/post/{{post.postId}}">
       <mat-icon>comment</mat-icon>
-      Skomentuj (5)
+      Skomentuj {{post.postCommentsCount !== 0 ? '(' + post.postCommentsCount + ')' : ''}}
     </button>
   </mat-card-actions>
 </mat-card>

@@ -13,6 +13,8 @@ import { EditPostComponent } from './edit-post/edit-post.component';
 import { PostSearchBarComponent } from './post-search-bar/post-search-bar.component';
 import { SearchPostsComponent } from './search-posts/search-posts.component';
 import { PostDetailsComponent } from './post-details/post-details.component';
+import { PostCommentsComponent } from './post-comments/post-comments.component';
+import { PostCommentRowComponent } from './post-comment-row/post-comment-row.component';
 
 
 @NgModule({
@@ -23,6 +25,8 @@ import { PostDetailsComponent } from './post-details/post-details.component';
     PostSearchBarComponent,
     SearchPostsComponent,
     PostDetailsComponent,
+    PostCommentsComponent,
+    PostCommentRowComponent,
   ],
     exports: [
         PostCardComponent,

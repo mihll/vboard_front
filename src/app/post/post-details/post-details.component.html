@@ -3,7 +3,6 @@
     <mat-icon>arrow_back_ios</mat-icon>
   </button>
   <div class="toolbarTitle">Szczegóły ogłoszenia</div>
-  <span class="fill-remaining-space"></span>
 </mat-toolbar>
 <app-loading-spinner [show]="postLoading"></app-loading-spinner>
 <div class="formCardContainer" ngClass.xs="small-mobilePadding">
@@ -17,8 +16,8 @@
                (load)="currentPost.profilePictureLoading = false" class="bigProfilePic">
           <div class="cardHeaderText">
             <div class="userName">{{currentPost.userName}}</div>
-            <div class="postDate" matTooltip="Opublikowano: {{currentPost.createdDate | date: 'short'}}">Opublikowano {{currentPost.createdDate | timeago:true}}</div>
-            <div *ngIf="currentPost.createdDate !== currentPost.lastModifiedDate" class="postDate" matTooltip="Ostatnia aktywność: {{currentPost.lastModifiedDate | date: 'short'}}">Ostatnia aktywność {{currentPost.lastModifiedDate | timeago:true}}</div>
+            <div class="date" matTooltip="Opublikowano: {{currentPost.createdDate | date: 'short'}}">Opublikowano {{currentPost.createdDate | timeago:true}}</div>
+            <div *ngIf="currentPost.createdDate !== currentPost.lastModifiedDate" class="date" matTooltip="Ostatnia aktywność: {{currentPost.lastModifiedDate | date: 'short'}}">Ostatnia aktywność {{currentPost.lastModifiedDate | timeago:true}}</div>
           </div>
           <div class="boardIcons">
             <mat-icon *ngIf="currentPost.isAdmin" matTooltip="Administrator">admin_panel_settings</mat-icon>
@@ -64,7 +63,7 @@
     </mat-card-actions>
     <mat-divider></mat-divider>
     <div class="commentsSection">
-      Test
+      <app-post-comments [post]="currentPost" [currentUserId]="currentUserId"></app-post-comments>
     </div>
   </mat-card>
 </div>

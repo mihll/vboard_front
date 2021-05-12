@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { BoardPost, PostCreateRequest, PostCreateResponse, PostLikeResponse, PostUpdateRequest } from '../../models/post';
 import { map } from 'rxjs/operators';
 import { Sort } from '@angular/material/sort';
+import { CommentPostRequest, PostComment } from '../../models/postComment';
 
 @Injectable({
   providedIn: 'root'
@@ -65,5 +66,22 @@ export class PostService {
 
   unlikePost(postId: string): Observable<PostLikeResponse> {
     return this.http.post<any>(`${this.apiURL}/${postId}/unlike`, null);
+  }
+
+  getPostComments(postId: string, page: number): Observable<PostComment[]> {
+    const params = new HttpParams()
+      .set('page', String(page));
+    return this.http.get<any>(`${this.apiURL}/${postId}/comments`, {params})
+      .pipe(map(response => response.comments));
+  }
+
+  commentPost(postId: string, commentPostRequest: CommentPostRequest): Observable<PostComment[]> {
+    return this.http.post<any>(`${this.apiURL}/${postId}/comment`, commentPostRequest)
+      .pipe(map(response => response.comments));
+  }
+
+  deleteComment(postId: string, commentId: string): Observable<PostComment[]> {
+    return this.http.post<any>(`${this.apiURL}/${postId}/comment/${commentId}/delete`, null)
+      .pipe(map(response => response.comments));
   }
 }

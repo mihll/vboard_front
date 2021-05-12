@@ -12,6 +12,8 @@ export interface BoardPost {
   isLiked: boolean;
   postLikesCount: number;
 
+  postCommentsCount: number;
+
   profilePictureLoading: boolean;
   isDoingLike: boolean;
 }

@@ -1,0 +1,35 @@
+<mat-card>
+  <mat-card-title-group>
+    <mat-card-title>
+      <div class="userPictureFlex" (click)="$event.stopPropagation()">
+        <img *ngIf="comment.profilePictureLoading != false"
+             src="assets/spinner.gif" class="profilePic">
+        <img [hidden]="comment.profilePictureLoading != false" [src]="comment.profilePicUrl | secure | async"
+             (load)="comment.profilePictureLoading = false" class="profilePic">
+        <div class="cardHeaderText">
+          <div class="userName">{{comment.userName}}</div>
+          <div class="date"
+               matTooltip="{{comment.createdDate | date: 'short'}}">{{comment.createdDate | timeago:true}}</div>
+        </div>
+      </div>
+    </mat-card-title>
+
+    <button *ngIf="!comment.isDoingAction && currentUserId === comment.userId" mat-icon-button [matMenuTriggerFor]="commentMenu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-spinner *ngIf="comment.isDoingAction" mode="indeterminate" diameter="20"></mat-spinner>
+
+    <mat-menu #commentMenu="matMenu">
+      <button mat-menu-item (click)="deleteComment()">
+        <mat-icon>delete</mat-icon>
+        Usuń komentarz
+      </button>
+    </mat-menu>
+
+  </mat-card-title-group>
+
+  <mat-card-content>
+    <p class="textPreWrap">{{comment.commentText}}</p>
+  </mat-card-content>
+</mat-card>

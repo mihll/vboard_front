@@ -1,0 +1,38 @@
+<h2>Komentarze</h2>
+
+<div class="postCardsContainer">
+  <div *ngIf="loadingComments">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+
+  <div class="loadMoreButton">
+    <button *ngIf="!isLastPageLoaded && postComments.length !== 0" mat-button (click)="loadNextPage()">
+      Załaduj więcej...
+    </button>
+  </div>
+
+  <div *ngFor="let comment of postComments">
+    <app-post-comment-row [comment]="comment" [currentUserId]="currentUserId" (deleteCommentEvent)="deleteComment($event)"></app-post-comment-row>
+  </div>
+
+  <form [formGroup]="commentPostForm" #formDirective="ngForm" (ngSubmit)="onCommentSubmit(formDirective)" style="margin-top: 0.5em">
+    <div class="buttonFlex">
+      <mat-form-field appearance="outline">
+        <mat-label>Treść komentarza</mat-label>
+        <textarea matInput formControlName="commentText" trim="blur"
+                  cdkTextareaAutosize
+        ></textarea>
+        <mat-error *ngIf="commentPostForm.controls['commentText'].hasError('required')">
+          Wpisz treść komentarza
+        </mat-error>
+        <button matSuffix type="submit" mat-icon-button color="primary"
+                [disabled]="commentPostForm.invalid || submittingComment">
+          <mat-icon class="buttonTextIcon">send</mat-icon>
+        </button>
+      </mat-form-field>
+      <button type="button" mat-icon-button (click)="loadComments()" class="reloadCommentsButton">
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </div>
+  </form>
+</div>
