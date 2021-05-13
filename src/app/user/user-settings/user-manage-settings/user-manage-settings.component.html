@@ -1,0 +1,20 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Zarządzaj kontem
+    </mat-panel-title>
+    <mat-panel-description>
+      <span class="fill-remaining-space"></span>
+      <mat-icon>delete</mat-icon>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <div fxLayout="column" fxLayoutAlign="space-around center">
+    <button mat-raised-button color="warn" [disabled]="loading" (click)="deleteAccount()">
+      <mat-icon>delete</mat-icon>
+      Usuń konto
+      <mat-icon class="buttonTextIcon" *ngIf="loading">
+        <mat-spinner mode="indeterminate" diameter="20"></mat-spinner>
+      </mat-icon>
+    </button>
+  </div>
+</mat-expansion-panel>

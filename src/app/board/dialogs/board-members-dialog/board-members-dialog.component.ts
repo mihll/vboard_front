@@ -237,6 +237,31 @@ export class BoardMembersDialogComponent implements OnInit {
     });
   }
 
+  deleteMember(boardMember: BoardMemberInfo): void {
+    this.dialogService.openYesNoDialog('Czy na pewno chcesz całkowicie usunąć tego użytkownika z tablicy?', 'Po opuszczeniu tablicy nie będzie on mógł już przeglądać jej zawartości, ani publikować nowych ogłoszeń. <br>' +
+      'Wszystkie ogłoszenia tego użytkownika oraz jego interakcje (komentarze, polubienia, głosy w ankietach itd.) <b>ZOSTANĄ</b> usunięte po opuszczeniu tablicy. <br><br>' +
+      'Jeżeli jednak chcesz wyrzucić użytkownika bez usuwania jego aktywności, użyj opcji "Wyrzuć z tablicy".')
+      .beforeClosed().subscribe(result => {
+      if (result) {
+        boardMember.isDoingAction = true;
+
+        this.boardService.deleteBoardMember(this.currentBoard.boardId, boardMember.userId)
+          .subscribe({
+            next: () => {
+              this.loadData();
+              this.emitterService.emitReloadCurrentBoardEvent();
+              this.snackbarService.openSuccessSnackbar('Pomyślnie usunięto użytkownika z tablicy');
+            },
+            error: () => {
+              boardMember.isDoingAction = false;
+              this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas usuwania użytkownika z tablicy!');
+            }
+          });
+      }
+    });
+  }
+
+
   restoreMember(boardMember: BoardMemberInfo): void {
     this.dialogService.openYesNoDialog('Czy na pewno chcesz przywrócić tego użytkownika?', null)
       .beforeClosed().subscribe(result => {

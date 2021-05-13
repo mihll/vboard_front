@@ -68,6 +68,10 @@ export class PostService {
     return this.http.post<any>(`${this.apiURL}/${postId}/unlike`, null);
   }
 
+  deletePost(postId: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiURL}/${postId}`);
+  }
+
   getPostComments(postId: string, page: number): Observable<PostComment[]> {
     const params = new HttpParams()
       .set('page', String(page));

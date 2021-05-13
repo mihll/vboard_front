@@ -100,9 +100,12 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <div fxLayout="column" fxLayoutAlign="space-around center">
-        <button mat-raised-button color="warn">
+        <button mat-raised-button color="warn" [disabled]="loading" (click)="deleteBoard()">
           <mat-icon>delete</mat-icon>
           Usuń tablicę
+          <mat-icon class="buttonTextIcon" *ngIf="loading">
+            <mat-spinner mode="indeterminate" diameter="20"></mat-spinner>
+          </mat-icon>
         </button>
       </div>
     </mat-expansion-panel>

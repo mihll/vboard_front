@@ -34,7 +34,7 @@
         <mat-icon>edit</mat-icon>
         Edytuj ogłoszenie
       </button>
-      <button mat-menu-item>
+      <button mat-menu-item *ngIf="isCurrentUserBoardAdmin || currentUserId === post.userId" (click)="deletePost()">
         <mat-icon>delete</mat-icon>
         Usuń ogłoszenie
       </button>

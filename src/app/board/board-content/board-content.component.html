@@ -121,7 +121,8 @@
                        [currentBoardId]="currentBoard.boardId"
                        [isCurrentUserBoardAdmin]="currentBoard?.isAdmin"
                        (pinPostEvent)="pinPost($event)" (unpinPostEvent)="unpinPost($event)"
-                       (likePostEvent)="likePost($event)" (unlikePostEvent)="unlikePost($event)"></app-post-card>
+                       (likePostEvent)="likePost($event)" (unlikePostEvent)="unlikePost($event)"
+                       (deletePostEvent)="deletePost($event)"></app-post-card>
       </div>
     </div>
   </div>
@@ -139,7 +140,8 @@
                        [currentBoardId]="currentBoard.boardId"
                        [isCurrentUserBoardAdmin]="currentBoard?.isAdmin"
                        (pinPostEvent)="pinPost($event)" (unpinPostEvent)="unpinPost($event)"
-                       (likePostEvent)="likePost($event)" (unlikePostEvent)="unlikePost($event)"></app-post-card>
+                       (likePostEvent)="likePost($event)" (unlikePostEvent)="unlikePost($event)"
+                       (deletePostEvent)="deletePost($event)"></app-post-card>
       </div>
     </div>
   </div>

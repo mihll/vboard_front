@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BoardPost } from '../models/post';
 
 @Component({
@@ -18,6 +18,7 @@ export class PostCardComponent implements OnInit {
   @Output() unpinPostEvent = new EventEmitter<BoardPost>();
   @Output() likePostEvent = new EventEmitter<BoardPost>();
   @Output() unlikePostEvent = new EventEmitter<BoardPost>();
+  @Output() deletePostEvent = new EventEmitter<BoardPost>();
 
   constructor() { }
 
@@ -38,5 +39,9 @@ export class PostCardComponent implements OnInit {
 
   unlikePost(): void {
     this.unlikePostEvent.emit(this.post);
+  }
+
+  deletePost(): void {
+    this.deletePostEvent.emit(this.post);
   }
 }

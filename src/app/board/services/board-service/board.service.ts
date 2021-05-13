@@ -71,13 +71,17 @@ export class BoardService {
     return this.http.put<any>(`${this.apiURL}/changeOrder`, {boardIds});
   }
 
-  // CRUD board
+  // CUD board
   createBoard(boardCreateRequest: BoardCreateRequest): Observable<BoardCreateResponse> {
     return this.http.post<any>(`${this.apiURL}/create`, boardCreateRequest);
   }
 
   updateBoard(boardId: string, boardUpdateRequest: BoardUpdateRequest): Observable<MyBoard> {
     return this.http.post<any>(`${this.apiURL}/${boardId}/update`, boardUpdateRequest);
+  }
+
+  deleteBoard(boardId: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiURL}/${boardId}`);
   }
 
   // find boards
@@ -103,11 +107,17 @@ export class BoardService {
       .pipe(map(response => response.members));
   }
 
-  // board leave/restore
+  // boardMember leave/delete/restore
   leaveBoard(boardId: string, userId: string): Observable<any> {
     const params = new HttpParams()
       .set('userId', userId);
     return this.http.post<any>(`${this.apiURL}/${boardId}/leave`, null, {params});
+  }
+
+  deleteBoardMember(boardId: string, userId: string): Observable<any> {
+    const params = new HttpParams()
+      .set('userId', userId);
+    return this.http.delete<any>(`${this.apiURL}/${boardId}/deleteMember`, {params});
   }
 
   restoreBoardMember(boardId: string, userId: string): Observable<any> {

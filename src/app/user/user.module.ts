@@ -14,6 +14,7 @@ import { UserDataSettingsComponent } from './user-settings/user-data-settings/us
 import { UserPasswordSettingsComponent } from './user-settings/user-password-settings/user-password-settings.component';
 import { UserProfilePicSettingsComponent } from './user-settings/user-profile-pic-settings/user-profile-pic-settings.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { UserManageSettingsComponent } from './user-settings/user-manage-settings/user-manage-settings.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     UserDataSettingsComponent,
     UserPasswordSettingsComponent,
     UserProfilePicSettingsComponent,
+    UserManageSettingsComponent,
   ],
   exports: [
     ChangePasswordComponent,

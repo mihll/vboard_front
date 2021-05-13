@@ -115,7 +115,7 @@
               <mat-icon>person_remove</mat-icon>
               Wyrzuć z tablicy
             </button>
-            <button *ngIf="element.userId != currentUser.userId && !element.didLeft" mat-menu-item>
+            <button *ngIf="element.userId != currentUser.userId && !element.didLeft" mat-menu-item (click)="deleteMember(element)">
               <mat-icon>delete_forever</mat-icon>
               Usuń całkowicie z tablicy
             </button>

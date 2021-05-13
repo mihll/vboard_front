@@ -26,6 +26,10 @@ export class UserService {
     return this.http.put<any>(`${this.apiURL}/me`, userUpdateRequest);
   }
 
+  deleteUserAccount(): Observable<any> {
+    return this.http.delete<any>(`${this.apiURL}/me`);
+  }
+
   changeProfilePic(formData: FormData): Observable<any> {
     return this.http.post<any>(`${this.apiURL}/changeProfilePic`, formData,  {
       reportProgress: true,

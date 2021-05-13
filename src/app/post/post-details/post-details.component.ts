@@ -31,7 +31,6 @@ export class PostDetailsComponent implements OnInit {
   ngOnInit(): void {
      this.currentUserId = this.authenticationService.userValue.userId;
      this.loadBoardInfo();
-     this.loadPost();
   }
 
   loadBoardInfo(): void {
@@ -39,6 +38,7 @@ export class PostDetailsComponent implements OnInit {
     this.boardService.getBoardOfId(this.route.snapshot.params.boardId).subscribe({
       next: response => {
         this.currentBoard = response;
+        this.loadPost();
       },
       error: err => {
         if (err.error?.status === 'FORBIDDEN') {
@@ -60,7 +60,7 @@ export class PostDetailsComponent implements OnInit {
         if (err.error?.status === 'FORBIDDEN') {
           this.router.navigate(['/myBoards']).then(() => this.snackbarService.openErrorSnackbar('Nie należysz do tej tablicy!'));
         } else {
-          this.router.navigate(['/myBoards']).then(() => this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas pobierania danych ogłoszenia'));
+          this.router.navigate([`/board/${this.currentBoard.boardId}`]).then(() => this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas pobierania danych ogłoszenia'));
         }
       }
     });

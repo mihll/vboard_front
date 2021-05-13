@@ -54,7 +54,7 @@ export class BoardContentComponent implements OnInit {
     private clipboard: Clipboard
   ) {
     this.emitterService.shouldReloadCurrentBoardEmitter.subscribe(() => {
-      this.loadBoardInfo(this.route.snapshot.params.boardId);
+      this.reloadData();
     });
   }
 
@@ -235,7 +235,7 @@ localhost:4200/joinBoard/${this.currentBoard.boardId}`);
             },
             error: err => {
               this.boardLoading = false;
-              if (err.error.status === 'FORBIDDEN') {
+              if (err.error.status === 'FAILED') {
                 this.dialogService.openInfoDialog('Nie możesz opuścić tablicy!', 'Nie możesz opuścić tej tablicy, ponieważ jesteś jej jedynym administratorem.', false);
               } else {
                 this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas opuszczania tablicy!');
@@ -315,6 +315,28 @@ localhost:4200/joinBoard/${this.currentBoard.boardId}`);
           this.snackbarService.openErrorSnackbar('Wystąpił błąd przesyłania polubienia!');
         }
       });
+  }
+
+  deletePost(postToDelete: BoardPost): void {
+    this.dialogService.openYesNoDialog('Czy na pewno chcesz usunąć te ogłoszenie?', null)
+      .beforeClosed().subscribe(result => {
+        if (result) {
+          this.boardLoading = true;
+
+          this.postService.deletePost(postToDelete.postId)
+            .subscribe({
+              next: () => {
+                this.reloadData();
+                this.snackbarService.openSuccessSnackbar('Pomyślnie usunięto ogłoszenie');
+                this.boardLoading = false;
+              },
+              error: () => {
+                this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas usuwania ogłoszenia!');
+                this.boardLoading = false;
+              }
+            });
+        }
+    });
   }
 
   getCurrentUserId(): string {

@@ -127,4 +127,24 @@ export class BoardSettingsComponent implements OnInit {
         }
       });
   }
+
+  deleteBoard(): void {
+    this.dialogService.openYesNoDialog('Czy na pewno usunąć tablicę?', 'Cała zawartość tablicy <b>ZOSTANIE</b> usunięta (wszystkie ogłoszenia, komentarze, polubienia itd.) <br>' +
+      'Sprawdź czy na tablicy nie pozostały istotne informacje, przed jej usnięciem.<br>' +
+      'Ta operacja jest <b>NIEODWRACALNA</b>.')
+      .beforeClosed().subscribe(result => {
+        if (result) {
+          this.boardService.deleteBoard(this.currentBoard.boardId)
+            .subscribe({
+              next: () => {
+                this.router.navigate(['/myBoards']).then(() => this.snackbarService.openSuccessSnackbar('Pomyślnie usunięto tablicę'));
+              },
+              error: () => {
+                this.snackbarService.openErrorSnackbar('Wystąpił błąd podczas usuwania tablicy!');
+                this.loading = false;
+              }
+            });
+        }
+    });
+  }
 }
