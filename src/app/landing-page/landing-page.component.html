@@ -1,1 +1,12 @@
-<p>landing-page works!</p>
+<div class="firstSection">
+  <div class="centerContent">
+    <div class="mainTitle">
+      <p class="title">VBoard</p>
+      <p class="subtitle">Wirtualna tablica ogłoszeń</p>
+    </div>
+    <div class="mainButtons">
+      <button *ngIf="!isLoggedIn" mat-flat-button routerLink="/login">Dołącz do nas!</button>
+      <button *ngIf="isLoggedIn" mat-flat-button routerLink="/myBoards">Przejdź do swoich tablic</button>
+    </div>
+  </div>
+</div>
