@@ -52,6 +52,6 @@ export class UserService {
   confirmSignup(token: string): Observable<any> {
     const params = new HttpParams()
       .set('token', token);
-    return this.http.get<any>(`${this.apiURL}/signup/confirm`, {params});
+    return this.http.post<any>(`${this.apiURL}/signup/confirm`, null, {params});
   }
 }

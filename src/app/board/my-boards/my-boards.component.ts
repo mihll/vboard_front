@@ -9,6 +9,7 @@ import { Sort } from '@angular/material/sort';
 import { SnackbarService } from '../../shared/snackbar/snackbar-service/snackbar.service';
 import { EmitterService } from '../../shared/emitter-service/emitter.service';
 import { AuthenticationService } from '../../authentication/services/authentication-service/authentication.service';
+import {BoardMemberService} from '../services/board-member-service/board-member.service';
 
 @Component({
   selector: 'app-my-boards',
@@ -34,6 +35,7 @@ export class MyBoardsComponent implements OnInit {
     private dialogService: DialogService,
     private snackbarService: SnackbarService,
     private boardService: BoardService,
+    private boardMemberService: BoardMemberService,
     private authenticationService: AuthenticationService,
   ) {
     this.emitterService.shouldReloadMyBoardsEmitter.subscribe(() => {
@@ -153,7 +155,7 @@ export class MyBoardsComponent implements OnInit {
       .beforeClosed().subscribe(result => {
       if (result) {
         board.isReverting = true;
-        this.boardService.revertBoardJoin(board.boardId).subscribe({
+        this.boardMemberService.revertBoardJoin(board.boardId).subscribe({
           next: () => {
             this.loadRequestedBoards();
             this.snackbarService.openSuccessSnackbar('Anulowano prośbę o dołączenie');

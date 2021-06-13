@@ -15,6 +15,7 @@ import { SearchPostsComponent } from './search-posts/search-posts.component';
 import { PostDetailsComponent } from './post-details/post-details.component';
 import { PostCommentsComponent } from './post-comments/post-comments.component';
 import { PostCommentRowComponent } from './post-comment-row/post-comment-row.component';
+import {LinkyModule} from 'ngx-linky';
 
 
 @NgModule({
@@ -32,15 +33,16 @@ import { PostCommentRowComponent } from './post-comment-row/post-comment-row.com
         PostCardComponent,
         PostSearchBarComponent,
     ],
-  imports: [
-    CommonModule,
-    MaterialModule,
-    SharedModule,
-    ReactiveFormsModule,
-    MatTableModule,
-    MatSortModule,
-    DragDropModule,
-    MatTooltipModule
-  ]
+    imports: [
+        CommonModule,
+        MaterialModule,
+        SharedModule,
+        ReactiveFormsModule,
+        MatTableModule,
+        MatSortModule,
+        DragDropModule,
+        MatTooltipModule,
+        LinkyModule
+    ]
 })
 export class PostModule { }

@@ -17,6 +17,7 @@ import { formatDate } from '@angular/common';
 import { DialogService } from '../../../shared/dialog/dialog-service/dialog.service';
 import { DetailData } from '../../../shared/details-table/DetailData';
 import {MatDialogRef} from '@angular/material/dialog';
+import {BoardMemberService} from '../../services/board-member-service/board-member.service';
 
 @Component({
   selector: 'app-search-board-dialog',
@@ -92,6 +93,7 @@ export class SearchBoardDialogComponent implements OnInit {
     private dialogService: DialogService,
     private authenticationService: AuthenticationService,
     private boardService: BoardService,
+    private boardMemberService: BoardMemberService,
   ) {
     dialogRef.beforeClosed().subscribe(() => dialogRef.close(this.didMakeChanges));
   }
@@ -175,7 +177,7 @@ export class SearchBoardDialogComponent implements OnInit {
         this.didMakeChanges = true;
         board.isJoining = true;
 
-        this.boardService.joinBoard(board.boardId)
+        this.boardMemberService.joinBoard(board.boardId)
           .subscribe({
             next: response => {
               board.isJoining = false;
@@ -202,7 +204,7 @@ export class SearchBoardDialogComponent implements OnInit {
       if (result) {
         this.didMakeChanges = true;
         board.isReverting = true;
-        this.boardService.revertBoardJoin(board.boardId).subscribe({
+        this.boardMemberService.revertBoardJoin(board.boardId).subscribe({
           next: () => {
             board.isRequested = false;
             board.isReverting = false;

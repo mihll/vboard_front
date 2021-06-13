@@ -42,7 +42,7 @@
 
   </mat-card-title-group>
   <mat-card-content routerLink="/board/{{this.currentBoardId}}/post/{{post.postId}}">
-    <p [class.postTextLess]="isShownLess" class="textPreWrap" #postTextBox>{{post.postText}}</p>
+    <p [class.postTextLess]="isShownLess" class="textPreWrap" #postTextBox [innerHTML]="post.postText | linky:{sanitizeHtml: true}"></p>
     <p *ngIf="postTextBox.offsetHeight < postTextBox.scrollHeight || postTextBox.offsetWidth < postTextBox.scrollWidth"
        class="showMoreLessButton" (click)="$event.stopPropagation(); isShownLess = !isShownLess">
       Pokaż więcej...

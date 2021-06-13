@@ -16,6 +16,7 @@ import { map } from 'rxjs/operators';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
 import { EmitterService } from '../../../shared/emitter-service/emitter.service';
+import {BoardMemberService} from '../../services/board-member-service/board-member.service';
 
 @Component({
   selector: 'app-board-members-dialog',
@@ -83,6 +84,7 @@ export class BoardMembersDialogComponent implements OnInit {
     private dialogService: DialogService,
     private authenticationService: AuthenticationService,
     private boardService: BoardService,
+    private boardMemberService: BoardMemberService,
     private emitterService: EmitterService,
   ) { }
 
@@ -221,7 +223,7 @@ export class BoardMembersDialogComponent implements OnInit {
       if (result) {
         boardMember.isDoingAction = true;
 
-        this.boardService.leaveBoard(this.currentBoard.boardId, boardMember.userId)
+        this.boardMemberService.leaveBoard(this.currentBoard.boardId, boardMember.userId)
           .subscribe({
             next: () => {
               boardMember.didLeft = true;
@@ -245,7 +247,7 @@ export class BoardMembersDialogComponent implements OnInit {
       if (result) {
         boardMember.isDoingAction = true;
 
-        this.boardService.deleteBoardMember(this.currentBoard.boardId, boardMember.userId)
+        this.boardMemberService.deleteBoardMember(this.currentBoard.boardId, boardMember.userId)
           .subscribe({
             next: () => {
               this.loadData();
@@ -268,7 +270,7 @@ export class BoardMembersDialogComponent implements OnInit {
       if (result) {
         boardMember.isDoingAction = true;
 
-        this.boardService.restoreBoardMember(this.currentBoard.boardId, boardMember.userId)
+        this.boardMemberService.restoreBoardMember(this.currentBoard.boardId, boardMember.userId)
           .subscribe({
             next: () => {
               boardMember.didLeft = false;
@@ -296,7 +298,7 @@ export class BoardMembersDialogComponent implements OnInit {
       if (result) {
         boardMember.isDoingAction = true;
 
-        this.boardService.grantBoardAdmin(this.currentBoard.boardId, boardMember.userId)
+        this.boardMemberService.grantBoardAdmin(this.currentBoard.boardId, boardMember.userId)
           .subscribe({
             next: () => {
               boardMember.isAdmin = true;
@@ -318,7 +320,7 @@ export class BoardMembersDialogComponent implements OnInit {
       if (result) {
         boardMember.isDoingAction = true;
 
-        this.boardService.revokeBoardAdmin(this.currentBoard.boardId, boardMember.userId)
+        this.boardMemberService.revokeBoardAdmin(this.currentBoard.boardId, boardMember.userId)
           .subscribe({
             next: () => {
               // if user revoked his own admin permissions

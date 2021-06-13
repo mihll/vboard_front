@@ -49,7 +49,7 @@
 
     </mat-card-title-group>
     <mat-card-content>
-      <p class="textPreWrap">{{currentPost.postText}}</p>
+      <p class="textPreWrap" [innerHTML]="currentPost.postText | linky:{sanitizeHtml: true}"></p>
     </mat-card-content>
     <mat-card-actions>
       <button *ngIf="!currentPost.isLiked" mat-stroked-button fxFlex="96.5" (click)="likePost()">

@@ -26,6 +26,7 @@ import localePl from '@angular/common/locales/pl';
 registerLocaleData(localePl);
 
 import { TimeagoCustomFormatter, TimeagoFormatter, TimeagoIntl, TimeagoModule } from 'ngx-timeago';
+import {LinkyModule} from 'ngx-linky';
 
 @NgModule({
     declarations: [
@@ -45,7 +46,8 @@ import { TimeagoCustomFormatter, TimeagoFormatter, TimeagoIntl, TimeagoModule } 
         TimeagoModule.forRoot({
           intl: { provide: TimeagoIntl },
           formatter: { provide: TimeagoFormatter, useClass: TimeagoCustomFormatter },
-        })
+        }),
+        LinkyModule
     ],
     providers: [
         {provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthenticationService]},

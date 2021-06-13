@@ -13,6 +13,7 @@ import { BoardService } from '../../services/board-service/board.service';
 import { BoardJoinRequest } from '../../models/board/boardJoinRequest';
 import { formatDate } from '@angular/common';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { BoardMemberService } from '../../services/board-member-service/board-member.service';
 
 @Component({
   selector: 'app-board-join-requests-dialog',
@@ -68,7 +69,8 @@ export class BoardJoinRequestsDialogComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private snackbarService: SnackbarService,
     private authenticationService: AuthenticationService,
-    private boardService: BoardService
+    private boardService: BoardService,
+    private boardMemberService: BoardMemberService,
   ) {
     dialogRef.beforeClosed().subscribe(() => dialogRef.close(this.didMakeChanges));
   }
@@ -157,7 +159,7 @@ export class BoardJoinRequestsDialogComponent implements OnInit {
     this.didMakeChanges = true;
     joinRequest.isDoingAction = true;
 
-    this.boardService.acceptJoinRequest(this.currentBoard.boardId, joinRequest.userId)
+    this.boardMemberService.acceptJoinRequest(this.currentBoard.boardId, joinRequest.userId)
       .subscribe({
         next: () => {
           this.removeRequestFromList(joinRequest);
@@ -173,7 +175,7 @@ export class BoardJoinRequestsDialogComponent implements OnInit {
     this.didMakeChanges = true;
     joinRequest.isDoingAction = true;
 
-    this.boardService.denyJoinRequest(this.currentBoard.boardId, joinRequest.userId)
+    this.boardMemberService.denyJoinRequest(this.currentBoard.boardId, joinRequest.userId)
       .subscribe({
         next: () => {
           this.removeRequestFromList(joinRequest);

@@ -53,11 +53,11 @@ export class PostService {
   }
 
   pinPost(postId: string): Observable<any> {
-    return this.http.put<any>(`${this.apiURL}/${postId}/pin`, null);
+    return this.http.post<any>(`${this.apiURL}/${postId}/pin`, null);
   }
 
   unpinPost(postId: string): Observable<any> {
-    return this.http.put<any>(`${this.apiURL}/${postId}/unpin`, null);
+    return this.http.post<any>(`${this.apiURL}/${postId}/unpin`, null);
   }
 
   likePost(postId: string): Observable<PostLikeResponse> {

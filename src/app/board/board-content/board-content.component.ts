@@ -13,6 +13,7 @@ import { EmitterService } from '../../shared/emitter-service/emitter.service';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { BoardPost } from '../../post/models/post';
 import { PostService } from '../../post/services/post-service/post.service';
+import {BoardMemberService} from '../services/board-member-service/board-member.service';
 
 @Component({
   selector: 'app-board-content',
@@ -48,6 +49,7 @@ export class BoardContentComponent implements OnInit {
     private dialogService: DialogService,
     private snackbarService: SnackbarService,
     private boardService: BoardService,
+    private boardMemberService: BoardMemberService,
     private postService: PostService,
     private authenticationService: AuthenticationService,
     private emitterService: EmitterService,
@@ -227,7 +229,7 @@ localhost:4200/joinBoard/${this.currentBoard.boardId}`);
       if (result) {
         this.boardLoading = true;
 
-        this.boardService.leaveBoard(this.currentBoard.boardId, this.authenticationService.userValue.userId)
+        this.boardMemberService.leaveBoard(this.currentBoard.boardId, this.authenticationService.userValue.userId)
           .subscribe({
             next: () => {
               this.authenticationService.refreshToken().subscribe();

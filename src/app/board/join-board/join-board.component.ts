@@ -4,6 +4,7 @@ import { SnackbarService } from '../../shared/snackbar/snackbar-service/snackbar
 import { BoardService } from '../services/board-service/board.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BoardPublicInfo } from '../models/board/board';
+import {BoardMemberService} from '../services/board-member-service/board-member.service';
 
 @Component({
   selector: 'app-join-board',
@@ -20,6 +21,7 @@ export class JoinBoardComponent implements OnInit {
     private dialogService: DialogService,
     private snackbarService: SnackbarService,
     private boardService: BoardService,
+    private boardMemberService: BoardMemberService
   ) { }
 
   ngOnInit(): void {
@@ -32,7 +34,7 @@ export class JoinBoardComponent implements OnInit {
           if (result) {
             this.loading = true;
 
-            this.boardService.joinBoard(this.boardToJoin.boardId)
+            this.boardMemberService.joinBoard(this.boardToJoin.boardId)
               .subscribe({
                 next: boardJoinResponse => {
                   if (boardJoinResponse.isRequested) {

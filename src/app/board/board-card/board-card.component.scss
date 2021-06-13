@@ -4,6 +4,10 @@ mat-card {
   outline: none;
 }
 
+mat-card-title {
+  word-break: break-word;
+}
+
 mat-card-title-group {
   min-height: 5em;
 }

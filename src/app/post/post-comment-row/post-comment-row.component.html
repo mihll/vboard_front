@@ -30,6 +30,6 @@
   </mat-card-title-group>
 
   <mat-card-content>
-    <p class="textPreWrap">{{comment.commentText}}</p>
+    <p class="textPreWrap" [innerHTML]="comment.commentText | linky:{sanitizeHtml: true}"></p>
   </mat-card-content>
 </mat-card>
